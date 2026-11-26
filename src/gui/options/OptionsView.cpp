@@ -114,7 +114,7 @@ OptionsView::OptionsView() : ui::Window(ui::Point(-1, -1), ui::Point(320, 340))
 	};
 	
 	{
-		auto *label = new ui::Label(ui::Point(4, 1), ui::Point(Size.X-8, 22), "Settings");
+		auto *label = new ui::Label(ui::Point(4, 1), ui::Point(Size.X-8, 22), "Configuración");
 		label->SetTextColour(style::Colour::InformationTitle);
 		label->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 		label->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
@@ -226,7 +226,7 @@ OptionsView::OptionsView() : ui::Window(ui::Point(-1, -1), ui::Point(320, 340))
 		if (addPreview)
 		{
 			textbox->Size.X -= 20;
-			preview = new ui::Button(ui::Point(Size.X-31, currentY), ui::Point(16, 16), "", "Preview");
+			preview = new ui::Button(ui::Point(Size.X-31, currentY), ui::Point(16, 16), "", "Vista previa");
 			scrollPanel->AddChild(preview);
 		}
 		auto *label = new ui::Label(ui::Point(8, currentY), ui::Point(Size.X-105, 16), info);
@@ -249,69 +249,69 @@ OptionsView::OptionsView() : ui::Window(ui::Point(-1, -1), ui::Point(320, 340))
 	waterEqualisation = addCheckbox(0, "Water equalisation \bgIntroduced in version 61", "May cause poor performance with a lot of water", [this] {
 		c->SetWaterEqualisation(waterEqualisation->GetChecked());
 	});
-	airMode = addDropDown("Air simulation mode", {
-		{ "On", AIR_ON },
-		{ "Pressure off", AIR_PRESSUREOFF },
-		{ "Velocity off", AIR_VELOCITYOFF },
-		{ "Off", AIR_OFF },
-		{ "No update", AIR_NOUPDATE },
+	airMode = addDropDown("Modo de simulación del aire", {
+		{ "Activado", AIR_ON },
+		{ "Sin presión", AIR_PRESSUREOFF },
+		{ "Sin velocidad", AIR_VELOCITYOFF },
+		{ "Desactivado", AIR_OFF },
+		{ "Sin actualizar", AIR_NOUPDATE },
 	}, [this] {
 		c->SetAirMode(airMode->GetOption().second);
 	});
-	std::tie(ambientAirTemp, ambientAirTempPreview) = addTextboxWithPreview("Ambient air temperature", true, [this](String value, bool defocus) {
+	std::tie(ambientAirTemp, ambientAirTempPreview) = addTextboxWithPreview("Temperatura ambiente", true, [this](String value, bool defocus) {
 		UpdateAirTemp(value, defocus);
 	});
-	std::tie(edgePressure, edgePressurePreview) = addTextboxWithPreview("Ambient air pressure", true, [this](String value, bool defocus) {
+	std::tie(edgePressure, edgePressurePreview) = addTextboxWithPreview("Presión ambiente", true, [this](String value, bool defocus) {
 		UpdateEdgePressure(value, defocus);
 	});
 	{
-		edgeVelocityChange = new ui::Button(ui::Point(Size.X-95, currentY), ui::Point(80, 16), "Change");
+		edgeVelocityChange = new ui::Button(ui::Point(Size.X-95, currentY), ui::Point(80, 16), "Cambiar");
 		scrollPanel->AddChild(edgeVelocityChange);
 		edgeVelocityChange->SetActionCallback({ [this] {
-			new DirectionSelector(ui::Point(-1, -1), 0.05f, 40, edgeVelocityX, edgeVelocityY, "Ambient air velocity", [this](float x, float y) {
+			new DirectionSelector(ui::Point(-1, -1), 0.05f, 40, edgeVelocityX, edgeVelocityY, "Velocidad del aire ambiente", [this](float x, float y) {
 				c->SetEdgeVelocityX(x);
 				c->SetEdgeVelocityY(y);
 			});
 		} });
-		auto *label = new ui::Label(ui::Point(8, currentY), ui::Point(Size.X-96, 16), "Ambient air velocity");
+		auto *label = new ui::Label(ui::Point(8, currentY), ui::Point(Size.X-96, 16), "Velocidad del aire ambiente");
 		label->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 		label->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 		scrollPanel->AddChild(label);
 		currentY+=20;
 	}
-	vorticityCoeff = addTextboxWithPreview("Vorticity confinement", false, [this](String value, bool defocus) {
+	vorticityCoeff = addTextboxWithPreview("Confinamiento de vorticidad", false, [this](String value, bool defocus) {
 		UpdateVorticityCoeff(value, defocus);
 	}).first;
-	convectionMode = addDropDown("Air heat convection mode", {
-		{ "None", AIRC_NONE },
-		{ "Legacy", AIRC_LEGACY },
+	convectionMode = addDropDown("Modo de convección térmica", {
+		{ "Ninguno", AIRC_NONE },
+		{ "Clásico", AIRC_LEGACY },
 		{ "Boussinesq", AIRC_BOUSSINESQ },
 	}, [this] {
 		c->SetConvectionMode(convectionMode->GetOption().second);
 	});
-	gravityMode = addDropDown("Gravity simulation mode", {
+	gravityMode = addDropDown("Modo de gravedad", {
 		{ "Vertical", GRAV_VERTICAL },
-		{ "Off", GRAV_OFF },
+		{ "Desactivado", GRAV_OFF },
 		{ "Radial", GRAV_RADIAL },
-		{ "Custom", GRAV_CUSTOM },
+		{ "Personalizado", GRAV_CUSTOM },
 	}, [this] {
 		c->SetGravityMode(gravityMode->GetOption().second);
 		if (gravityMode->GetOption().second == 3)
 		{
-			new DirectionSelector(ui::Point(-1, -1), 0.05f, 40, customGravityX, customGravityY, "Custom Gravity", [this](float x, float y) {
+			new DirectionSelector(ui::Point(-1, -1), 0.05f, 40, customGravityX, customGravityY, "Gravedad personalizada", [this](float x, float y) {
 				c->SetCustomGravityX(x);
 				c->SetCustomGravityY(y);
 			});
 		}
 	});
-	edgeMode = addDropDown("Edge mode", {
-		{ "Void", EDGE_VOID },
-		{ "Solid", EDGE_SOLID },
-		{ "Loop", EDGE_LOOP },
+	edgeMode = addDropDown("Modo de bordes", {
+		{ "Vacío", EDGE_VOID },
+		{ "Sólido", EDGE_SOLID },
+		{ "Continuo", EDGE_LOOP },
 	}, [this] {
 		c->SetEdgeMode(edgeMode->GetOption().second);
 	});
-	temperatureScale = addDropDown("Temperature scale", {
+	temperatureScale = addDropDown("Escala de temperatura", {
 		{ "Kelvin", TEMPSCALE_KELVIN },
 		{ "Celsius", TEMPSCALE_CELSIUS },
 		{ "Fahrenheit", TEMPSCALE_FAHRENHEIT },
@@ -319,19 +319,19 @@ OptionsView::OptionsView() : ui::Window(ui::Point(-1, -1), ui::Point(320, 340))
 		c->SetTemperatureScale(TempScale(temperatureScale->GetOption().second));
 	});
 	addSeparator();
-	std::tie(fpsLimit, fpsLimitText) = addLimitDropDown("Simulation framerate cap", {
-		{ "Exact", fpsLimitDropdownExact },
-		{ "Uncapped", fpsLimitDropdownUncapped },
+	std::tie(fpsLimit, fpsLimitText) = addLimitDropDown("Límite de FPS de simulación", {
+		{ "Exacto", fpsLimitDropdownExact },
+		{ "Sin límite", fpsLimitDropdownUncapped },
 	}, [this](bool defocus) {
 		UpdateFpsLimit(defocus);
 	});
-	std::tie(drawLimit, drawLimitText) = addLimitDropDown("Rendering framerate cap", {
-		{ "Exact", drawLimitDropdownExact },
-		{ "Follow display", drawLimitDropdownFollowDisplay },
+	std::tie(drawLimit, drawLimitText) = addLimitDropDown("Límite de FPS gráficos", {
+		{ "Exacto", drawLimitDropdownExact },
+		{ "Según pantalla", drawLimitDropdownFollowDisplay },
 	}, [this](bool defocus) {
 		UpdateDrawLimit(defocus);
 	});
-	addButtonWithLabel("Reset", " - Set both limits to sane defaults", [this]{
+	addButtonWithLabel("Restablecer", " - Set both limits to sane defaults", [this]{
 		c->SetFpsLimit(DefaultFpsLimit);
 		c->SetDrawLimit(DefaultDrawLimit);
 	});
@@ -357,7 +357,7 @@ OptionsView::OptionsView() : ui::Window(ui::Point(-1, -1), ui::Point(320, 340))
 		{
 			options.push_back({ "current", currentScale });
 		}
-		scale = addDropDown("Window scale factor for larger screens", options, [this] {
+		scale = addDropDown("Escala de ventana para pantallas grandes", options, [this] {
 			c->SetScale(scale->GetOption().second);
 		});
 	}
@@ -369,7 +369,7 @@ OptionsView::OptionsView() : ui::Window(ui::Point(-1, -1), ui::Point(320, 340))
 		fullscreen = addCheckbox(0, "Fullscreen \bg- fill the entire screen", "", [this] {
 			c->SetFullscreen(fullscreen->GetChecked());
 		});
-		changeResolution = addCheckbox(1, "Set optimal screen resolution", "", [this] {
+		changeResolution = addCheckbox(1, "Ajustar resolución óptima", "", [this] {
 			c->SetChangeResolution(changeResolution->GetChecked());
 		});
 		forceIntegerScaling = addCheckbox(1, "Force integer scaling \bg- less blurry", "", [this] {
@@ -382,35 +382,35 @@ OptionsView::OptionsView() : ui::Window(ui::Point(-1, -1), ui::Point(320, 340))
 	addSeparator();
 	if (ALLOW_QUIT)
 	{
-		fastquit = addCheckbox(0, "Fast quit", "Always exit completely when hitting close", [this] {
+		fastquit = addCheckbox(0, "Salida rápida", "Cerrar siempre por completo", [this] {
 			c->SetFastQuit(fastquit->GetChecked());
 		});
-		globalQuit = addCheckbox(0, "Global quit shortcut", "Ctrl+q works everywhere", [this] {
+		globalQuit = addCheckbox(0, "Atajo global de salida", "Ctrl+q works everywhere", [this] {
 			c->SetGlobalQuit(globalQuit->GetChecked());
 		});
 	}
-	showAvatars = addCheckbox(0, "Show avatars", "Disable if you have a slow connection", [this] {
+	showAvatars = addCheckbox(0, "Mostrar avatares", "Desactivar si la conexión es lenta", [this] {
 		c->SetShowAvatars(showAvatars->GetChecked());
 	});
-	momentumScroll = addCheckbox(0, "Momentum (old) scrolling", "Accelerating instead of step scroll", [this] {
+	momentumScroll = addCheckbox(0, "Desplazamiento con inercia", "Acelera en vez de avanzar por pasos", [this] {
 		c->SetMomentumScroll(momentumScroll->GetChecked());
 	});
-	mouseClickRequired = addCheckbox(0, "Sticky categories", "Switch between categories by clicking", [this] {
+	mouseClickRequired = addCheckbox(0, "Categorías fijas", "Cambiar de categoría al pulsar", [this] {
 		c->SetMouseClickrequired(mouseClickRequired->GetChecked());
 	});
-	includePressure = addCheckbox(0, "Include pressure", "When saving, copying, stamping, etc.", [this] {
+	includePressure = addCheckbox(0, "Incluir presión", "Al guardar, copiar, crear sellos, etc.", [this] {
 		c->SetIncludePressure(includePressure->GetChecked());
 	});
-	perfectCircle = addCheckbox(0, "Perfect circle brush", "Better circle brush, without incorrect points on edges", [this] {
+	perfectCircle = addCheckbox(0, "Pincel circular perfecto", "Pincel circular sin puntos incorrectos en bordes", [this] {
 		c->SetPerfectCircle(perfectCircle->GetChecked());
 	});
-	graveExitsConsole = addCheckbox(0, "Key under Esc exits console", "Disable if that key is 0 on your keyboard", [this] {
+	graveExitsConsole = addCheckbox(0, "Tecla bajo Esc cierra la consola", "Disable if that key is 0 on your keyboard", [this] {
 		c->SetGraveExitsConsole(graveExitsConsole->GetChecked());
 	});
 	if constexpr (PLATFORM_CLIPBOARD)
 	{
 		auto indent = 0;
-		nativeClipoard = addCheckbox(indent, "Use platform clipboard", "Allows copying and pasting across TPT instances", [this] {
+		nativeClipoard = addCheckbox(indent, "Usar portapapeles del sistema", "Permite copiar y pegar entre instancias de TPT", [this] {
 			c->SetNativeClipoard(nativeClipoard->GetChecked());
 		});
 		currentY -= 4; // temporarily undo the currentY += 4 at the end of addCheckbox
@@ -420,12 +420,12 @@ OptionsView::OptionsView() : ui::Window(ui::Point(-1, -1), ui::Point(320, 340))
 		}
 		currentY += 4; // and then undo the undo
 	}
-	threadedRendering = addCheckbox(0, "Separate rendering thread", "May increase framerate when fancy effects are in use", [this] {
+	threadedRendering = addCheckbox(0, "Hilo de renderizado independiente", "Puede aumentar los FPS con efectos avanzados", [this] {
 		c->SetThreadedRendering(threadedRendering->GetChecked());
 	});
-	decoSpace = addDropDown("Colour space used by decoration tools", {
+	decoSpace = addDropDown("Espacio de color de herramientas decorativas", {
 		{ "sRGB", DECOSPACE_SRGB },
-		{ "Linear", DECOSPACE_LINEAR },
+		{ "Lineal", DECOSPACE_LINEAR },
 		{ "Gamma 2.2", DECOSPACE_GAMMA22 },
 		{ "Gamma 1.8", DECOSPACE_GAMMA18 },
 	}, [this] {
@@ -435,7 +435,7 @@ OptionsView::OptionsView() : ui::Window(ui::Point(-1, -1), ui::Point(320, 340))
 	currentY += 4;
 	if constexpr (ALLOW_DATA_FOLDER)
 	{
-		auto *dataFolderButton = new ui::Button(ui::Point(10, currentY), ui::Point(90, 16), "Open data folder");
+		auto *dataFolderButton = new ui::Button(ui::Point(10, currentY), ui::Point(90, 16), "Abrir carpeta de datos");
 		dataFolderButton->SetActionCallback({ [] {
 			ByteString cwd = Platform::GetCwd();
 			if (!cwd.empty())
@@ -450,25 +450,25 @@ OptionsView::OptionsView() : ui::Window(ui::Point(-1, -1), ui::Point(320, 340))
 		scrollPanel->AddChild(dataFolderButton);
 		if constexpr (SHARED_DATA_FOLDER)
 		{
-			auto *migrationButton = new ui::Button(ui::Point(Size.X - 178, currentY), ui::Point(163, 16), "Migrate to shared data directory");
+			auto *migrationButton = new ui::Button(ui::Point(Size.X - 178, currentY), ui::Point(163, 16), "Migrar a carpeta de datos compartida");
 			migrationButton->SetActionCallback({ [] {
 				ByteString from = Platform::originalCwd;
 				ByteString to = Platform::sharedCwd;
 				new ConfirmPrompt("Do Migration?", "This will migrate all stamps, saves, and scripts from\n\bt" + from.FromUtf8() + "\bw\nto the shared data directory at\n\bt" + to.FromUtf8() + "\bw\n\n" + "Files that already exist will not be overwritten.", { [from, to]() {
 					String ret = Client::Ref().DoMigration(from, to);
-					new InformationMessage("Migration Complete", ret, false);
+					new InformationMessage("Migración completa", ret, false);
 				} });
 			} });
 			scrollPanel->AddChild(migrationButton);
 		}
 		currentY += 26;
 	}
-	String autoStartupRequestNote = "Done once at startup";
+	String autoStartupRequestNote = "Una vez al iniciar";
 	if (!IGNORE_UPDATES)
 	{
 		autoStartupRequestNote += ", also checks for updates";
 	}
-	autoStartupRequest = addCheckbox(0, "Fetch the message of the day and notifications", autoStartupRequestNote, [this] {
+	autoStartupRequest = addCheckbox(0, "Obtener mensaje del día y notificaciones", autoStartupRequestNote, [this] {
 		auto checked = autoStartupRequest->GetChecked();
 		if (checked)
 		{
@@ -476,15 +476,15 @@ OptionsView::OptionsView() : ui::Window(ui::Point(-1, -1), ui::Point(320, 340))
 		}
 		c->SetAutoStartupRequest(checked);
 	});
-	startupRequestStatus = addButtonWithLabel("Fetch them now", "", []{
+	startupRequestStatus = addButtonWithLabel("Obtener ahora", "", []{
 		Client::Ref().BeginStartupRequest();
 	});
 	UpdateStartupRequestStatus();
-	redirectStd = addCheckbox(0, "Save errors and other messages to a file", "Developers may ask for this when trying to fix problems", [this] {
+	redirectStd = addCheckbox(0, "Guardar errores y mensajes en un archivo", "Developers may ask for this when trying to fix problems", [this] {
 		c->SetRedirectStd(redirectStd->GetChecked());
 	});
 	addSeparator();
-	addButtonWithLabel("Credits", " - Find out who contributed to TPT", []{
+	addButtonWithLabel("Créditos", " - Find out who contributed to TPT", []{
 		auto *credits = new Credits();
 		ui::Engine::Ref().ShowWindow(credits);
 	});
