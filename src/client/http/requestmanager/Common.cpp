@@ -30,7 +30,7 @@ namespace http
 		if (config.disableNetwork)
 		{
 			request.handle->statusCode = 604;
-			request.handle->error = "network disabled upon request";
+			request.handle->error = "Red desactivada";
 			request.handle->MarkDone();
 			return;
 		}

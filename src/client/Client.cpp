@@ -26,7 +26,7 @@
 #include <set>
 
 Client::Client():
-	messageOfTheDay("The message of the day and notifications have not yet been fetched, you can enable this in Settings"),
+	messageOfTheDay("El mensaje del día y las notificaciones están pendientes. Puedes descargarlos desde Configuración."),
 	usingAltUpdateServer(false),
 	updateAvailable(false)
 {
@@ -118,7 +118,7 @@ void Client::BeginStartupRequest()
 	serverNotifications.clear();
 	startupRequestError.reset();
 	startupRequestStatus = StartupRequestStatus::inProgress;
-	messageOfTheDay = "Fetching the message of the day...";
+	messageOfTheDay = "Descargando el mensaje del día...";
 	versionCheckRequest = std::make_unique<http::StartupRequest>(false);
 	versionCheckRequest->Start();
 	if constexpr (USE_UPDATESERVER)
@@ -137,7 +137,7 @@ void Client::Tick()
 	{
 		if (versionCheckRequest->StatusCode() == 618)
 		{
-			AddServerNotification({ "Failed to load SSL certificates", ByteString::Build(SERVER, "/FAQ.html") });
+			AddServerNotification({ "No se pudieron cargar los certificados SSL", ByteString::Build(SERVER, "/FAQ.html") });
 		}
 		try
 		{
@@ -162,7 +162,7 @@ void Client::Tick()
 			if (!usingAltUpdateServer)
 			{
 				startupRequestError = ex.what();
-				SetMessageOfTheDay(ByteString::Build("Error while fetching MotD: ", ex.what()).FromUtf8());
+				SetMessageOfTheDay(ByteString::Build("Error al obtener el mensaje del día: ", ex.what()).FromUtf8());
 			}
 		}
 		versionCheckRequest.reset();
@@ -183,7 +183,7 @@ void Client::Tick()
 		catch (const http::RequestError &ex)
 		{
 			startupRequestError = ex.what();
-			SetMessageOfTheDay(ByteString::Build("Error while checking for updates: ", ex.what()).FromUtf8());
+			SetMessageOfTheDay(ByteString::Build("Error al buscar actualizaciones: ", ex.what()).FromUtf8());
 		}
 		alternateVersionCheckRequest.reset();
 	}
@@ -334,12 +334,12 @@ std::optional<ByteString> Client::RenameStamp(ByteString stampID, ByteString new
 
 	if (Platform::FileExists(newPath))
 	{
-		return ByteString("A stamp with this name already exists.");
+		return ByteString("Ya existe un sello con este nombre.");
 	}
 
 	if (!Platform::RenameFile(oldPath, newPath, false))
 	{
-		return ByteString("Could not rename the stamp.");
+		return ByteString("No se pudo renombrar el sello.");
 	}
 
 	std::replace(stampIDs.begin(), stampIDs.end(), stampID, newName);
@@ -461,7 +461,7 @@ std::unique_ptr<SaveFile> Client::LoadSaveFile(ByteString filename)
 			}
 			else
 			{
-				err = "failed to open";
+				err = "no se pudo abrir";
 			}
 		}
 		catch (const ParseException &e)
@@ -471,7 +471,7 @@ std::unique_ptr<SaveFile> Client::LoadSaveFile(ByteString filename)
 	}
 	else
 	{
-		err = "does not exist";
+		err = "no existe";
 	}
 	if (err.size())
 	{
@@ -558,7 +558,7 @@ String Client::DoMigration(ByteString fromDir, ByteString toDir)
 		toDir = toDir + '/';
 
 	std::ofstream logFile(fromDir + "/migrationlog.txt", std::ios::out);
-	logFile << "Running migration of data from " << fromDir + " to " << toDir << std::endl;
+	logFile << "Migrando los datos de " << fromDir + " a " << toDir << std::endl;
 
 	// Get lists of files to migrate
 	auto stamps = Platform::DirectorySearch(fromDir + "stamps", "", { ".stm" });
@@ -572,8 +572,8 @@ String Client::DoMigration(ByteString fromDir, ByteString toDir)
 
 	if (stamps.empty() && saves.empty() && scripts.empty() && downloadedScripts.empty() && screenshots.empty() && !hasAutorun && !hasPref)
 	{
-		logFile << "Nothing to migrate.";
-		return "Nothing to migrate. This button is used to migrate data from pre-96.0 TPT installations to the shared directory";
+		logFile << "No hay datos que migrar.";
+		return "No hay datos que migrar. Este botón mueve a la carpeta compartida los datos de instalaciones de TPT anteriores a la versión 96.0";
 	}
 
 	StringBuilder result;
@@ -594,25 +594,25 @@ String Client::DoMigration(ByteString fromDir, ByteString toDir)
 				if (Platform::RenameFile(from, to, false))
 				{
 					failedCount++;
-					logFile << "failed to move " << from << " to " << to << std::endl;
+					logFile << "no se pudo mover " << from << " a " << to << std::endl;
 				}
 				else
 				{
 					migratedCount++;
-					logFile << "moved " << from << " to " << to << std::endl;
+					logFile << "se movió " << from << " a " << to << std::endl;
 				}
 			}
 			else
 			{
-				logFile << "skipping " << from << "(already exists)" << std::endl;
+				logFile << "se omitió " << from << "(ya existe)" << std::endl;
 			}
 		}
 
 		dirsToDelete.push(directory);
-		result << "\bt" << migratedCount << " migratated\x0E, \br" << failedCount << " failed\x0E";
+		result << "\bt" << migratedCount << " migrados\x0E, \br" << failedCount << " fallidos\x0E";
 		int duplicates = list.size() - migratedCount - failedCount;
 		if (duplicates)
-			result << ", " << list.size() - migratedCount - failedCount << " skipped (duplicate)";
+			result << ", " << list.size() - migratedCount - failedCount << " omitidos (duplicados)";
 	};
 
 	// Migrate a single file
@@ -623,40 +623,40 @@ String Client::DoMigration(ByteString fromDir, ByteString toDir)
 		{
 			if (Platform::RenameFile(from, to, false))
 			{
-				logFile << "failed to move " << from << " to " << to << std::endl;
-				result << "\n\br" << filename.FromUtf8() << " migration failed\x0E";
+				logFile << "no se pudo mover " << from << " a " << to << std::endl;
+				result << "\n\br" << filename.FromUtf8() << " no se pudo migrar\x0E";
 			}
 			else
 			{
-				logFile << "moved " << from << " to " << to << std::endl;
-				result << '\n' << filename.FromUtf8() << " migrated";
+				logFile << "se movió " << from << " a " << to << std::endl;
+				result << '\n' << filename.FromUtf8() << " migrados";
 			}
 		}
 		else
 		{
-			logFile << "skipping " << from << "(already exists)" << std::endl;
-			result << '\n' << filename.FromUtf8() << " skipped (already exists)";
+			logFile << "se omitió " << from << "(ya existe)" << std::endl;
+			result << '\n' << filename.FromUtf8() << " omitidos (ya existen)";
 		}
 
 		if (!Platform::RemoveFile(fromDir + filename)) {
-			logFile << "failed to delete " << filename << std::endl;
+			logFile << "no se pudo eliminar " << filename << std::endl;
 		}
 	};
 
 	// Do actual migration
 	Platform::RemoveFile(fromDir + "stamps/stamps.def");
 	Platform::RemoveFile(fromDir + "stamps/stamps.json");
-	migrateList(stamps, "stamps", "Stamps");
+	migrateList(stamps, "stamps", "Sellos");
 	migrateList(saves, "Saves", "Saves");
 	if (!scripts.empty())
 		migrateList(scripts, "scripts", "Scripts");
 	if (!hasScriptinfo && !downloadedScripts.empty())
 	{
-		migrateList(downloadedScripts, "scripts/downloaded", "Downloaded scripts");
+		migrateList(downloadedScripts, "scripts/downloaded", "Scripts descargados");
 		migrateFile("scripts/downloaded/scriptinfo");
 	}
 	if (!screenshots.empty())
-		migrateList(screenshots, "", "Screenshots");
+		migrateList(screenshots, "", "Capturas");
 	if (hasAutorun)
 		migrateFile("autorun.lua");
 	if (hasPref)
@@ -667,7 +667,7 @@ String Client::DoMigration(ByteString fromDir, ByteString toDir)
 	{
 		ByteString toDelete = dirsToDelete.top();
 		if (!Platform::DeleteDirectory(fromDir + toDelete)) {
-			logFile << "failed to delete " << toDelete << std::endl;
+			logFile << "no se pudo eliminar " << toDelete << std::endl;
 		}
 		dirsToDelete.pop();
 	}
@@ -677,7 +677,7 @@ String Client::DoMigration(ByteString fromDir, ByteString toDir)
 
 	RescanStamps();
 
-	logFile << std::endl << std::endl << "Migration complete. Results: " << result.Build().ToUtf8();
+	logFile << std::endl << std::endl << "Migración completada. Resultados: " << result.Build().ToUtf8();
 	logFile.close();
 
 	return result.Build();

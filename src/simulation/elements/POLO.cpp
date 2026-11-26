@@ -32,7 +32,7 @@ void Element::Element_POLO()
 
 	DefaultProperties.temp = 388.15f;
 	HeatConduct = 251;
-	Description = "Polonium, highly radioactive. Decays into NEUT and heats up.";
+	Description = "Polonio. Muy radiactivo. Se desintegra en NEUT y se calienta.";
 
 	Properties = TYPE_PART|PROP_NEUTPASS|PROP_RADIOACTIVE|PROP_LIFE_DEC|PROP_DEADLY;
 

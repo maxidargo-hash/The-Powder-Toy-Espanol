@@ -27,7 +27,7 @@ void Element::Element_SAND()
 	Weight = 90;
 
 	HeatConduct = 150;
-	Description = "Sand, Heavy particles. Melts into glass.";
+	Description = "Arena. Partículas pesadas que al fundirse forman vidrio.";
 
 	Properties = TYPE_PART;
 

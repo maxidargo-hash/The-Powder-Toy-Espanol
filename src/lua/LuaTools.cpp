@@ -15,20 +15,20 @@ static int allocate(lua_State *L)
 	auto name = tpt_lua_toByteString(L, 2).ToUpper();
 	if (name.Contains("_"))
 	{
-		return luaL_error(L, "The tool name may not contain '_'.");
+		return luaL_error(L, "El nombre de la herramienta no puede contener «_».");
 	}
 	if (group.Contains("_"))
 	{
-		return luaL_error(L, "The group name may not contain '_'.");
+		return luaL_error(L, "El nombre del grupo no puede contener «_».");
 	}
 	if (group == "DEFAULT")
 	{
-		return luaL_error(L, "You cannot create tools in the 'DEFAULT' group.");
+		return luaL_error(L, "No se pueden crear herramientas en el grupo DEFAULT.");
 	}
 	auto identifier = group + "_TOOL_" + name;
 	if (lsi->gameModel->GetToolFromIdentifier(identifier))
 	{
-		return luaL_error(L, "Tool identifier already in use.");
+		return luaL_error(L, "El identificador de herramienta ya está en uso.");
 	}
 	{
 		SimTool tool;
@@ -57,11 +57,11 @@ static int ffree(lua_State *L)
 	auto *tool = lsi->gameModel->GetToolByIndex(index);
 	if (!tool)
 	{
-		return luaL_error(L, "Invalid tool");
+		return luaL_error(L, "Herramienta no válida");
 	}
 	if (!IsCustom(index))
 	{
-		return luaL_error(L, "Can only free custom tools");
+		return luaL_error(L, "Solo se pueden liberar herramientas personalizadas");
 	}
 	lsi->customTools[index] = {};
 	lsi->gameModel->FreeTool(tool);
@@ -94,7 +94,7 @@ static int luaPerformWrapper(SimTool *tool, Simulation *sim, Particle *cpart, in
 		lua_pushinteger(L, brushY);
 		if (tpt_lua_pcall(L, 6, 1, 0, eventTraitTool))
 		{
-			lsi->Log(CommandInterface::LogError, "In perform func: " + LuaGetError());
+			lsi->Log(CommandInterface::LogError, "En la función perform: " + LuaGetError());
 			lua_pop(L, 1);
 		}
 		else
@@ -124,7 +124,7 @@ static void luaClickWrapper(SimTool *tool, Simulation *sim, const Brush &brush, 
 		lua_pushnumber(L, tool->Strength);
 		if (tpt_lua_pcall(L, 4, 0, 0, eventTraitInterface | eventTraitConstTools))
 		{
-			lsi->Log(CommandInterface::LogError, "In click func: " + LuaGetError());
+			lsi->Log(CommandInterface::LogError, "En la función click: " + LuaGetError());
 			lua_pop(L, 1);
 		}
 	}
@@ -147,7 +147,7 @@ static void luaDragWrapper(SimTool *tool, Simulation *sim, const Brush &brush, u
 		lua_pushnumber(L, tool->Strength);
 		if (tpt_lua_pcall(L, 6, 0, 0, eventTraitTool))
 		{
-			lsi->Log(CommandInterface::LogError, "In drag func: " + LuaGetError());
+			lsi->Log(CommandInterface::LogError, "En la función drag: " + LuaGetError());
 			lua_pop(L, 1);
 		}
 	}
@@ -168,7 +168,7 @@ static void luaDrawWrapper(SimTool *tool, Simulation *sim, const Brush &brush, u
 		lua_pushnumber(L, tool->Strength);
 		if (tpt_lua_pcall(L, 4, 0, 0, eventTraitTool))
 		{
-			lsi->Log(CommandInterface::LogError, "In draw func: " + LuaGetError());
+			lsi->Log(CommandInterface::LogError, "En la función draw: " + LuaGetError());
 			lua_pop(L, 1);
 		}
 	}
@@ -192,7 +192,7 @@ static void luaDrawLineWrapper(SimTool *tool, Simulation *sim, const Brush &brus
 		lua_pushboolean(L, dragging);
 		if (tpt_lua_pcall(L, 7, 0, 0, eventTraitTool))
 		{
-			lsi->Log(CommandInterface::LogError, "In drawLine func: " + LuaGetError());
+			lsi->Log(CommandInterface::LogError, "En la función drawLine: " + LuaGetError());
 			lua_pop(L, 1);
 		}
 	}
@@ -215,7 +215,7 @@ static void luaDrawRectWrapper(SimTool *tool, Simulation *sim, const Brush &brus
 		lua_pushnumber(L, tool->Strength);
 		if (tpt_lua_pcall(L, 6, 0, 0, eventTraitTool))
 		{
-			lsi->Log(CommandInterface::LogError, "In drawRect func: " + LuaGetError());
+			lsi->Log(CommandInterface::LogError, "En la función drawRect: " + LuaGetError());
 			lua_pop(L, 1);
 		}
 	}
@@ -236,7 +236,7 @@ static void luaDrawFillWrapper(SimTool *tool, Simulation *sim, const Brush &brus
 		lua_pushnumber(L, tool->Strength);
 		if (tpt_lua_pcall(L, 4, 0, 0, eventTraitTool))
 		{
-			lsi->Log(CommandInterface::LogError, "In drawFill func: " + LuaGetError());
+			lsi->Log(CommandInterface::LogError, "En la función drawFill: " + LuaGetError());
 			lua_pop(L, 1);
 		}
 	}
@@ -254,7 +254,7 @@ static void luaSelectWrapper(SimTool *tool, int toolSelection)
 		lua_pushinteger(L, toolSelection);
 		if (tpt_lua_pcall(L, 1, 0, 0, eventTraitInterface | eventTraitConstTools))
 		{
-			lsi->Log(CommandInterface::LogError, "In select func: " + LuaGetError());
+			lsi->Log(CommandInterface::LogError, "En la función select: " + LuaGetError());
 			lua_pop(L, 1);
 		}
 	}
@@ -268,11 +268,11 @@ static int property(lua_State *L)
 	auto *tool = lsi->gameModel->GetToolByIndex(index);
 	if (!tool)
 	{
-		return luaL_error(L, "Invalid tool");
+		return luaL_error(L, "Herramienta no válida");
 	}
 	if (lua_gettop(L) > 2 && !IsCustom(index))
 	{
-		return luaL_error(L, "Can only change properties of custom tools");
+		return luaL_error(L, "Solo se pueden cambiar las propiedades de herramientas personalizadas");
 	}
 	ByteString propertyName = tpt_lua_checkByteString(L, 2);
 	auto handleCallback = [lsi, L, index, tool, &propertyName](
@@ -297,7 +297,7 @@ static int property(lua_State *L)
 				}
 				return true;
 			}
-			luaL_error(L, "Invalid tool property");
+			luaL_error(L, "Propiedad de herramienta no válida");
 		}
 		return false;
 	};
@@ -308,7 +308,7 @@ static int property(lua_State *L)
 	    handleCallback(&CustomTool::drawLine, &SimTool::PerformDrawLine, luaDrawLineWrapper, "DrawLine") ||
 	    handleCallback(&CustomTool::drawRect, &SimTool::PerformDrawRect, luaDrawRectWrapper, "DrawRect") ||
 	    handleCallback(&CustomTool::drawFill, &SimTool::PerformDrawFill, luaDrawFillWrapper, "DrawFill") ||
-	    handleCallback(&CustomTool::select  , &SimTool::PerformSelect  , luaSelectWrapper  , "Select"  ))
+	    handleCallback(&CustomTool::select  , &SimTool::PerformSelect  , luaSelectWrapper  , "Seleccionar"  ))
 	{
 		return 0;
 	}
@@ -358,7 +358,7 @@ static int property(lua_State *L)
 		tpt_lua_pushByteString(L, tool->Identifier);
 		return 1;
 	}
-	return luaL_error(L, "Invalid tool property");
+	return luaL_error(L, "Propiedad de herramienta no válida");
 }
 
 static int exists(lua_State *L)
@@ -378,7 +378,7 @@ static int isCustom(lua_State *L)
 	auto *tool = lsi->gameModel->GetToolByIndex(index);
 	if (!tool)
 	{
-		return luaL_error(L, "Invalid tool");
+		return luaL_error(L, "Herramienta no válida");
 	}
 	lua_pushboolean(L, IsCustom(index));
 	return 1;

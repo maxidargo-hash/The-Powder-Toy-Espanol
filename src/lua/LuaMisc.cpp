@@ -31,13 +31,13 @@ static int installScriptManager(lua_State *L)
 	lsi->AssertInterfaceEvent();
 	if (lsi->scriptManagerDownload)
 	{
-		new ErrorMessage("Script download", "A script download is already pending");
+		new ErrorMessage("Descarga de scripts", "Ya hay una descarga de script pendiente");
 		return 0;
 	}
 	lsi->gameController->HideConsole();
 	if (ui::Engine::Ref().GetWindow() != lsi->gameController->GetView())
 	{
-		new ErrorMessage("Script download", "You must run this function from the console");
+		new ErrorMessage("Descarga de scripts", "Ejecuta esta función desde la consola");
 		return 0;
 	}
 	lsi->scriptManagerDownload = std::make_unique<http::Request>(format::Url{ "https://starcatcher.us/scripts/main.lua", {{ "get", "1" }} }.ToByteString());
@@ -74,15 +74,15 @@ void LuaMisc::Tick(lua_State *L)
 		auto complete = [](Status status) {
 			if (std::get_if<Status::Ok>(&status.value))
 			{
-				new InformationMessage("Install script manager", "Script manager successfully installed", false);
+				new InformationMessage("Instalar gestor de scripts", "Gestor de scripts instalado", false);
 			}
 			if (auto *requestFailed = std::get_if<Status::GetFailed>(&status.value))
 			{
-				new ErrorMessage("Install script manager", "Failed to get script manager: " + requestFailed->error);
+				new ErrorMessage("Instalar gestor de scripts", "No se pudo obtener el gestor de scripts: " + requestFailed->error);
 			}
 			if (auto *runFailed = std::get_if<Status::RunFailed>(&status.value))
 			{
-				new ErrorMessage("Install script manager", "Failed to run script manager: " + runFailed->error);
+				new ErrorMessage("Instalar gestor de scripts", "No se pudo ejecutar el gestor de scripts: " + runFailed->error);
 			}
 		};
 		try
@@ -91,7 +91,7 @@ void LuaMisc::Tick(lua_State *L)
 			auto scriptData = scriptManagerDownload->Finish().second;
 			if (!scriptData.size())
 			{
-				complete({ Status::GetFailed{ "Server did not return data" } });
+				complete({ Status::GetFailed{ "El servidor no devolvió datos" } });
 				return;
 			}
 			if (ret != 200)
@@ -102,7 +102,7 @@ void LuaMisc::Tick(lua_State *L)
 			ByteString filename = "autorun.lua";
 			if (!Platform::WriteFile(scriptData, filename))
 			{
-				complete({ Status::GetFailed{ String::Build("Unable to write to ", filename.FromUtf8()) } });
+				complete({ Status::GetFailed{ String::Build("No se pudo escribir en ", filename.FromUtf8()) } });
 				return;
 			}
 			if (lsi->Autorun())
@@ -214,7 +214,7 @@ static int fpsCap(lua_State *L)
 	float fpscap = luaL_checknumber(L, 1);
 	if (fpscap < 2)
 	{
-		return luaL_error(L, "fps cap too small");
+		return luaL_error(L, "El límite de FPS es demasiado bajo");
 	}
 	if (fpscap == 2)
 	{
@@ -250,7 +250,7 @@ static int drawCap(lua_State *L)
 	}
 	int drawcap = luaL_checkinteger(L, 1);
 	if(drawcap <= 0)
-		return luaL_error(L, "draw cap too small");
+		return luaL_error(L, "El límite de dibujo es demasiado bajo");
 	ui::Engine::Ref().SetDrawingFrequencyLimit(DrawLimitExplicit{ drawcap });
 	return 0;
 }

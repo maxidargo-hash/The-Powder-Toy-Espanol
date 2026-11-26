@@ -91,7 +91,7 @@ unsigned char const *FontReader::lookupChar(String::value_type ch)
 	{
 		if (!InitFontData())
 		{
-			throw std::runtime_error("font data corrupt");
+			throw std::runtime_error("datos de fuente dañados");
 		}
 	}
 	size_t offset = 0;

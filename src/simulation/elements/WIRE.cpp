@@ -30,7 +30,7 @@ void Element::Element_WIRE()
 	Weight = 100;
 
 	HeatConduct = 250;
-	Description = "WireWorld wires, conducts based on a set of GOL-like rules.";
+	Description = "Cables WireWorld. Conducen según reglas parecidas a las del Juego de la vida.";
 
 	Properties = TYPE_SOLID;
 

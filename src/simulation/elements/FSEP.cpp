@@ -29,7 +29,7 @@ void Element::Element_FSEP()
 	Weight = 70;
 
 	HeatConduct = 70;
-	Description = "Fuse Powder. Burns slowly like FUSE.";
+	Description = "Mecha en polvo. Arde lentamente como FUSE.";
 
 	Properties = TYPE_PART;
 

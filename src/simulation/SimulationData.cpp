@@ -21,29 +21,29 @@ const std::array<BuiltinGOL, NGOL> SimulationData::builtinGol = {{
 	//   * the ruleset constants below look 20-bit, but rulesets actually consist of 21
 	//     bits of data; bit 20 just happens to not be set for any of the built-in types,
 	//     as none of them have 10 or more states
-	{ "GOL",  GT_GOL , 0x0080C, 0x0CAC00_rgb, 0x0CAC00_rgb, NGT_GOL,  String("Game Of Life: Begin 3/Stay 23") },
-	{ "HLIF", GT_HLIF, 0x0480C, 0xFF0000_rgb, 0xFF0000_rgb, NGT_HLIF, String("High Life: B36/S23") },
-	{ "ASIM", GT_ASIM, 0x038F0, 0x0000FF_rgb, 0x0000FF_rgb, NGT_ASIM, String("Assimilation: B345/S4567") },
+	{ "GOL",  GT_GOL , 0x0080C, 0x0CAC00_rgb, 0x0CAC00_rgb, NGT_GOL,  String("Juego de la vida: B3/S23") },
+	{ "HLIF", GT_HLIF, 0x0480C, 0xFF0000_rgb, 0xFF0000_rgb, NGT_HLIF, String("Vida alta: B36/S23") },
+	{ "ASIM", GT_ASIM, 0x038F0, 0x0000FF_rgb, 0x0000FF_rgb, NGT_ASIM, String("Asimilación: B345/S4567") },
 	{ "2X2",  GT_2x2 , 0x04826, 0xFFFF00_rgb, 0xFFFF00_rgb, NGT_2x2,  String("2X2: B36/S125") },
-	{ "DANI", GT_DANI, 0x1C9D8, 0x00FFFF_rgb, 0x00FFFF_rgb, NGT_DANI, String("Day and Night: B3678/S34678") },
-	{ "AMOE", GT_AMOE, 0x0A92A, 0xFF00FF_rgb, 0xFF00FF_rgb, NGT_AMOE, String("Amoeba: B357/S1358") },
-	{ "MOVE", GT_MOVE, 0x14834, 0xFFFFFF_rgb, 0xFFFFFF_rgb, NGT_MOVE, String("'Move' particles. Does not move things.. it is a life type: B368/S245") },
-	{ "PGOL", GT_PGOL, 0x0A90C, 0xE05010_rgb, 0xE05010_rgb, NGT_PGOL, String("Pseudo Life: B357/S238") },
-	{ "DMOE", GT_DMOE, 0x1E9E0, 0x500000_rgb, 0x500000_rgb, NGT_DMOE, String("Diamoeba: B35678/S5678") },
+	{ "DANI", GT_DANI, 0x1C9D8, 0x00FFFF_rgb, 0x00FFFF_rgb, NGT_DANI, String("Día y noche: B3678/S34678") },
+	{ "AMOE", GT_AMOE, 0x0A92A, 0xFF00FF_rgb, 0xFF00FF_rgb, NGT_AMOE, String("Ameba: B357/S1358") },
+	{ "MOVE", GT_MOVE, 0x14834, 0xFFFFFF_rgb, 0xFFFFFF_rgb, NGT_MOVE, String("Partículas MOVE. Es un tipo de Vida que no mueve objetos. B368/S245") },
+	{ "PGOL", GT_PGOL, 0x0A90C, 0xE05010_rgb, 0xE05010_rgb, NGT_PGOL, String("Seudovida: B357/S238") },
+	{ "DMOE", GT_DMOE, 0x1E9E0, 0x500000_rgb, 0x500000_rgb, NGT_DMOE, String("Diameba: B35678/S5678") },
 	{ "3-4",  GT_34  , 0x01818, 0x500050_rgb, 0x500050_rgb, NGT_34,   String("3-4: B34/S34") },
-	{ "LLIF", GT_LLIF, 0x03820, 0x505050_rgb, 0x505050_rgb, NGT_LLIF, String("Long Life: B345/S5") },
-	{ "STAN", GT_STAN, 0x1C9EC, 0x5000FF_rgb, 0x5000FF_rgb, NGT_STAN, String("Stains: B3678/S235678") },
-	{ "SEED", GT_SEED, 0x00400, 0xFBEC7D_rgb, 0xFBEC7D_rgb, NGT_SEED, String("Seeds: B2/S") },
-	{ "MAZE", GT_MAZE, 0x0083E, 0xA8E4A0_rgb, 0xA8E4A0_rgb, NGT_MAZE, String("Maze: B3/S12345") },
-	{ "COAG", GT_COAG, 0x189EC, 0x9ACD32_rgb, 0x9ACD32_rgb, NGT_COAG, String("Coagulations: B378/S235678") },
-	{ "WALL", GT_WALL, 0x1F03C, 0x0047AB_rgb, 0x0047AB_rgb, NGT_WALL, String("Walled cities: B45678/S2345") },
-	{ "GNAR", GT_GNAR, 0x00202, 0xE5B73B_rgb, 0xE5B73B_rgb, NGT_GNAR, String("Gnarl: B1/S1") },
-	{ "REPL", GT_REPL, 0x0AAAA, 0x259588_rgb, 0x259588_rgb, NGT_REPL, String("Replicator: B1357/S1357") },
-	{ "MYST", GT_MYST, 0x139E1, 0x0C3C00_rgb, 0x0C3C00_rgb, NGT_MYST, String("Mystery: B3458/S05678") },
-	{ "LOTE", GT_LOTE, 0x48938, 0xFF0000_rgb, 0xFFFF00_rgb, NGT_LOTE, String("Living on the Edge: B37/S3458/4") },
-	{ "FRG2", GT_FRG2, 0x20816, 0x006432_rgb, 0x00FF5A_rgb, NGT_FRG2, String("Like Frogs rule: B3/S124/3") },
-	{ "STAR", GT_STAR, 0x98478, 0x000040_rgb, 0x0000E6_rgb, NGT_STAR, String("Like Star Wars rule: B278/S3456/6") },
-	{ "FROG", GT_FROG, 0x21806, 0x006400_rgb, 0x00FF00_rgb, NGT_FROG, String("Frogs: B34/S12/3") },
+	{ "LLIF", GT_LLIF, 0x03820, 0x505050_rgb, 0x505050_rgb, NGT_LLIF, String("Vida larga: B345/S5") },
+	{ "STAN", GT_STAN, 0x1C9EC, 0x5000FF_rgb, 0x5000FF_rgb, NGT_STAN, String("Manchas: B3678/S235678") },
+	{ "SEED", GT_SEED, 0x00400, 0xFBEC7D_rgb, 0xFBEC7D_rgb, NGT_SEED, String("Semillas: B2/S") },
+	{ "MAZE", GT_MAZE, 0x0083E, 0xA8E4A0_rgb, 0xA8E4A0_rgb, NGT_MAZE, String("Laberinto: B3/S12345") },
+	{ "COAG", GT_COAG, 0x189EC, 0x9ACD32_rgb, 0x9ACD32_rgb, NGT_COAG, String("Coagulaciones: B378/S235678") },
+	{ "WALL", GT_WALL, 0x1F03C, 0x0047AB_rgb, 0x0047AB_rgb, NGT_WALL, String("Ciudades amuralladas: B45678/S2345") },
+	{ "GNAR", GT_GNAR, 0x00202, 0xE5B73B_rgb, 0xE5B73B_rgb, NGT_GNAR, String("Nudos: B1/S1") },
+	{ "REPL", GT_REPL, 0x0AAAA, 0x259588_rgb, 0x259588_rgb, NGT_REPL, String("Replicador: B1357/S1357") },
+	{ "MYST", GT_MYST, 0x139E1, 0x0C3C00_rgb, 0x0C3C00_rgb, NGT_MYST, String("Misterio: B3458/S05678") },
+	{ "LOTE", GT_LOTE, 0x48938, 0xFF0000_rgb, 0xFFFF00_rgb, NGT_LOTE, String("Vivir al límite: B37/S3458/4") },
+	{ "FRG2", GT_FRG2, 0x20816, 0x006432_rgb, 0x00FF5A_rgb, NGT_FRG2, String("Variante de Ranas: B3/S124/3") },
+	{ "STAR", GT_STAR, 0x98478, 0x000040_rgb, 0x0000E6_rgb, NGT_STAR, String("Variante de Star Wars: B278/S3456/6") },
+	{ "FROG", GT_FROG, 0x21806, 0x006400_rgb, 0x00FF00_rgb, NGT_FROG, String("Ranas: B34/S12/3") },
 	{ "BRAN", GT_BRAN, 0x25440, 0xFFFF00_rgb, 0x969600_rgb, NGT_BRAN, String("Brian 6: B246/S6/3" )}
 }};
 
@@ -51,25 +51,25 @@ static std::vector<wall_type> LoadWalls()
 {
 	return
 	std::vector<wall_type>{
-		{0x808080_rgb, 0x000000_rgb, 0, Renderer::WallIcon, String("ERASE"),           "DEFAULT_WL_ERASE",  String("Erases walls.")},
-		{0xC0C0C0_rgb, 0x101010_rgb, 0, Renderer::WallIcon, String("CONDUCTIVE WALL"), "DEFAULT_WL_CNDTW",  String("Blocks everything. Conductive.")},
-		{0x808080_rgb, 0x808080_rgb, 0, Renderer::WallIcon, String("EWALL"),           "DEFAULT_WL_EWALL",  String("E-Wall. Becomes transparent when electricity is connected.")},
-		{0xFF8080_rgb, 0xFF2008_rgb, 1, Renderer::WallIcon, String("DETECTOR"),        "DEFAULT_WL_DTECT",  String("Detector. Generates electricity when a particle is inside.")},
-		{0x808080_rgb, 0x000000_rgb, 0, Renderer::WallIcon, String("STREAMLINE"),      "DEFAULT_WL_STRM",   String("Streamline. Creates a line that follows air movement.")},
-		{0x8080FF_rgb, 0x000000_rgb, 1, Renderer::WallIcon, String("FAN"),             "DEFAULT_WL_FAN",    String("Fan. Accelerates air. Use the line tool to set direction and strength.")},
-		{0xC0C0C0_rgb, 0x101010_rgb, 2, Renderer::WallIcon, String("LIQUID WALL"),     "DEFAULT_WL_LIQD",   String("Allows liquids, blocks all other particles. Conductive.")},
-		{0x808080_rgb, 0x000000_rgb, 1, Renderer::WallIcon, String("ABSORB WALL"),     "DEFAULT_WL_ABSRB",  String("Absorbs particles but lets air currents through.")},
-		{0x808080_rgb, 0x000000_rgb, 3, Renderer::WallIcon, String("WALL"),            "DEFAULT_WL_WALL",   String("Basic wall, blocks everything.")},
-		{0x3C3C3C_rgb, 0x000000_rgb, 1, Renderer::WallIcon, String("AIRONLY WALL"),    "DEFAULT_WL_AIR",    String("Allows air, but blocks all particles.")},
-		{0x575757_rgb, 0x000000_rgb, 1, Renderer::WallIcon, String("POWDER WALL"),     "DEFAULT_WL_POWDR",  String("Allows powders, blocks all other particles.")},
-		{0xFFFF22_rgb, 0x101010_rgb, 2, Renderer::WallIcon, String("CONDUCTOR"),       "DEFAULT_WL_CNDTR",  String("Conductor. Allows all particles to pass through and conducts electricity.")},
-		{0x242424_rgb, 0x101010_rgb, 0, Renderer::WallIcon, String("EHOLE"),           "DEFAULT_WL_EHOLE",  String("E-Hole. absorbs particles, releases them when powered.")},
-		{0x579777_rgb, 0x000000_rgb, 1, Renderer::WallIcon, String("GAS WALL"),        "DEFAULT_WL_GAS",    String("Allows gases, blocks all other particles.")},
-		{0xFFEE00_rgb, 0xAA9900_rgb, 4, Renderer::WallIcon, String("GRAVITY WALL"),    "DEFAULT_WL_GRVTY",  String("Gravity wall. Newtonian Gravity has no effect inside a box drawn with this.")},
-		{0xFFAA00_rgb, 0xAA5500_rgb, 4, Renderer::WallIcon, String("ENERGY WALL"),     "DEFAULT_WL_ENRGY",  String("Allows energy particles, blocks all other particles.")},
-		{0xDCDCDC_rgb, 0x000000_rgb, 1, Renderer::WallIcon, String("AIRBLOCK WALL"),   "DEFAULT_WL_NOAIR",  String("Allows all particles, but blocks air.")},
-		{0x808080_rgb, 0x000000_rgb, 0, Renderer::WallIcon, String("ERASEALL"),        "DEFAULT_WL_ERASEA", String("Erases walls, particles, and signs.")},
-		{0x800080_rgb, 0x000000_rgb, 0, Renderer::WallIcon, String("STASIS WALL"),     "DEFAULT_WL_STASIS", String("Freezes particles inside the wall in place until powered.")},
+		{0x808080_rgb, 0x000000_rgb, 0, Renderer::WallIcon, String("BORRAR"),           "DEFAULT_WL_ERASE",  String("Borra muros.")},
+		{0xC0C0C0_rgb, 0x101010_rgb, 0, Renderer::WallIcon, String("MURO CONDUCTOR"), "DEFAULT_WL_CNDTW",  String("Bloquea todo y conduce electricidad.")},
+		{0x808080_rgb, 0x808080_rgb, 0, Renderer::WallIcon, String("MURO ELÉCTRICO"),           "DEFAULT_WL_EWALL",  String("Muro eléctrico. Deja pasar partículas cuando recibe corriente.")},
+		{0xFF8080_rgb, 0xFF2008_rgb, 1, Renderer::WallIcon, String("DETECTOR"),        "DEFAULT_WL_DTECT",  String("Detector. Genera electricidad cuando hay una partícula dentro.")},
+		{0x808080_rgb, 0x000000_rgb, 0, Renderer::WallIcon, String("LÍNEA DE FLUJO"),      "DEFAULT_WL_STRM",   String("Dibuja una línea que sigue la corriente del aire.")},
+		{0x8080FF_rgb, 0x000000_rgb, 1, Renderer::WallIcon, String("VENTILADOR"),             "DEFAULT_WL_FAN",    String("Acelera el aire. Usa la herramienta de línea para ajustar la dirección y la fuerza.")},
+		{0xC0C0C0_rgb, 0x101010_rgb, 2, Renderer::WallIcon, String("MURO PARA LÍQUIDOS"),     "DEFAULT_WL_LIQD",   String("Deja pasar líquidos y bloquea las demás partículas. Conduce electricidad.")},
+		{0x808080_rgb, 0x000000_rgb, 1, Renderer::WallIcon, String("MURO ABSORBENTE"),     "DEFAULT_WL_ABSRB",  String("Absorbe partículas y deja pasar el aire.")},
+		{0x808080_rgb, 0x000000_rgb, 3, Renderer::WallIcon, String("MURO"),            "DEFAULT_WL_WALL",   String("Muro básico. Bloquea todo.")},
+		{0x3C3C3C_rgb, 0x000000_rgb, 1, Renderer::WallIcon, String("MURO PARA AIRE"),    "DEFAULT_WL_AIR",    String("Deja pasar el aire y bloquea todas las partículas.")},
+		{0x575757_rgb, 0x000000_rgb, 1, Renderer::WallIcon, String("MURO PARA POLVOS"),     "DEFAULT_WL_POWDR",  String("Deja pasar polvos y bloquea las demás partículas.")},
+		{0xFFFF22_rgb, 0x101010_rgb, 2, Renderer::WallIcon, String("CONDUCTOR"),       "DEFAULT_WL_CNDTR",  String("Deja pasar todas las partículas y conduce electricidad.")},
+		{0x242424_rgb, 0x101010_rgb, 0, Renderer::WallIcon, String("AGUJERO ELÉCTRICO"),           "DEFAULT_WL_EHOLE",  String("Absorbe partículas y las libera al recibir corriente.")},
+		{0x579777_rgb, 0x000000_rgb, 1, Renderer::WallIcon, String("MURO PARA GASES"),        "DEFAULT_WL_GAS",    String("Deja pasar gases y bloquea las demás partículas.")},
+		{0xFFEE00_rgb, 0xAA9900_rgb, 4, Renderer::WallIcon, String("MURO GRAVITATORIO"),    "DEFAULT_WL_GRVTY",  String("Muro gravitatorio. Anula la gravedad newtoniana dentro de un recinto hecho con él.")},
+		{0xFFAA00_rgb, 0xAA5500_rgb, 4, Renderer::WallIcon, String("MURO PARA ENERGÍA"),     "DEFAULT_WL_ENRGY",  String("Deja pasar partículas de energía y bloquea las demás.")},
+		{0xDCDCDC_rgb, 0x000000_rgb, 1, Renderer::WallIcon, String("MURO SIN AIRE"),   "DEFAULT_WL_NOAIR",  String("Deja pasar todas las partículas y bloquea el aire.")},
+		{0x808080_rgb, 0x000000_rgb, 0, Renderer::WallIcon, String("BORRAR TODO"),        "DEFAULT_WL_ERASEA", String("Borra muros, partículas y letreros.")},
+		{0x800080_rgb, 0x000000_rgb, 0, Renderer::WallIcon, String("MURO DE ESTASIS"),     "DEFAULT_WL_STASIS", String("Inmoviliza las partículas que hay dentro hasta recibir corriente.")},
 	};
 }
 
@@ -77,22 +77,22 @@ static std::vector<menu_section> LoadMenus()
 {
 	return
 	std::vector<menu_section>{
-		{0xE041, String("Walls"), 0, 1},
-		{0xE042, String("Electronics"), 0, 1},
-		{0xE056, String("Powered Materials"), 0, 1},
-		{0xE019, String("Sensors"), 0, 1},
-		{0xE062, String("Force"), 0, 1},
-		{0xE043, String("Explosives"), 0, 1},
+		{0xE041, String("Muros"), 0, 1},
+		{0xE042, String("Electrónica"), 0, 1},
+		{0xE056, String("Materiales eléctricos"), 0, 1},
+		{0xE019, String("Sensores"), 0, 1},
+		{0xE062, String("Fuerza"), 0, 1},
+		{0xE043, String("Explosivos"), 0, 1},
 		{0xE045, String("Gases"), 0, 1},
-		{0xE044, String("Liquids"), 0, 1},
-		{0xE050, String("Powders"), 0, 1},
-		{0xE051, String("Solids"), 0, 1},
-		{0xE046, String("Radioactive"), 0, 1},
-		{0xE04C, String("Special"), 0, 1},
-		{0xE052, String("Game Of Life"), 0, 1},
-		{0xE057, String("Tools"), 0, 1},
-		{0xE067, String("Favorites"), 0, 1},
-		{0xE064, String("Decoration tools"), 0, 1},
+		{0xE044, String("Líquidos"), 0, 1},
+		{0xE050, String("Polvos"), 0, 1},
+		{0xE051, String("Sólidos"), 0, 1},
+		{0xE046, String("Radiactivos"), 0, 1},
+		{0xE04C, String("Especiales"), 0, 1},
+		{0xE052, String("Juego de la vida"), 0, 1},
+		{0xE057, String("Herramientas"), 0, 1},
+		{0xE067, String("Favoritos"), 0, 1},
+		{0xE064, String("Herramientas de decoración"), 0, 1},
 	};
 }
 
@@ -282,7 +282,7 @@ String SimulationData::ElementResolve(int type, int ctype) const
 	}
 	else if (type >= 0 && type < PT_NUM)
 		return elements[type].Name;
-	return "Empty";
+	return "Vacío";
 }
 
 String SimulationData::BasicParticleInfo(Particle const &sample_part) const
@@ -293,17 +293,17 @@ String SimulationData::BasicParticleInfo(Particle const &sample_part) const
 	int storedCtype = sample_part.tmp4;
 	if (type == PT_LAVA && IsElement(ctype))
 	{
-		sampleInfo << "Molten " << ElementResolve(ctype, -1);
+		sampleInfo << "Fundido: " << ElementResolve(ctype, -1);
 	}
 	else if ((type == PT_PIPE || type == PT_PPIP) && IsElement(ctype))
 	{
 		if (ctype == PT_LAVA && IsElement(storedCtype))
 		{
-			sampleInfo << ElementResolve(type, -1) << " with molten " << ElementResolve(storedCtype, -1);
+			sampleInfo << ElementResolve(type, -1) << " con material fundido " << ElementResolve(storedCtype, -1);
 		}
 		else
 		{
-			sampleInfo << ElementResolve(type, -1) << " with " << ElementResolve(ctype, storedCtype);
+			sampleInfo << ElementResolve(type, -1) << " con " << ElementResolve(ctype, storedCtype);
 		}
 	}
 	else

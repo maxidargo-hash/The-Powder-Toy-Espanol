@@ -30,7 +30,7 @@ void Element::Element_C5()
 	Weight = 100;
 
 	HeatConduct = 88;
-	Description = "Cold explosive, set off by anything cold.";
+	Description = "Explosivo frío. Detona al contacto con materiales fríos.";
 
 	Properties = TYPE_SOLID | PROP_NEUTPENETRATE | PROP_PHOTPASS | PROP_LIFE_DEC;
 

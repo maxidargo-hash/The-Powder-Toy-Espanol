@@ -29,7 +29,7 @@ void Element::Element_BRAY()
 	Weight = 100;
 
 	HeatConduct = 251;
-	Description = "Ray Point. Rays create points when they collide.";
+	Description = "Punto de rayo. Se crea cuando chocan los rayos.";
 
 	Properties = TYPE_SOLID|PROP_LIFE_DEC|PROP_LIFE_KILL;
 

@@ -29,7 +29,7 @@ void Element::Element_NBHL()
 	Weight = 100;
 
 	HeatConduct = 186;
-	Description = "Black hole, sucks in particles using gravity. (Requires Newtonian gravity)";
+	Description = "Agujero negro. Atrae partículas mediante la gravedad newtoniana.";
 
 	Properties = TYPE_SOLID;
 

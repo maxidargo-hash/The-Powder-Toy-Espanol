@@ -25,7 +25,7 @@ private:
 
 public:
 	PropertyTool(GameModel &newGameModel):
-		Tool(0, "PROP", "Property Drawing Tool. Use to alter the properties of elements in the field.",
+		Tool(0, "PROP", "Pincel de propiedades. Modifica las propiedades de las partículas.",
 			0xFEA900_rgb, "DEFAULT_UI_PROPERTY", nullptr
 		), gameModel(newGameModel)
 	{}

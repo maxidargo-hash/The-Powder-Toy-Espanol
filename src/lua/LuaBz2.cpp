@@ -11,8 +11,8 @@ static int compress(lua_State *L)
 	switch (result)
 	{
 	case BZ2WCompressOk: break;
-	case BZ2WCompressNomem: RETURN_ERR("out of memory");
-	case BZ2WCompressLimit: RETURN_ERR("size limit exceeded");
+	case BZ2WCompressNomem: RETURN_ERR("Memoria insuficiente");
+	case BZ2WCompressLimit: RETURN_ERR("Se superó el límite de tamaño");
 	}
 #undef RETURN_ERR
 	tpt_lua_pushByteString(L, ByteString(dest.begin(), dest.end()));
@@ -29,11 +29,11 @@ static int decompress(lua_State *L)
 	switch (result)
 	{
 	case BZ2WDecompressOk: break;
-	case BZ2WDecompressNomem: RETURN_ERR("out of memory");
-	case BZ2WDecompressLimit: RETURN_ERR("size limit exceeded");
+	case BZ2WDecompressNomem: RETURN_ERR("Memoria insuficiente");
+	case BZ2WDecompressLimit: RETURN_ERR("Se superó el límite de tamaño");
 	case BZ2WDecompressType:
 	case BZ2WDecompressBad:
-	case BZ2WDecompressEof: RETURN_ERR("corrupted stream");
+	case BZ2WDecompressEof: RETURN_ERR("Flujo dañado");
 	}
 #undef RETURN_ERR
 	tpt_lua_pushByteString(L, ByteString(dest.begin(), dest.end()));

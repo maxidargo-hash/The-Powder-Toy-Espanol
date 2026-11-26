@@ -29,7 +29,7 @@ void Element::Element_NWHL()
 	Weight = 100;
 
 	HeatConduct = 186;
-	Description = "White hole, pushes away other particles with gravity. (Requires Newtonian gravity)";
+	Description = "Agujero blanco. Repele partículas mediante la gravedad newtoniana.";
 
 	Properties = TYPE_SOLID;
 

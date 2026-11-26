@@ -100,7 +100,7 @@ static int decoSpace(lua_State *L)
 	auto index = luaL_checkint(L, 1);
 	if (index < 0 || index >= NUM_DECOSPACES)
 	{
-		return luaL_error(L, "Invalid deco space index %i", index);
+		return luaL_error(L, "Índice de espacio de color no válido: %i", index);
 	}
 	lsi->gameModel->SetDecoSpace(index);
 	return 0;
@@ -118,7 +118,7 @@ static int LuaBlockMapImpl(lua_State *L, ItemType minValue, ItemType maxValue, A
 	auto pos = Vec2{ luaL_checkint(L, 1), luaL_checkint(L, 2) };
 	if (!CELLS.OriginRect().Contains(pos))
 	{
-		return luaL_error(L, "Coordinates (%i, %i) out of range", pos.X, pos.Y);
+		return luaL_error(L, "Coordenadas (%i, %i) fuera de rango", pos.X, pos.Y);
 	}
 	auto argc = lua_gettop(L);
 	if (argc == 2)
@@ -228,7 +228,7 @@ static int gravityField(lua_State *L)
 	auto pos = Vec2{ luaL_checkint(L, 1), luaL_checkint(L, 2) };
 	if (!CELLS.OriginRect().Contains(pos))
 	{
-		return luaL_error(L, "Coordinates (%i, %i) out of range", pos.X, pos.Y);
+		return luaL_error(L, "Coordenadas (%i, %i) fuera de rango", pos.X, pos.Y);
 	}
 	lua_pushnumber(L, lsi->sim->gravOut.forceX[pos]);
 	lua_pushnumber(L, lsi->sim->gravOut.forceY[pos]);
@@ -439,7 +439,7 @@ static int partProperty(lua_State *L)
 	{
 		int fieldID = lua_tointeger(L, 2);
 		if (fieldID < 0 || fieldID >= (int)properties.size())
-			return luaL_error(L, "Invalid field ID (%d)", fieldID);
+			return luaL_error(L, "ID de campo no válido (%d)", fieldID);
 		prop = properties.begin() + fieldID;
 	}
 	else if (lua_type(L, 2) == LUA_TSTRING)
@@ -456,11 +456,11 @@ static int partProperty(lua_State *L)
 			return p.Name == fieldName;
 		});
 		if (prop == properties.end())
-			return luaL_error(L, "Unknown field (%s)", fieldName.c_str());
+			return luaL_error(L, "Campo desconocido (%s)", fieldName.c_str());
 	}
 	else
 	{
-		return luaL_error(L, "Field ID must be an name (string) or identifier (integer)");
+		return luaL_error(L, "Indica un nombre de campo (cadena) o un identificador (entero)");
 	}
 
 	//Calculate memory address of property
@@ -526,7 +526,7 @@ static int createParts(lua_State *L)
 	int uiFlags = luaL_optint(L,7,lsi->sim->replaceModeFlags);
 	Brush *brush = lsi->gameModel->GetBrushByID(brushID);
 	if (!brush)
-		return luaL_error(L, "Invalid brush id '%d'", brushID);
+		return luaL_error(L, "ID de pincel no válido: '%d'", brushID);
 	auto newBrush = brush->Clone();
 	newBrush->SetRadius(ui::Point(rx, ry));
 
@@ -560,7 +560,7 @@ static int createLine(lua_State *L)
 	int uiFlags = luaL_optint(L,9,lsi->sim->replaceModeFlags);
 	Brush *brush = lsi->gameModel->GetBrushByID(brushID);
 	if (!brush)
-		return luaL_error(L, "Invalid brush id '%d'", brushID);
+		return luaL_error(L, "ID de pincel no válido: '%d'", brushID);
 	auto newBrush = brush->Clone();
 	newBrush->SetRadius(ui::Point(rx, ry));
 
@@ -603,7 +603,7 @@ static int floodParts(lua_State *L)
 	int flags = luaL_optint(L,5,lsi->sim->replaceModeFlags);
 
 	if (x < 0 || x >= XRES || y < 0 || y >= YRES)
-		return luaL_error(L, "coordinates out of range (%d,%d)", x, y);
+		return luaL_error(L, "Coordenadas fuera de rango (%d,%d)", x, y);
 
 	int ret = lsi->sim->FloodParts(x, y, c, cm, flags);
 	lua_pushinteger(L, ret);
@@ -621,9 +621,9 @@ static int createWalls(lua_State *L)
 	int c = luaL_optint(L,5,8);
 
 	if (x < 0 || x >= XRES || y < 0 || y >= YRES)
-		return luaL_error(L, "coordinates out of range (%d,%d)", x, y);
+		return luaL_error(L, "Coordenadas fuera de rango (%d,%d)", x, y);
 	if (c < 0 || c >= UI_WALLCOUNT)
-		return luaL_error(L, "Unrecognised wall id '%d'", c);
+		return luaL_error(L, "ID de muro desconocido: '%d'", c);
 
 	int ret = lsi->sim->CreateWalls(x, y, rx, ry, c, nullptr);
 	lua_pushinteger(L, ret);
@@ -643,9 +643,9 @@ static int createWallLine(lua_State *L)
 	int c = luaL_optint(L,7,8);
 
 	if (x1 < 0 || x2 < 0 || x1 >= XRES || x2 >= XRES || y1 < 0 || y2 < 0 || y1 >= YRES || y2 >= YRES)
-		return luaL_error(L, "coordinates out of range (%d,%d),(%d,%d)", x1, y1, x2, y2);
+		return luaL_error(L, "Coordenadas fuera de rango (%d,%d),(%d,%d)", x1, y1, x2, y2);
 	if (c < 0 || c >= UI_WALLCOUNT)
-		return luaL_error(L, "Unrecognised wall id '%d'", c);
+		return luaL_error(L, "ID de muro desconocido: '%d'", c);
 
 	lsi->sim->CreateWallLine(x1, y1, x2, y2, rx, ry, c, nullptr);
 	return 0;
@@ -662,9 +662,9 @@ static int createWallBox(lua_State *L)
 	int c = luaL_optint(L,5,8);
 
 	if (x1 < 0 || x2 < 0 || x1 >= XRES || x2 >= XRES || y1 < 0 || y2 < 0 || y1 >= YRES || y2 >= YRES)
-		return luaL_error(L, "coordinates out of range (%d,%d),(%d,%d)", x1, y1, x2, y2);
+		return luaL_error(L, "Coordenadas fuera de rango (%d,%d),(%d,%d)", x1, y1, x2, y2);
 	if (c < 0 || c >= UI_WALLCOUNT)
-		return luaL_error(L, "Unrecognised wall id '%d'", c);
+		return luaL_error(L, "ID de muro desconocido: '%d'", c);
 
 	lsi->sim->CreateWallBox(x1, y1, x2, y2, c);
 	return 0;
@@ -679,9 +679,9 @@ static int floodWalls(lua_State *L)
 	int c = luaL_optint(L,3,8);
 	int bm = luaL_optint(L,4,-1);
 	if (x < 0 || x >= XRES || y < 0 || y >= YRES)
-		return luaL_error(L, "coordinates out of range (%d,%d)", x, y);
+		return luaL_error(L, "Coordenadas fuera de rango (%d,%d)", x, y);
 	if (c < 0 || c >= UI_WALLCOUNT)
-		return luaL_error(L, "Unrecognised wall id '%d'", c);
+		return luaL_error(L, "ID de muro desconocido: '%d'", c);
 	if (c == WL_STREAM)
 	{
 		lua_pushinteger(L, 0);
@@ -706,12 +706,12 @@ static int toolBrush(lua_State *L)
 	auto *toolPtr = lsi->gameModel->GetToolByIndex(tool);
 	if (!toolPtr)
 	{
-		return luaL_error(L, "Invalid tool id '%d'", tool);
+		return luaL_error(L, "ID de herramienta no válido: '%d'", tool);
 	}
 
 	Brush *brush = lsi->gameModel->GetBrushByID(brushID);
 	if (!brush)
-		return luaL_error(L, "Invalid brush id '%d'", brushID);
+		return luaL_error(L, "ID de pincel no válido: '%d'", brushID);
 	auto newBrush = brush->Clone();
 	newBrush->SetRadius(ui::Point(rx, ry));
 
@@ -735,16 +735,16 @@ static int toolLine(lua_State *L)
 	float strength = luaL_optnumber(L,9,1.0f);
 
 	if (x1 < 0 || x2 < 0 || x1 >= XRES || x2 >= XRES || y1 < 0 || y2 < 0 || y1 >= YRES || y2 >= YRES)
-		return luaL_error(L, "coordinates out of range (%d,%d),(%d,%d)", x1, y1, x2, y2);
+		return luaL_error(L, "Coordenadas fuera de rango (%d,%d),(%d,%d)", x1, y1, x2, y2);
 	auto *toolPtr = lsi->gameModel->GetToolByIndex(tool);
 	if (!toolPtr)
 	{
-		return luaL_error(L, "Invalid tool id '%d'", tool);
+		return luaL_error(L, "ID de herramienta no válido: '%d'", tool);
 	}
 
 	Brush *brush = lsi->gameModel->GetBrushByID(brushID);
 	if (!brush)
-		return luaL_error(L, "Invalid brush id '%d'", brushID);
+		return luaL_error(L, "ID de pincel no válido: '%d'", brushID);
 	auto newBrush = brush->Clone();
 	newBrush->SetRadius(ui::Point(rx, ry));
 	toolPtr->Strength = strength;
@@ -761,7 +761,7 @@ static int toolBox(lua_State *L)
 	int x2 = luaL_optint(L,3,-1);
 	int y2 = luaL_optint(L,4,-1);
 	if (x1 < 0 || x2 < 0 || x1 >= XRES || x2 >= XRES || y1 < 0 || y2 < 0 || y1 >= YRES || y2 >= YRES)
-		return luaL_error(L, "coordinates out of range (%d,%d),(%d,%d)", x1, y1, x2, y2);
+		return luaL_error(L, "Coordenadas fuera de rango (%d,%d),(%d,%d)", x1, y1, x2, y2);
 	int tool = luaL_optint(L,5,0);
 	float strength = luaL_optnumber(L,6,1.0f);
 	int brushID = luaL_optint(L,7,BRUSH_CIRCLE);
@@ -770,12 +770,12 @@ static int toolBox(lua_State *L)
 	Brush *brush = lsi->gameModel->GetBrushByID(brushID);
 	if (!brush)
 	{
-		return luaL_error(L, "Invalid brush id '%d'", brushID);
+		return luaL_error(L, "ID de pincel no válido: '%d'", brushID);
 	}
 	auto *toolPtr = lsi->gameModel->GetToolByIndex(tool);
 	if (!toolPtr)
 	{
-		return luaL_error(L, "Invalid tool id '%d'", tool);
+		return luaL_error(L, "ID de herramienta no válido: '%d'", tool);
 	}
 	auto newBrush = brush->Clone();
 	newBrush->SetRadius(ui::Point(rx, ry));
@@ -801,7 +801,7 @@ static int decoBrush(lua_State *L)
 
 	Brush *brush = lsi->gameModel->GetBrushByID(brushID);
 	if (!brush)
-		return luaL_error(L, "Invalid brush id '%d'", brushID);
+		return luaL_error(L, "ID de pincel no válido: '%d'", brushID);
 	auto newBrush = brush->Clone();
 	newBrush->SetRadius(ui::Point(rx, ry));
 
@@ -827,11 +827,11 @@ static int decoLine(lua_State *L)
 	int brushID = luaL_optint(L,12,BRUSH_CIRCLE);
 
 	if (x1 < 0 || x2 < 0 || x1 >= XRES || x2 >= XRES || y1 < 0 || y2 < 0 || y1 >= YRES || y2 >= YRES)
-		return luaL_error(L, "coordinates out of range (%d,%d),(%d,%d)", x1, y1, x2, y2);
+		return luaL_error(L, "Coordenadas fuera de rango (%d,%d),(%d,%d)", x1, y1, x2, y2);
 
 	Brush *brush = lsi->gameModel->GetBrushByID(brushID);
 	if (!brush)
-		return luaL_error(L, "Invalid brush id '%d'", brushID);
+		return luaL_error(L, "ID de pincel no válido: '%d'", brushID);
 	auto newBrush = brush->Clone();
 	newBrush->SetRadius(ui::Point(rx, ry));
 
@@ -854,7 +854,7 @@ static int decoBox(lua_State *L)
 	int tool = luaL_optint(L,9,0);
 
 	if (x1 < 0 || x2 < 0 || x1 >= XRES || x2 >= XRES || y1 < 0 || y2 < 0 || y1 >= YRES || y2 >= YRES)
-		return luaL_error(L, "coordinates out of range (%d,%d),(%d,%d)", x1, y1, x2, y2);
+		return luaL_error(L, "Coordenadas fuera de rango (%d,%d),(%d,%d)", x1, y1, x2, y2);
 
 	lsi->sim->ApplyDecorationBox(x1, y1, x2, y2, r, g, b, a, tool);
 	return 0;
@@ -897,7 +897,7 @@ static int floodDeco(lua_State *L)
 	int a = luaL_checkinteger(L, 6);
 
 	if (x < 0 || x >= XRES || y < 0 || y >= YRES)
-		return luaL_error(L, "coordinates out of range (%d,%d)", x, y);
+		return luaL_error(L, "Coordenadas fuera de rango (%d,%d)", x, y);
 
 	// hilariously broken, intersects with console and all Lua graphics
 	auto &rendererFrame = lsi->gameModel->GetView()->GetRendererFrame();
@@ -1014,7 +1014,7 @@ static int loadStamp(lua_State *L)
 		i = luaL_optint(L, 1, 0);
 		auto &stampIDs = client.GetStamps();
 		if (i < 0 || i >= int(stampIDs.size()))
-			return luaL_error(L, "Invalid stamp ID: %d", i);
+			return luaL_error(L, "ID de sello no válido: %d", i);
 		tempfile = client.GetStamp(stampIDs[i]);
 	}
 
@@ -1049,7 +1049,7 @@ static int loadStamp(lua_State *L)
 	{
 		pushed = 2;
 		lua_pushnil(L);
-		tpt_lua_pushString(L, tempfile ? tempfile->GetError() : "does not exist");
+		tpt_lua_pushString(L, tempfile ? tempfile->GetError() : " no existe");
 	}
 	return pushed;
 }
@@ -1076,7 +1076,7 @@ static int deleteStamp(lua_State *L)
 	{
 		int i = luaL_optint(L, 1, 0);
 		if (i < 0 || i >= int(stampIDs.size()))
-			return luaL_error(L, "Invalid stamp ID: %d", i);
+			return luaL_error(L, "ID de sello no válido: %d", i);
 		client.DeleteStamp(stampIDs[i]);
 		return 0;
 	}
@@ -1336,7 +1336,7 @@ static int convectionMode(lua_State *L)
 	int convMode = luaL_checkint(L, 1);
 	if (convMode < 0 || convMode >= NUM_CONVMODES)
 	{
-		return luaL_error(L, "invalid convection mode");
+		return luaL_error(L, "Modo de convección no válido");
 	}
 	lsi->gameModel->SetConvectionMode(convMode);
 	return 0;
@@ -1346,7 +1346,7 @@ static int elementCount(lua_State *L)
 {
 	int element = luaL_optint(L, 1, 0);
 	if (element < 0 || element >= PT_NUM)
-		return luaL_error(L, "Invalid element ID (%d)", element);
+		return luaL_error(L, "ID de elemento no válido (%d)", element);
 
 	auto *lsi = GetLSI();
 	lua_pushnumber(L, lsi->sim->elementCount[element]);
@@ -1359,9 +1359,9 @@ static int canMove(lua_State *L)
 	int movingElement = luaL_checkint(L, 1);
 	int destinationElement = luaL_checkint(L, 2);
 	if (movingElement < 0 || movingElement >= PT_NUM)
-		return luaL_error(L, "Invalid element ID (%d)", movingElement);
+		return luaL_error(L, "ID de elemento no válido (%d)", movingElement);
 	if (destinationElement < 0 || destinationElement >= PT_NUM)
-		return luaL_error(L, "Invalid element ID (%d)", destinationElement);
+		return luaL_error(L, "ID de elemento no válido (%d)", destinationElement);
 
 	if (lua_gettop(L) < 3)
 	{
@@ -1420,7 +1420,7 @@ static int brush(lua_State *L)
 
 	Brush *brush = lsi->gameModel->GetBrushByID(brushID);
 	if (!brush)
-		return luaL_error(L, "Invalid brush id '%d'", brushID);
+		return luaL_error(L, "ID de pincel no válido: '%d'", brushID);
 	auto newBrush = brush->Clone();
 	newBrush->SetRadius(ui::Point(brushradiusX, brushradiusY));
 	lua_pushnumber(L, positionX);
@@ -1513,11 +1513,11 @@ static int neighbors(lua_State *L)
 	int t = luaL_optint(L, 5, PT_NONE);
 	if (cx < 0 || cy < 0 || cx >= XRES || cy >= YRES)
 	{
-		return luaL_error(L, "Invalid position");
+		return luaL_error(L, "Posición no válida");
 	}
 	if (rx < 0 || ry < 0 || rx >= XRES || ry >= YRES)
 	{
-		return luaL_error(L, "Invalid radius");
+		return luaL_error(L, "Radio no válido");
 	}
 	lua_pushnumber(L, cx);
 	lua_pushnumber(L, cy);
@@ -1543,7 +1543,7 @@ static int pmap(lua_State *L)
 	int x = luaL_checkint(L, 1);
 	int y = luaL_checkint(L, 2);
 	if (x < 0 || x >= XRES || y < 0 || y >= YRES)
-		return luaL_error(L, "coordinates out of range (%d,%d)", x, y);
+		return luaL_error(L, "Coordenadas fuera de rango (%d,%d)", x, y);
 	int r = lsi->sim->pmap[y][x];
 	if (!TYP(r))
 		return 0;
@@ -1557,7 +1557,7 @@ static int photons(lua_State *L)
 	int x = luaL_checkint(L, 1);
 	int y = luaL_checkint(L, 2);
 	if (x < 0 || x >= XRES || y < 0 || y >= YRES)
-		return luaL_error(L, "coordinates out of range (%d,%d)", x, y);
+		return luaL_error(L, "Coordenadas fuera de rango (%d,%d)", x, y);
 	int r = lsi->sim->photons[y][x];
 	if (!TYP(r))
 		return 0;
@@ -1576,7 +1576,7 @@ static int frameRender(lua_State *L)
 	}
 	int frames = luaL_checkinteger(L, 1);
 	if (frames < 0)
-		return luaL_error(L, "Can't simulate a negative number of frames");
+		return luaL_error(L, "Cantidad de fotogramas negativa");
 	lsi->gameModel->SetQueuedFrames(frames);
 	return 0;
 }
@@ -1592,7 +1592,7 @@ static int golSpeedRatio(lua_State *L)
 	}
 	int gspeed = luaL_checkinteger(L, 1);
 	if (gspeed < 1)
-		return luaL_error(L, "GSPEED must be at least 1");
+		return luaL_error(L, "GSPEED debe ser al menos 1");
 	lsi->sim->GSPEED = gspeed;
 	return 0;
 }
@@ -1636,9 +1636,9 @@ static int replaceModeFlags(lua_State *L)
 	lsi->AssertInterfaceEvent();
 	unsigned int flags = luaL_checkinteger(L, 1);
 	if (flags & ~(REPLACE_MODE | SPECIFIC_DELETE))
-		return luaL_error(L, "Invalid flags");
+		return luaL_error(L, "Banderas no válidas");
 	if ((flags & REPLACE_MODE) && (flags & SPECIFIC_DELETE))
-		return luaL_error(L, "Cannot set replace mode and specific delete at the same time");
+		return luaL_error(L, "No se pueden activar a la vez el reemplazo y el borrado selectivo");
 	lsi->gameController->SetReplaceModeFlags(flags);
 	return 0;
 }
@@ -1711,14 +1711,14 @@ static int addCustomGol(lua_State *L)
 	unsigned int color2 = luaL_checkinteger(L, 4);
 
 	if (nameString.empty() || !ValidateGOLName(nameString))
-		return luaL_error(L, "Invalid name provided");
+		return luaL_error(L, "El nombre no es válido");
 	if (rule == -1)
-		return luaL_error(L, "Invalid rule provided");
+		return luaL_error(L, "La regla no es válida");
 	if (sd.GetCustomGOLByRule(rule))
-		return luaL_error(L, "This Custom GoL rule already exists");
+		return luaL_error(L, "Ya existe una regla de Vida igual");
 
 	if (!lsi->gameModel->AddCustomGol(ruleString, nameString, RGB::Unpack(color1), RGB::Unpack(color2)))
-		return luaL_error(L, "Duplicate name, cannot add");
+		return luaL_error(L, "No se pudo añadir. El nombre está duplicado.");
 	return 0;
 }
 
@@ -1760,7 +1760,7 @@ static int updateUpTo(lua_State *L)
 	}
 	if (upTo < -1 || upTo >= NPART) // -1 instead of 0 to allow for the empty range [0, -1] aka [0, 0)
 	{
-		return luaL_error(L, "ID not in valid range");
+		return luaL_error(L, "ID fuera de rango");
 	}
 	lsi->gameModel->SetQueuedFrames(1);
 	lsi->gameModel->UpdateUpTo(upTo + 1);
@@ -1778,7 +1778,7 @@ static int temperatureScale(lua_State *L)
 	}
 	int temperatureScale = luaL_checkinteger(L, 1);
 	if (temperatureScale < 0 || temperatureScale >= NUM_TEMPSCALES)
-		return luaL_error(L, "Invalid temperature scale");
+		return luaL_error(L, "Escala de temperatura no válida");
 	lsi->gameModel->SetTemperatureScale(TempScale(temperatureScale));
 	return 0;
 }
@@ -1796,7 +1796,7 @@ static int signsIndex(lua_State *L)
 
 	if (id < 0 || id >= MAXSIGNS)
 	{
-		luaL_error(L, "Invalid sign ID (stop messing with things): %i", id);
+		luaL_error(L, "ID de letrero no válido: %i", id);
 		return 0;
 	}
 	auto *sim = lsi->sim;
@@ -1858,12 +1858,12 @@ static int signsNewIndex(lua_State *L)
 
 	if (id < 0 || id >= MAXSIGNS)
 	{
-		luaL_error(L, "Invalid sign ID (stop messing with things)");
+		luaL_error(L, "ID de letrero no válido");
 		return 0;
 	}
 	if (id >= (int)sim->signs.size())
 	{
-		luaL_error(L, "Sign doesn't exist");
+		luaL_error(L, "El letrero no existe");
 	}
 
 	if (byteStringEqualsLiteral(key, "text"))
@@ -1873,7 +1873,7 @@ static int signsNewIndex(lua_State *L)
 		if (!cleaned.empty())
 			sim->signs[id].text = cleaned;
 		else
-			luaL_error(L, "Text is empty");
+			luaL_error(L, "El texto está vacío");
 		return 0;
 	}
 	else if (byteStringEqualsLiteral(key, "justification"))
@@ -1882,7 +1882,7 @@ static int signsNewIndex(lua_State *L)
 		if (ju >= 0 && ju <= 3)
 			return sim->signs[id].ju = (sign::Justification)ju, 1;
 		else
-			luaL_error(L, "Invalid justification");
+			luaL_error(L, "Justificación no válida");
 		return 0;
 	}
 	else if (byteStringEqualsLiteral(key, "x"))
@@ -1891,7 +1891,7 @@ static int signsNewIndex(lua_State *L)
 		if (x >= 0 && x < XRES)
 			return sim->signs[id].x = x, 1;
 		else
-			luaL_error(L, "Invalid X coordinate");
+			luaL_error(L, "Coordenada X no válida");
 		return 0;
 	}
 	else if (byteStringEqualsLiteral(key, "y"))
@@ -1900,7 +1900,7 @@ static int signsNewIndex(lua_State *L)
 		if (y >= 0 && y < YRES)
 			return sim->signs[id].y = y, 1;
 		else
-			luaL_error(L, "Invalid Y coordinate");
+			luaL_error(L, "Coordenada Y no válida");
 		return 0;
 	}
 	else if (byteStringEqualsLiteral(key, "displayText") ||
@@ -1909,7 +1909,7 @@ static int signsNewIndex(lua_State *L)
 	         byteStringEqualsLiteral(key, "width") ||
 	         byteStringEqualsLiteral(key, "height"))
 	{
-		luaL_error(L, "That property can't be directly set");
+		luaL_error(L, "Esa propiedad no se puede modificar directamente");
 	}
 	return 0;
 }
@@ -1927,11 +1927,11 @@ static int Sign_new(lua_State *L)
 	int y = luaL_checkinteger(L, 3);
 	int ju = luaL_optinteger(L, 4, 1);
 	if (ju < 0 || ju > 3)
-		return luaL_error(L, "Invalid justification");
+		return luaL_error(L, "Justificación no válida");
 	if (x < 0 || x >= XRES)
-		return luaL_error(L, "Invalid X coordinate");
+		return luaL_error(L, "Coordenada X no válida");
 	if (y < 0 || y >= YRES)
-		return luaL_error(L, "Invalid Y coordinate");
+		return luaL_error(L, "Coordenada Y no válida");
 
 	lsi->sim->signs.push_back(sign(text, x, y, (sign::Justification)ju));
 
@@ -1946,7 +1946,7 @@ static int Sign_delete(lua_State *L)
 	lsi->AssertInterfaceEvent();
 	int signID = luaL_checkinteger(L, 1);
 	if (signID <= 0 || signID > (int)lsi->sim->signs.size())
-		return luaL_error(L, "Sign doesn't exist");
+		return luaL_error(L, "El letrero no existe");
 
 	lsi->sim->signs.erase(lsi->sim->signs.begin()+signID-1);
 	return 1;

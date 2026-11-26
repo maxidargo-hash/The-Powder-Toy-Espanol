@@ -29,7 +29,7 @@ void Element::Element_CO2()
 	Weight = 1;
 
 	HeatConduct = 88;
-	Description = "Carbon Dioxide. Heavy gas, drifts downwards. Carbonates water and turns to dry ice when cold.";
+	Description = "Dióxido de carbono. Gas pesado que desciende, carbonata el agua y se solidifica en hielo seco al enfriarse.";
 
 	Properties = TYPE_GAS;
 

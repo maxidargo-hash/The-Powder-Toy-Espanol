@@ -30,7 +30,7 @@ void Element::Element_FRZZ()
 
 	DefaultProperties.temp = 253.15f;
 	HeatConduct = 46;
-	Description = "Freeze powder. When melted, forms ice that always cools. Spreads with regular water.";
+	Description = "Polvo congelante. Al fundirse forma hielo que enfría de manera constante. Se propaga con agua normal.";
 
 	Properties = TYPE_PART;
 

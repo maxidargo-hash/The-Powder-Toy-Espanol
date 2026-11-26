@@ -27,7 +27,7 @@ void Element::Element_SALT()
 	Weight = 75;
 
 	HeatConduct = 110;
-	Description = "Salt, dissolves in water.";
+	Description = "Sal. Se disuelve en agua.";
 
 	Properties = TYPE_PART;
 

@@ -31,7 +31,7 @@ void Element::Element_DLAY()
 
 	DefaultProperties.temp = 4.0f + 273.15f;
 	HeatConduct = 0;
-	Description = "Conducts with temperature-dependent delay. (use HEAT/COOL).";
+	Description = "Conduce con un retraso que depende de la temperatura. Usa HEAT o COOL.";
 
 	Properties = TYPE_SOLID;
 

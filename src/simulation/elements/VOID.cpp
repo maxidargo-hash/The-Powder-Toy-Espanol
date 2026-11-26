@@ -27,7 +27,7 @@ void Element::Element_VOID()
 	Weight = 100;
 
 	HeatConduct = 251;
-	Description = "Hole, will drain away any particles.";
+	Description = "Agujero que elimina las partículas que caen en él.";
 
 	Properties = TYPE_SOLID;
 

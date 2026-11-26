@@ -30,7 +30,7 @@ void Element::Element_PSNS()
 
 	DefaultProperties.temp = 4.0f + 273.15f;
 	HeatConduct = 0;
-	Description = "Pressure sensor, creates a spark when the pressure is greater than its temperature.";
+	Description = "Sensor de presión. Genera una chispa si la presión supera la temperatura del sensor.";
 
 	Properties = TYPE_SOLID;
 

@@ -31,7 +31,7 @@ void Element::Element_VRSG()
 
 	DefaultProperties.temp = 522.0f + 273.15f;
 	HeatConduct = 251;
-	Description = "Gas Virus. Turns everything it touches into virus.";
+	Description = "Virus gaseoso. Convierte en virus todo lo que toca.";
 
 	Properties = TYPE_GAS|PROP_DEADLY;
 	CarriesTypeIn = 1U << FIELD_TMP2;

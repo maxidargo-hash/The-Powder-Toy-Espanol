@@ -66,7 +66,7 @@ namespace http
 		}
 		catch (const std::exception &ex)
 		{
-			throw RequestError("Could not read response: " + ByteString(ex.what()));
+			throw RequestError("No se pudo leer la respuesta: " + ByteString(ex.what()));
 		}
 		return saveInfo;
 	}

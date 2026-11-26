@@ -86,7 +86,7 @@ ByteString &ByteString::Substitute(ByteString const &needle, ByteString const &r
 
 String ByteString::FromUtf8(bool ignoreError) const
 {
-	std::vector<String::value_type> destination;
+	String destination;
 	destination.reserve(size());
 	std::make_unsigned<value_type>::type const *from = reinterpret_cast<std::make_unsigned<value_type>::type const *>(data());
 	for(size_t i = 0; i < size(); )
@@ -132,7 +132,7 @@ String ByteString::FromUtf8(bool ignoreError) const
 		else
 			throw ConversionError(data() + i, data() + size());
 	}
-	return String(destination.data(), destination.size());
+	return destination;
 }
 
 std::vector<String> String::PartitionBy(value_type ch, bool includeEmpty) const

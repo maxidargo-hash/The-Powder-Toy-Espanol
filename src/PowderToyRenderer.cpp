@@ -17,7 +17,7 @@
 int main(int argc, char *argv[])
 {
 	if (!argv[1] || !argv[2]) {
-		std::cout << "Usage: " << argv[0] << " <inputFilename> <outputPrefix>" << std::endl;
+		std::cout << "Uso: " << argv[0] << " <archivoDeEntrada> <prefijoDeSalida>" << std::endl;
 		return 1;
 	}
 	auto inputFilename = ByteString(argv[1]);
@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 	catch (ParseException &e)
 	{
 		//Render the save again later or something? I don't know
-		if (ByteString(e.what()).FromUtf8() == "Save from newer version")
+		if (ByteString(e.what()).FromUtf8() == "Partida de una versión más reciente")
 			throw e;
 	}
 
@@ -63,9 +63,9 @@ int main(int argc, char *argv[])
 	else
 	{
 		ren->Clear();
-		int w = Graphics::TextSize("Save file invalid").X + 15, x = (XRES-w)/2, y = (YRES-24)/2;
+		int w = Graphics::TextSize("Archivo de partida no válido").X + 15, x = (XRES-w)/2, y = (YRES-24)/2;
 		ren->DrawRect(RectSized(Vec2{ x, y }, Vec2{ w, 24 }), 0xC0C0C0_rgb);
-		ren->BlendText({ x+8, y+8 }, "Save file invalid", 0xC0C0F0_rgb .WithAlpha(255));
+		ren->BlendText({ x+8, y+8 }, "Archivo de partida no válido", 0xC0C0F0_rgb .WithAlpha(255));
 	}
 
 	auto &video = ren->GetVideo();

@@ -36,7 +36,7 @@ void Element::Element_PSTN()
 
 	DefaultProperties.temp = 10.0f + 273.15f;
 	HeatConduct = 0;
-	Description = "Piston, pushes particles. PSCN extends, NSCN retracts";
+	Description = "Pistón. Empuja partículas. PSCN lo extiende y NSCN lo retrae.";
 
 	Properties = TYPE_SOLID;
 	CarriesTypeIn = 1U << FIELD_CTYPE;

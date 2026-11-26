@@ -30,7 +30,7 @@ void Element::Element_HSWC()
 	Weight = 100;
 
 	HeatConduct = 251;
-	Description = "Heat switch. Conducts heat only when activated.";
+	Description = "Interruptor térmico. Conduce calor solo si está activado.";
 
 	Properties = TYPE_SOLID;
 

@@ -164,7 +164,7 @@ int LuaWindow::position(lua_State *L)
 
 		if (posX < 1 || posY < 1)
 		{
-			return luaL_error(L, "Invalid position: '%d,%d'", posX, posY);
+			return luaL_error(L, "Posición no válida: '%d,%d'", posX, posY);
 		}
 		window->Position = ui::Point(posX, posY);
 		return 0;
@@ -189,7 +189,7 @@ int LuaWindow::size(lua_State *L)
 
 		if (sizeX < 10 || sizeY < 10)
 		{
-			return luaL_error(L, "Invalid size: '%d,%d'", sizeX, sizeY);
+			return luaL_error(L, "Tamaño no válido: '%d,%d'", sizeX, sizeY);
 		}
 		window->Size = ui::Point(sizeX, sizeY);
 		return 0;

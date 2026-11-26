@@ -16,7 +16,7 @@
 
 static int atPanic(lua_State *L)
 {
-	throw std::runtime_error("Unprotected lua panic: " + tpt_lua_toByteString(L, -1));
+	throw std::runtime_error("Fallo de Lua sin protección: " + tpt_lua_toByteString(L, -1));
 }
 
 static int osExit(lua_State *L)
@@ -49,7 +49,7 @@ static int mathRandom(lua_State *L)
 	}
 	if (upper < lower)
 	{
-		luaL_error(L, "interval is empty");
+		luaL_error(L, "El intervalo está vacío");
 	}
 	if (lower >= INT32_MIN && upper <= INT32_MAX)
 	{
@@ -86,7 +86,7 @@ static void hook(lua_State *L, lua_Debug * ar)
 	auto *lsi = GetLSI();
 	if (ar->event == LUA_HOOKCOUNT && int(Platform::GetTime() - lsi->luaExecutionStart) > lsi->luaHookTimeout)
 	{
-		luaL_error(L, "Error: Script not responding");
+		luaL_error(L, "Error: el script no responde");
 		lsi->luaExecutionStart = Platform::GetTime();
 	}
 }
@@ -120,7 +120,7 @@ String LuaGetError()
 {
 	auto *lsi = GetLSI();
 	LuaToLoggableString(lsi->L, -1);
-	String err = tpt_lua_optString(lsi->L, -1, "failed to execute");
+	String err = tpt_lua_optString(lsi->L, -1, "no se pudo ejecutar");
 	lua_pop(lsi->L, 1);
 	return err;
 }
@@ -184,7 +184,7 @@ LuaScriptInterface::LuaScriptInterface(GameController *newGameController, GameMo
 	auto compatSpan = compat_lua.AsCharSpan();
 	if (luaL_loadbuffer(L, compatSpan.data(), compatSpan.size(), "@[built-in compat.lua]") || tpt_lua_pcall(L, 0, 0, 0, eventTraitNone))
 	{
-		throw std::runtime_error(ByteString("failed to load built-in compat: ") + tpt_lua_toByteString(L, -1));
+		throw std::runtime_error(ByteString("no se pudo cargar el script de compatibilidad integrado: ") + tpt_lua_toByteString(L, -1));
 	}
 }
 
@@ -217,7 +217,7 @@ int LuaScriptInterface::Autorun()
 {
 	if (!Platform::FileExists("autorun.lua"))
 	{
-		lua_pushliteral(L, "autorun.lua not found");
+		lua_pushliteral(L, "No se encontró autorun.lua");
 		return 1;
 	}
 	if (luaL_loadfile(L, "autorun.lua") || tpt_lua_pcall(L, 0, 0, 0, eventTraitInterface))
@@ -225,7 +225,7 @@ int LuaScriptInterface::Autorun()
 		Log(CommandInterface::LogError, LuaGetError());
 		return 1;
 	}
-	Log(CommandInterface::LogWarning, "Loaded autorun.lua");
+	Log(CommandInterface::LogWarning, "Se cargó autorun.lua");
 	return 0;
 }
 
@@ -439,7 +439,7 @@ bool CommandInterface::HandleEvent(const GameControllerEvent &event)
 			auto err = LuaGetError();
 			lua_pop(L, 1);
 			Log(CommandInterface::LogError, err);
-			if (err == "Error: Script not responding")
+			if (err == "Error: el script no responde")
 			{
 				lsi->RemoveEventHandler(eventType, -1);
 			}

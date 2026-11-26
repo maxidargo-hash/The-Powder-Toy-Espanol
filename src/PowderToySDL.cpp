@@ -133,7 +133,7 @@ void SDLOpen()
 {
 	if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
 	{
-		fprintf(stderr, "Initializing SDL (video subsystem): %s\n", SDL_GetError());
+		fprintf(stderr, "Iniciando SDL (subsistema de vídeo): %s\n", SDL_GetError());
 		Platform::Exit(-1);
 	}
 	Clipboard::Init();
@@ -251,7 +251,7 @@ void SDLSetScreen()
 		sdl_window = SDL_CreateWindow(APPNAME, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, size.X, size.Y, flags);
 		if (!sdl_window)
 		{
-			fprintf(stderr, "SDL_CreateWindow failed: %s\n", SDL_GetError());
+			fprintf(stderr, "Falló SDL_CreateWindow: %s\n", SDL_GetError());
 			Platform::Exit(-1);
 		}
 		if constexpr (SET_WINDOW_ICON)
@@ -263,7 +263,7 @@ void SDLSetScreen()
 		sdl_renderer = SDL_CreateRenderer(sdl_window, -1, rendererFlags);
 		if (!sdl_renderer)
 		{
-			fprintf(stderr, "SDL_CreateRenderer failed; available renderers:\n");
+			fprintf(stderr, "Falló SDL_CreateRenderer. Motores gráficos disponibles:\n");
 			int num = SDL_GetNumRenderDrivers();
 			for (int i = 0; i < num; ++i)
 			{
@@ -277,7 +277,7 @@ void SDLSetScreen()
 		sdl_texture = SDL_CreateTexture(sdl_renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, WINDOWW, WINDOWH);
 		if (!sdl_texture)
 		{
-			fprintf(stderr, "SDL_CreateTexture failed: %s\n", SDL_GetError());
+			fprintf(stderr, "Falló SDL_CreateTexture: %s\n", SDL_GetError());
 			Platform::Exit(-1);
 		}
 		SDL_RaiseWindow(sdl_window);

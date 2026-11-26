@@ -30,7 +30,7 @@ void Element::Element_FWRK()
 	Weight = 97;
 
 	HeatConduct = 100;
-	Description = "Original version of fireworks, activated by heat/neutrons.";
+	Description = "Versión original de los fuegos artificiales. Se activan con calor o neutrones.";
 
 	Properties = TYPE_PART|PROP_LIFE_DEC;
 	CarriesTypeIn = 1U << FIELD_CTYPE;

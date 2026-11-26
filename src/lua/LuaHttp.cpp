@@ -44,7 +44,7 @@ private:
 		}
 		catch (std::exception &e)
 		{
-			std::cerr << "bad auth response: " << e.what() << std::endl;
+			std::cerr << "Respuesta de autenticación no válida: " << e.what() << std::endl;
 		}
 		return { 600, {} };
 	}
@@ -61,7 +61,7 @@ public:
 		if (type == getAuthToken && !authUser)
 		{
 			lua_pushnil(L);
-			lua_pushliteral(L, "not authenticated");
+			lua_pushliteral(L, "Debes iniciar sesión");
 			return 2;
 		}
 		auto *rh = (RequestHandle *)lua_newuserdata(L, sizeof(RequestHandle));
@@ -295,13 +295,13 @@ static int request(lua_State *L, bool isPost)
 					lua_rawgeti(L, 2, i + 1);
 					if (!lua_istable(L, -1))
 					{
-						luaL_error(L, "form item %i is not a table", i + 1);
+						luaL_error(L, "El elemento %i del formulario debe ser una tabla", i + 1);
 					}
 					{
 						lua_rawgeti(L, -1, 1);
 						if (!lua_isstring(L, -1))
 						{
-							luaL_error(L, "name of form item %i is not a string", i + 1);
+							luaL_error(L, "El nombre del elemento %i del formulario debe ser una cadena", i + 1);
 						}
 						formItem.name = tpt_lua_toByteString(L, -1);
 						lua_pop(L, 1);
@@ -310,7 +310,7 @@ static int request(lua_State *L, bool isPost)
 						lua_rawgeti(L, -1, 2);
 						if (!lua_isstring(L, -1))
 						{
-							luaL_error(L, "value of form item %i is not a string", i + 1);
+							luaL_error(L, "El valor del elemento %i del formulario debe ser una cadena", i + 1);
 						}
 						formItem.value = tpt_lua_toByteString(L, -1);
 						lua_pop(L, 1);
@@ -321,7 +321,7 @@ static int request(lua_State *L, bool isPost)
 						{
 							if (!lua_isstring(L, -1))
 							{
-								luaL_error(L, "filename of form item %i is not a string", i + 1);
+								luaL_error(L, "El nombre de archivo del elemento %i del formulario debe ser una cadena", i + 1);
 							}
 							formItem.filename = tpt_lua_toByteString(L, -1);
 						}
@@ -333,7 +333,7 @@ static int request(lua_State *L, bool isPost)
 						{
 							if (!lua_isstring(L, -1))
 							{
-								luaL_error(L, "content type of form item %i is not a string", i + 1);
+								luaL_error(L, "El tipo de contenido del elemento %i del formulario debe ser una cadena", i + 1);
 							}
 							formItem.contentType = tpt_lua_toByteString(L, -1);
 						}
@@ -368,19 +368,19 @@ static int request(lua_State *L, bool isPost)
 				lua_rawgeti(L, headersIndex, i + 1);
 				if (!lua_istable(L, -1))
 				{
-					luaL_error(L, "header %i is not a table", i + 1);
+					luaL_error(L, "La cabecera %i debe ser una tabla", i + 1);
 				}
 				lua_rawgeti(L, -1, 1);
 				if (!lua_isstring(L, -1))
 				{
-					luaL_error(L, "name of header %i is not a string", i + 1);
+					luaL_error(L, "El nombre de la cabecera %i debe ser una cadena", i + 1);
 				}
 				auto name = tpt_lua_toByteString(L, -1);
 				lua_pop(L, 1);
 				lua_rawgeti(L, -1, 2);
 				if (!lua_isstring(L, -1))
 				{
-					luaL_error(L, "value of header %i is not a string", i + 1);
+					luaL_error(L, "El valor de la cabecera %i debe ser una cadena", i + 1);
 				}
 				auto value = tpt_lua_toByteString(L, -1);
 				lua_pop(L, 1);

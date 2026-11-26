@@ -11,18 +11,18 @@ namespace http
 		auto [ fromNewerVersion, gameData ] = saveInfo.GetGameSave()->Serialise();
 		if (!gameData.size())
 		{
-			FailEarly("Cannot serialize game save");
+			FailEarly("No se pudo serializar la partida");
 			return;
 		}
 		else if (ALLOW_FAKE_NEWER_VERSION && fromNewerVersion && saveInfo.GetPublished())
 		{
-			FailEarly("Cannot publish save, incompatible with latest release version");
+			FailEarly("No se puede publicar la partida porque es incompatible con la última versión estable");
 			return;
 		}
 		auto user = Client::Ref().GetAuthUser();
 		if (!user)
 		{
-			FailEarly("Not authenticated");
+			FailEarly("Debes iniciar sesión");
 			return;
 		}
 		AuthHeaders(ByteString::Build(user->UserID), user->SessionID);
@@ -42,7 +42,7 @@ namespace http
 		int saveID = ByteString(data.begin() + 3, data.end()).ToNumber<int>();
 		if (!saveID)
 		{
-			throw RequestError("Server did not return Save ID");
+			throw RequestError("El servidor no devolvió el ID de la partida");
 		}
 		return saveID;
 	}

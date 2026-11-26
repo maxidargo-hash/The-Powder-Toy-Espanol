@@ -4,7 +4,7 @@
 
 void NonGraphicsContext::Die()
 {
-	luaL_error(GetLSI()->L, "this functionality is restricted to graphics events");
+	luaL_error(GetLSI()->L, "Esta función solo se puede usar en eventos gráficos");
 }
 
 void NonGraphicsContext::BlendPixel(Vec2<int>, RGBA)
@@ -309,7 +309,7 @@ static int setClipRect(lua_State *L)
 	auto *lsi = GetLSI();
 	if (lsi->eventTraits & eventTraitSimGraphics)
 	{
-		return luaL_error(L, "simulation graphics do not support clip rects");
+		return luaL_error(L, "Los gráficos de la simulación no admiten rectángulos de recorte");
 	}
 	if (!(lsi->eventTraits & eventTraitInterfaceGraphics))
 	{

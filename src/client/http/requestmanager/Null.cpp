@@ -11,7 +11,7 @@ namespace http
 	void RequestManager::RegisterRequestImpl(Request &request)
 	{
 		request.handle->statusCode = 604;
-		request.handle->error = "network support not compiled in";
+		request.handle->error = "La compilación no incluye acceso a la red";
 		request.handle->MarkDone();
 	}
 

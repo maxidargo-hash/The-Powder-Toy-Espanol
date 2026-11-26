@@ -29,7 +29,7 @@ void Element::Element_COAL()
 	Weight = 100;
 
 	HeatConduct = 200;
-	Description = "Coal, Burns very slowly. Gets red when hot.";
+	Description = "Carbón. Arde muy lentamente. Se pone rojo al calentarse.";
 
 	Properties = TYPE_SOLID;
 

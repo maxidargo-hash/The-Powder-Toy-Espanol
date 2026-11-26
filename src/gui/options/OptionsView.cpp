@@ -77,7 +77,7 @@ public:
 		direction->SetSnapPoints(5, 5, 2);
 		AddComponent(direction);
 
-		ui::Button * okayButton = new ui::Button(ui::Point(0, Size.Y - 17), ui::Point(Size.X, 17), "OK");
+		ui::Button * okayButton = new ui::Button(ui::Point(0, Size.Y - 17), ui::Point(Size.X, 17), "Aceptar");
 		okayButton->Appearance.HorizontalAlign = ui::Appearance::AlignCentre;
 		okayButton->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 		okayButton->Appearance.BorderInactive = ui::Colour(200, 200, 200);
@@ -237,16 +237,16 @@ OptionsView::OptionsView() : ui::Window(ui::Point(-1, -1), ui::Point(320, 340))
 		return std::make_pair(textbox, preview);
 	};
 
-	heatSimulation = addCheckbox(0, "Heat simulation \bgIntroduced in version 34", "Can cause odd behaviour when disabled", [this] {
+	heatSimulation = addCheckbox(0, "Simulación térmica \bg(desde la versión 34)", "Pueden aparecer comportamientos extraños al desactivarla", [this] {
 		c->SetHeatSimulation(heatSimulation->GetChecked());
 	});
-	newtonianGravity = addCheckbox(0, "Newtonian gravity \bgIntroduced in version 48", "May cause poor performance on older computers", [this] {
+	newtonianGravity = addCheckbox(0, "Gravedad newtoniana \bg(desde la versión 48)", "Puede ralentizar equipos antiguos", [this] {
 		c->SetNewtonianGravity(newtonianGravity->GetChecked());
 	});
-	ambientHeatSimulation = addCheckbox(0, "Ambient heat simulation \bgIntroduced in version 50", "Can cause odd / broken behaviour with many saves", [this] {
+	ambientHeatSimulation = addCheckbox(0, "Calor ambiental \bg(desde la versión 50)", "Puede alterar el comportamiento de muchas partidas", [this] {
 		c->SetAmbientHeatSimulation(ambientHeatSimulation->GetChecked());
 	});
-	waterEqualisation = addCheckbox(0, "Water equalisation \bgIntroduced in version 61", "May cause poor performance with a lot of water", [this] {
+	waterEqualisation = addCheckbox(0, "Nivelación del agua \bg(desde la versión 61)", "Puede ralentizar la simulación si hay mucha agua", [this] {
 		c->SetWaterEqualisation(waterEqualisation->GetChecked());
 	});
 	airMode = addDropDown("Modo de simulación del aire", {
@@ -331,7 +331,7 @@ OptionsView::OptionsView() : ui::Window(ui::Point(-1, -1), ui::Point(320, 340))
 	}, [this](bool defocus) {
 		UpdateDrawLimit(defocus);
 	});
-	addButtonWithLabel("Restablecer", " - Set both limits to sane defaults", [this]{
+	addButtonWithLabel("Restablecer", " - Restaura ambos límites de FPS", [this]{
 		c->SetFpsLimit(DefaultFpsLimit);
 		c->SetDrawLimit(DefaultDrawLimit);
 	});
@@ -355,7 +355,7 @@ OptionsView::OptionsView() : ui::Window(ui::Point(-1, -1), ui::Point(320, 340))
 		while (desktopWidth >= GetGraphics()->Size().X * scaleIndex && desktopHeight >= GetGraphics()->Size().Y * scaleIndex);
 		if (!currentScaleValid)
 		{
-			options.push_back({ "current", currentScale });
+			options.push_back({ "actual", currentScale });
 		}
 		scale = addDropDown("Escala de ventana para pantallas grandes", options, [this] {
 			c->SetScale(scale->GetOption().second);
@@ -363,20 +363,20 @@ OptionsView::OptionsView() : ui::Window(ui::Point(-1, -1), ui::Point(320, 340))
 	}
 	if (FORCE_WINDOW_FRAME_OPS == forceWindowFrameOpsNone)
 	{
-		resizable = addCheckbox(0, "Resizable \bg- allow resizing and maximizing window", "", [this] {
+		resizable = addCheckbox(0, "Ventana redimensionable \bg- permite cambiar su tamaño y maximizarla", "", [this] {
 			c->SetResizable(resizable->GetChecked());
 		});
-		fullscreen = addCheckbox(0, "Fullscreen \bg- fill the entire screen", "", [this] {
+		fullscreen = addCheckbox(0, "Pantalla completa \bg- ocupa toda la pantalla", "", [this] {
 			c->SetFullscreen(fullscreen->GetChecked());
 		});
 		changeResolution = addCheckbox(1, "Ajustar resolución óptima", "", [this] {
 			c->SetChangeResolution(changeResolution->GetChecked());
 		});
-		forceIntegerScaling = addCheckbox(1, "Force integer scaling \bg- less blurry", "", [this] {
+		forceIntegerScaling = addCheckbox(1, "Escala entera \bg- imagen más nítida", "", [this] {
 			c->SetForceIntegerScaling(forceIntegerScaling->GetChecked());
 		});
 	}
-	blurryScaling = addCheckbox(0, "Blurry scaling \bg- more blurry, better on very big screens", "", [this] {
+	blurryScaling = addCheckbox(0, "Escala suavizada \bg- útil en pantallas muy grandes", "", [this] {
 		c->SetBlurryScaling(blurryScaling->GetChecked());
 	});
 	addSeparator();
@@ -385,7 +385,7 @@ OptionsView::OptionsView() : ui::Window(ui::Point(-1, -1), ui::Point(320, 340))
 		fastquit = addCheckbox(0, "Salida rápida", "Cerrar siempre por completo", [this] {
 			c->SetFastQuit(fastquit->GetChecked());
 		});
-		globalQuit = addCheckbox(0, "Atajo global de salida", "Ctrl+q works everywhere", [this] {
+		globalQuit = addCheckbox(0, "Atajo global de salida", "Ctrl+Q funciona en todas las pantallas", [this] {
 			c->SetGlobalQuit(globalQuit->GetChecked());
 		});
 	}
@@ -404,7 +404,7 @@ OptionsView::OptionsView() : ui::Window(ui::Point(-1, -1), ui::Point(320, 340))
 	perfectCircle = addCheckbox(0, "Pincel circular perfecto", "Pincel circular sin puntos incorrectos en bordes", [this] {
 		c->SetPerfectCircle(perfectCircle->GetChecked());
 	});
-	graveExitsConsole = addCheckbox(0, "Tecla bajo Esc cierra la consola", "Disable if that key is 0 on your keyboard", [this] {
+	graveExitsConsole = addCheckbox(0, "Tecla bajo Esc cierra la consola", "Desactívala si esa tecla es el 0 en tu teclado", [this] {
 		c->SetGraveExitsConsole(graveExitsConsole->GetChecked());
 	});
 	if constexpr (PLATFORM_CLIPBOARD)
@@ -444,7 +444,7 @@ OptionsView::OptionsView() : ui::Window(ui::Point(-1, -1), ui::Point(320, 340))
 			}
 			else
 			{
-				std::cerr << "Cannot open data folder: Platform::GetCwd(...) failed" << std::endl;
+				std::cerr << "No se pudo abrir la carpeta de datos: falló Platform::GetCwd(...)" << std::endl;
 			}
 		} });
 		scrollPanel->AddChild(dataFolderButton);
@@ -454,7 +454,7 @@ OptionsView::OptionsView() : ui::Window(ui::Point(-1, -1), ui::Point(320, 340))
 			migrationButton->SetActionCallback({ [] {
 				ByteString from = Platform::originalCwd;
 				ByteString to = Platform::sharedCwd;
-				new ConfirmPrompt("Do Migration?", "This will migrate all stamps, saves, and scripts from\n\bt" + from.FromUtf8() + "\bw\nto the shared data directory at\n\bt" + to.FromUtf8() + "\bw\n\n" + "Files that already exist will not be overwritten.", { [from, to]() {
+				new ConfirmPrompt("¿Migrar los datos?", "Se migrarán todos los sellos, partidas y scripts de\n\bt" + from.FromUtf8() + "\bw\na la carpeta de datos compartida en\n\bt" + to.FromUtf8() + "\bw\n\n" + "Se conservarán los archivos que ya existan en el destino.", { [from, to]() {
 					String ret = Client::Ref().DoMigration(from, to);
 					new InformationMessage("Migración completa", ret, false);
 				} });
@@ -466,7 +466,7 @@ OptionsView::OptionsView() : ui::Window(ui::Point(-1, -1), ui::Point(320, 340))
 	String autoStartupRequestNote = "Una vez al iniciar";
 	if (!IGNORE_UPDATES)
 	{
-		autoStartupRequestNote += ", also checks for updates";
+		autoStartupRequestNote += " y busca actualizaciones";
 	}
 	autoStartupRequest = addCheckbox(0, "Obtener mensaje del día y notificaciones", autoStartupRequestNote, [this] {
 		auto checked = autoStartupRequest->GetChecked();
@@ -480,17 +480,17 @@ OptionsView::OptionsView() : ui::Window(ui::Point(-1, -1), ui::Point(320, 340))
 		Client::Ref().BeginStartupRequest();
 	});
 	UpdateStartupRequestStatus();
-	redirectStd = addCheckbox(0, "Guardar errores y mensajes en un archivo", "Developers may ask for this when trying to fix problems", [this] {
+	redirectStd = addCheckbox(0, "Guardar errores y mensajes en un archivo", "El equipo de desarrollo puede pedirte ese archivo para diagnosticar problemas", [this] {
 		c->SetRedirectStd(redirectStd->GetChecked());
 	});
 	addSeparator();
-	addButtonWithLabel("Créditos", " - Find out who contributed to TPT", []{
+	addButtonWithLabel("Créditos", " - Conoce a quienes contribuyeron a TPT", []{
 		auto *credits = new Credits();
 		ui::Engine::Ref().ShowWindow(credits);
 	});
 
 	{
-		ui::Button *ok = new ui::Button(ui::Point(0, Size.Y-16), ui::Point(Size.X, 16), "OK");
+		ui::Button *ok = new ui::Button(ui::Point(0, Size.Y-16), ui::Point(Size.X, 16), "Aceptar");
 		ok->SetActionCallback({ [this] {
 			c->Exit();
 		} });
@@ -558,15 +558,15 @@ void OptionsView::UpdateStartupRequestStatus()
 	switch (Client::Ref().GetStartupRequestStatus())
 	{
 	case Client::StartupRequestStatus::notYetDone:
-		startupRequestStatus->SetText("\bg - Not yet fetched");
+		startupRequestStatus->SetText("\bg - Pendiente");
 		break;
 
 	case Client::StartupRequestStatus::inProgress:
-		startupRequestStatus->SetText("\bg - In progress...");
+		startupRequestStatus->SetText("\bg - En curso...");
 		break;
 
 	case Client::StartupRequestStatus::succeeded:
-		startupRequestStatus->SetText(String::Build("\bg - OK, ", Client::Ref().GetServerNotifications().size(), " notifications fetched"));
+		startupRequestStatus->SetText(String::Build("\bg - OK, ", Client::Ref().GetServerNotifications().size(), " notificaciones recibidas"));
 		break;
 
 	case Client::StartupRequestStatus::failed:
@@ -576,7 +576,7 @@ void OptionsView::UpdateStartupRequestStatus()
 			{
 				error = "???";
 			}
-			startupRequestStatus->SetText("\bg - Failed: " + error->FromUtf8());
+			startupRequestStatus->SetText("\bg - Falló: " + error->FromUtf8());
 		}
 		break;
 	}

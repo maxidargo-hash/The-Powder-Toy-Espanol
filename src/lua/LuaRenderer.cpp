@@ -59,7 +59,7 @@ static int useDisplayPreset(lua_State *L)
 	}
 	if (cmode < 0 || cmode >= int(Renderer::renderModePresets.size()))
 	{
-		return luaL_error(L, "Invalid display preset");
+		return luaL_error(L, "Modo de visualización no válido");
 	}
 	lsi->gameController->LoadRenderPreset(cmode);
 	return 0;
@@ -154,7 +154,7 @@ static int showBrush(lua_State *L)
 static int depth3d(lua_State *L)
 {
 	GetLSI()->AssertInterfaceEvent();
-	return luaL_error(L, "This feature is no longer supported");
+	return luaL_error(L, "Esta función ya no es compatible");
 }
 
 static int zoomEnabled(lua_State *L)
@@ -191,11 +191,11 @@ static int zoomWindow(lua_State *L)
 	int y = luaL_optint(L, 2, 0);
 	int f = luaL_optint(L, 3, 0);
 	if (f <= 0)
-		return luaL_error(L, "Zoom factor must be greater than 0");
+		return luaL_error(L, "El factor de zoom debe ser mayor que 0");
 
 	// To prevent crash when zoom window is outside screen
 	if (x < 0 || y < 0 || lsi->g->zoomScopeSize * f + x > XRES || lsi->g->zoomScopeSize * f + y > YRES)
-		return luaL_error(L, "Zoom window outside of bounds");
+		return luaL_error(L, "La ventana de zoom está fuera de los límites");
 
 	lsi->g->zoomWindowPosition = ui::Point(x, y);
 	lsi->g->ZFACTOR = f;
@@ -218,15 +218,15 @@ static int zoomScope(lua_State *L)
 	int y = luaL_optint(L, 2, 0);
 	int s = luaL_optint(L, 3, 0);
 	if (s <= 0)
-		return luaL_error(L, "Zoom scope size must be greater than 0");
+		return luaL_error(L, "El área de zoom debe ser mayor que 0");
 
 	// To prevent crash when zoom or scope window is outside screen
 	int windowEdgeRight = lsi->g->ZFACTOR * s + lsi->g->zoomWindowPosition.X;
 	int windowEdgeBottom = lsi->g->ZFACTOR * s + lsi->g->zoomWindowPosition.Y;
 	if (x < 0 || y < 0 || x + s > XRES || y + s > YRES)
-		return luaL_error(L, "Zoom scope outside of bounds");
+		return luaL_error(L, "El área de zoom está fuera de los límites");
 	if (windowEdgeRight > XRES || windowEdgeBottom > YRES)
-		return luaL_error(L, "Zoom window outside of bounds");
+		return luaL_error(L, "La ventana de zoom está fuera de los límites");
 
 	lsi->g->zoomScopePosition = ui::Point(x, y);
 	lsi->g->zoomScopeSize = s;

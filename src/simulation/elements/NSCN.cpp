@@ -28,7 +28,7 @@ void Element::Element_NSCN()
 	Weight = 100;
 
 	HeatConduct = 251;
-	Description = "N-Type Silicon, Will not transfer current to P-Type Silicon. Disables powered materials.";
+	Description = "Silicio de tipo N. No transmite corriente al silicio de tipo P. Desactiva materiales eléctricos.";
 
 	Properties = TYPE_SOLID|PROP_CONDUCTS|PROP_LIFE_DEC;
 

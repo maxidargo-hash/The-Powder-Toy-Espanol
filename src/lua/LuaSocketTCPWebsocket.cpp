@@ -160,7 +160,7 @@ static int Send(lua_State *L)
 		auto last = luaL_optinteger(L, 5, int(size));
 		if (first < 1 || last > int(size) || last < first)
 		{
-			return luaL_error(L, "invalid range");
+			return luaL_error(L, "Intervalo no válido");
 		}
 		takeBase = first - 1;
 		takeSize = last - takeBase;
@@ -225,7 +225,7 @@ static int New(lua_State *L)
 	GetLSI()->AssertInterfaceEvent();
 	if (http::RequestManager::Ref().DisableNetwork())
 	{
-		return luaL_error(L, "network disabled");
+		return luaL_error(L, "Red desactivada");
 	}
 	ByteString url = tpt_lua_checkByteString(L, 1);
 	std::vector<ByteString> protocols;
@@ -238,7 +238,7 @@ static int New(lua_State *L)
 			lua_rawgeti(L, 2, i + 1);
 			if (!lua_isstring(L, -1))
 			{
-				luaL_error(L, "protocol %i is not a string", i + 1);
+				luaL_error(L, "El protocolo %i debe ser una cadena", i + 1);
 			}
 			protocols.push_back(tpt_lua_toByteString(L, -1));
 			lua_pop(L, 1);

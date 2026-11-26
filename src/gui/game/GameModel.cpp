@@ -288,13 +288,13 @@ void GameModel::BuildBrushList()
 		std::vector<char> brushData;
 		if (!Platform::ReadFile(brushData, ByteString::Build(BRUSH_DIR, PATH_SEP_CHAR, brushFile)))
 		{
-			std::cout << "Brushes: Skipping " << brushFile << ". Could not open" << std::endl;
+			std::cout << "Pinceles: se omite " << brushFile << ". No se pudo abrir" << std::endl;
 			continue;
 		}
 		auto dimension = size_t(std::sqrt(brushData.size()));
 		if (dimension * dimension != brushData.size())
 		{
-			std::cout << "Brushes: Skipping " << brushFile << ". Invalid bitmap size" << std::endl;
+			std::cout << "Pinceles: se omite " << brushFile << ". Tamaño de imagen no válido" << std::endl;
 			continue;
 		}
 		brushList.push_back(std::make_unique<BitmapBrush>(ui::Point(dimension, dimension), reinterpret_cast<unsigned char const *>(brushData.data())));
@@ -670,7 +670,7 @@ void GameModel::Tick()
 		}
 		catch (const http::RequestError &ex)
 		{
-			new ErrorMessage("Error while voting", ByteString(ex.what()).FromUtf8());
+			new ErrorMessage("Error al votar", ByteString(ex.what()).FromUtf8());
 		}
 		currentSave.execVoteRequest.reset();
 	}
@@ -1122,7 +1122,7 @@ void GameModel::SetPaused(bool pauseState)
 {
 	if (!pauseState && sim->debug_nextToUpdate > 0)
 	{
-		String logmessage = String::Build("Updated particles from #", sim->debug_nextToUpdate, " to end due to unpause");
+		String logmessage = String::Build("Partículas actualizadas desde la n.º ", sim->debug_nextToUpdate, " hasta el final al reanudar");
 		UpdateUpTo(NPART);
 		Log(logmessage, false);
 	}
@@ -1145,9 +1145,9 @@ void GameModel::SetDecoration(bool decorationState)
 		notifyDecorationChanged();
 		UpdateQuickOptions();
 		if (decorationState)
-			SetInfoTip("Decorations Layer: On");
+			SetInfoTip("Capa decorativa: activada");
 		else
-			SetInfoTip("Decorations Layer: Off");
+			SetInfoTip("Capa decorativa: desactivada");
 	}
 }
 
@@ -1161,9 +1161,9 @@ void GameModel::SetAHeatEnable(bool aHeat)
 	sim->aheat_enable = aHeat;
 	UpdateQuickOptions();
 	if (aHeat)
-		SetInfoTip("Ambient Heat: On");
+		SetInfoTip("Calor ambiental: activado");
 	else
-		SetInfoTip("Ambient Heat: Off");
+		SetInfoTip("Calor ambiental: desactivado");
 }
 
 bool GameModel::GetAHeatEnable()
@@ -1181,11 +1181,11 @@ void GameModel::SetNewtonianGravity(bool newtonainGravity)
 	sim->EnableNewtonianGravity(newtonainGravity);
     if (newtonainGravity)
     {
-        SetInfoTip("Newtonian Gravity: On");
+        SetInfoTip("Gravedad newtoniana: activada");
     }
     else
     {
-        SetInfoTip("Newtonian Gravity: Off");
+        SetInfoTip("Gravedad newtoniana: desactivada");
     }
     UpdateQuickOptions();
 }
@@ -1199,9 +1199,9 @@ void GameModel::ShowGravityGrid(bool showGrid)
 {
 	rendererSettings.gravityFieldEnabled = showGrid;
 	if (showGrid)
-		SetInfoTip("Gravity Grid: On");
+		SetInfoTip("Cuadrícula gravitatoria: activada");
 	else
-		SetInfoTip("Gravity Grid: Off");
+		SetInfoTip("Cuadrícula gravitatoria: desactivada");
 }
 
 bool GameModel::GetGravityGrid()
@@ -1256,7 +1256,7 @@ void GameModel::SetPlaceSave(std::unique_ptr<GameSave> save)
 	notifyPlaceSaveChanged();
 	if (placeSave && placeSave->missingElements)
 	{
-		Log("Paste content has missing custom elements", false);
+		Log("Faltan elementos personalizados en el contenido pegado", false);
 	}
 }
 
@@ -1837,7 +1837,7 @@ std::optional<int> GameModel::GetToolIndex(Tool *tool)
 
 void GameModel::AllocCustomGolTool(const CustomGOLData &gd)
 {
-	auto tool = std::make_unique<ElementTool>(PMAP(gd.rule, PT_LIFE), gd.nameString, "Custom GOL type: " + SerialiseGOLRule(gd.rule), gd.colour1, "DEFAULT_PT_LIFECUST_" + gd.nameString.ToAscii(), nullptr);
+	auto tool = std::make_unique<ElementTool>(PMAP(gd.rule, PT_LIFE), gd.nameString, "Tipo de Vida personalizado: " + SerialiseGOLRule(gd.rule), gd.colour1, "DEFAULT_PT_LIFECUST_" + gd.nameString.ToAscii(), nullptr);
 	tool->MenuSection = SC_LIFE;
 	AllocTool(std::move(tool));
 }
@@ -1913,13 +1913,13 @@ void GameModel::InitTools()
 	{
 		AllocTool(std::make_unique<SimTool>(tool));
 	}
-	AllocTool(std::make_unique<DecorationTool>(view, DECO_ADD     , "ADD" , "Colour blending: Add."                         , 0x000000_rgb, "DEFAULT_DECOR_ADD" ));
-	AllocTool(std::make_unique<DecorationTool>(view, DECO_SUBTRACT, "SUB" , "Colour blending: Subtract."                    , 0x000000_rgb, "DEFAULT_DECOR_SUB" ));
-	AllocTool(std::make_unique<DecorationTool>(view, DECO_MULTIPLY, "MUL" , "Colour blending: Multiply."                    , 0x000000_rgb, "DEFAULT_DECOR_MUL" ));
-	AllocTool(std::make_unique<DecorationTool>(view, DECO_DIVIDE  , "DIV" , "Colour blending: Divide."                      , 0x000000_rgb, "DEFAULT_DECOR_DIV" ));
-	AllocTool(std::make_unique<DecorationTool>(view, DECO_SMUDGE  , "SMDG", "Smudge tool, blends surrounding deco together.", 0x000000_rgb, "DEFAULT_DECOR_SMDG"));
-	AllocTool(std::make_unique<DecorationTool>(view, DECO_CLEAR   , "CLR" , "Erase any set decoration."                     , 0x000000_rgb, "DEFAULT_DECOR_CLR" ));
-	AllocTool(std::make_unique<DecorationTool>(view, DECO_DRAW    , "SET" , "Draw decoration (No blending)."                , 0x000000_rgb, "DEFAULT_DECOR_SET" ));
+	AllocTool(std::make_unique<DecorationTool>(view, DECO_ADD     , "ADD" , "Fusión de color: suma."                         , 0x000000_rgb, "DEFAULT_DECOR_ADD" ));
+	AllocTool(std::make_unique<DecorationTool>(view, DECO_SUBTRACT, "SUB" , "Fusión de color: resta."                    , 0x000000_rgb, "DEFAULT_DECOR_SUB" ));
+	AllocTool(std::make_unique<DecorationTool>(view, DECO_MULTIPLY, "MUL" , "Fusión de color: multiplicación."                    , 0x000000_rgb, "DEFAULT_DECOR_MUL" ));
+	AllocTool(std::make_unique<DecorationTool>(view, DECO_DIVIDE  , "DIV" , "Fusión de color: división."                      , 0x000000_rgb, "DEFAULT_DECOR_DIV" ));
+	AllocTool(std::make_unique<DecorationTool>(view, DECO_SMUDGE  , "SMDG", "Difumina y mezcla la decoración cercana.", 0x000000_rgb, "DEFAULT_DECOR_SMDG"));
+	AllocTool(std::make_unique<DecorationTool>(view, DECO_CLEAR   , "CLR" , "Borra la decoración."                     , 0x000000_rgb, "DEFAULT_DECOR_CLR" ));
+	AllocTool(std::make_unique<DecorationTool>(view, DECO_DRAW    , "SET" , "Dibuja decoración sin mezclar colores."                , 0x000000_rgb, "DEFAULT_DECOR_SET" ));
 	AllocTool(std::make_unique<PropertyTool>(*this));
 	AllocTool(std::make_unique<SignTool>(*this));
 	AllocTool(std::make_unique<SampleTool>(*this));

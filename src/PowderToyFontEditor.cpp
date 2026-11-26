@@ -76,7 +76,7 @@ int main(int argc, char * argv[])
 	}
 	else
 	{
-		std::cerr << "path to font.bz2 not supplied" << std::endl;
+		std::cerr << "Falta la ruta de font.bz2" << std::endl;
 		Platform::Exit(1);
 	}
 

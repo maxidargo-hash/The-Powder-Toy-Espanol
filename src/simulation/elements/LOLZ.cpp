@@ -29,7 +29,7 @@ void Element::Element_LOLZ()
 
 	DefaultProperties.temp = 373.0f;
 	HeatConduct = 40;
-	Description = "Lolz";
+	Description = "Jajaja";
 
 	Properties = TYPE_SOLID;
 

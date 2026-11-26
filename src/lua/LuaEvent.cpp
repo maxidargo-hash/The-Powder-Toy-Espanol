@@ -10,7 +10,7 @@ static int fregister(lua_State *L)
 	luaL_checktype(L, 2, LUA_TFUNCTION);
 	if (eventType < 0 || eventType >= int(std::variant_size_v<GameControllerEvent>))
 	{
-		luaL_error(L, "Invalid event type: %i", lua_tointeger(L, 1));
+		luaL_error(L, "Tipo de evento no válido: %i", lua_tointeger(L, 1));
 	}
 	lsi->AddEventHandler(eventType, 2);
 	lua_pushvalue(L, 2);
@@ -25,7 +25,7 @@ static int unregister(lua_State *L)
 	luaL_checktype(L, 2, LUA_TFUNCTION);
 	if (eventType < 0 || eventType >= int(std::variant_size_v<GameControllerEvent>))
 	{
-		luaL_error(L, "Invalid event type: %i", lua_tointeger(L, 1));
+		luaL_error(L, "Tipo de evento no válido: %i", lua_tointeger(L, 1));
 	}
 	lsi->RemoveEventHandler(eventType, 2);
 	return 0;

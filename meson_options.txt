@@ -175,13 +175,13 @@ option(
 option(
 	'app_name',
 	type: 'string',
-	value: 'The Powder Toy',
+	value: 'The Powder Toy Español',
 	description: 'App name, used for desktop integration and the window title, change if you work on a mod'
 )
 option(
 	'app_comment',
 	type: 'string',
-	value: 'Physics sandbox game',
+	value: 'Simulador de física',
 	description: 'App comment, used for desktop integration, change if you work on a mod'
 )
 option(
@@ -193,7 +193,7 @@ option(
 option(
 	'app_id',
 	type: 'string',
-	value: 'uk.co.powdertoy.tpt',
+	value: 'io.github.maxidargo_hash.powdertoy.es',
 	description: 'App ID, a D-Bus well-known name, used for desktop integration, change if you work on a mod'
 )
 option(

@@ -27,7 +27,7 @@ static int exeName(lua_State *L)
 	if (name.length())
 		tpt_lua_pushByteString(L, name);
 	else
-		luaL_error(L, "Error, could not get executable name");
+		luaL_error(L, "No se pudo obtener el nombre del ejecutable");
 	return 1;
 }
 

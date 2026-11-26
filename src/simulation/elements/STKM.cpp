@@ -36,7 +36,7 @@ void Element::Element_STKM()
 
 	DefaultProperties.temp = R_TEMP + 14.6f + 273.15f;
 	HeatConduct = 0;
-	Description = "Stickman. Don't kill him! Control with the arrow keys.";
+	Description = "Muñeco. ¡Protégelo! Contrólalo con las flechas.";
 
 	Properties = TYPE_ENERGY | PROP_NOCTYPEDRAW; // STKM is an energy particle to avoid stacking issues
 	CarriesTypeIn = 1U << FIELD_CTYPE;

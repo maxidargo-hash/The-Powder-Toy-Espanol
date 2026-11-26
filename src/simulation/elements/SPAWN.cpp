@@ -31,7 +31,7 @@ void Element::Element_SPAWN()
 	Weight = 100;
 
 	HeatConduct = 0;
-	Description = "STKM spawn point.";
+	Description = "Punto de aparición de STKM.";
 
 	Properties = TYPE_SOLID;
 

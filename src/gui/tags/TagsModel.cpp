@@ -32,7 +32,7 @@ void TagsModel::Tick()
 		}
 		catch (const http::RequestError &ex)
 		{
-			new ErrorMessage("Could not add tag", ByteString(ex.what()).FromUtf8());
+			new ErrorMessage("No se pudo añadir la etiqueta", ByteString(ex.what()).FromUtf8());
 		}
 		addTagRequest.reset();
 	}
@@ -45,7 +45,7 @@ void TagsModel::Tick()
 		}
 		catch (const http::RequestError &ex)
 		{
-			new ErrorMessage("Could not remove tag", ByteString(ex.what()).FromUtf8());
+			new ErrorMessage("No se pudo quitar la etiqueta", ByteString(ex.what()).FromUtf8());
 		}
 		removeTagRequest.reset();
 	}

@@ -30,7 +30,7 @@ void Element::Element_BOYL()
 
 	DefaultProperties.temp = R_TEMP + 2.0f + 273.15f;
 	HeatConduct = 42;
-	Description = "Boyle, variable pressure gas. Expands when heated.";
+	Description = "Boyle. Gas de presión variable que se expande con el calor.";
 
 	Properties = TYPE_GAS;
 

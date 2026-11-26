@@ -31,7 +31,7 @@ void Element::Element_SPAWN2()
 	Weight = 100;
 
 	HeatConduct = 0;
-	Description = "STK2 spawn point.";
+	Description = "Punto de aparición de STK2.";
 
 	Properties = TYPE_SOLID;
 

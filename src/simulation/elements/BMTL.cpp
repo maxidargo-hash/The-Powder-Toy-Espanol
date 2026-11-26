@@ -29,7 +29,7 @@ void Element::Element_BMTL()
 	Weight = 100;
 
 	HeatConduct = 251;
-	Description = "Breakable metal. Common conductive building material, can melt and break under pressure.";
+	Description = "Metal frágil. Material de construcción conductor que se funde y se rompe por presión.";
 
 	Properties = TYPE_SOLID|PROP_CONDUCTS|PROP_LIFE_DEC|PROP_HOT_GLOW;
 

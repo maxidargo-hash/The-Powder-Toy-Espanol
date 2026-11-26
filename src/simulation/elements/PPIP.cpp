@@ -29,7 +29,7 @@ void Element::Element_PPIP()
 
 	DefaultProperties.temp = 295.15f;
 	HeatConduct = 251;
-	Description = "Powered version of PIPE, use PSCN/NSCN to Activate/Deactivate.";
+	Description = "Tubería eléctrica. Usa PSCN para activarla y NSCN para desactivarla.";
 
 	Properties = TYPE_SOLID | PROP_LIFE_DEC;
 	CarriesTypeIn = 1U << FIELD_CTYPE;

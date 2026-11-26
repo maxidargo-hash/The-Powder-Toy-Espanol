@@ -34,7 +34,7 @@ void Element::Element_LIGH()
 	Weight = 100;
 
 	HeatConduct = 0;
-	Description = "Lightning. Change the brush size to set the size of the lightning.";
+	Description = "Rayo. Ajusta el tamaño del pincel para cambiar el tamaño del rayo.";
 
 	Properties = TYPE_SOLID;
 

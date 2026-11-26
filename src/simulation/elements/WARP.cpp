@@ -31,7 +31,7 @@ void Element::Element_WARP()
 	Weight = 1;
 
 	HeatConduct = 100;
-	Description = "Displaces other elements.";
+	Description = "Desplaza otros elementos.";
 
 	Properties = TYPE_GAS|PROP_LIFE_DEC|PROP_LIFE_KILL;
 

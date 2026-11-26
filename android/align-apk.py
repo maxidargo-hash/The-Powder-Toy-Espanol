@@ -19,7 +19,7 @@ if os.path.exists(unsigned_path):
 
 if subprocess.run([
 	zipalign,
-	'-f', '4',
+	'-P', '16', '-f', '4',
 	unaligned_path,
 	unsigned_path,
 ]).returncode:

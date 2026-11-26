@@ -30,7 +30,7 @@ void Element::Element_MORT()
 
 	DefaultProperties.temp = R_TEMP + 4.0f + 273.15f;
 	HeatConduct = 60;
-	Description = "Steam Train.";
+	Description = "Tren de vapor.";
 
 	Properties = TYPE_GAS;
 

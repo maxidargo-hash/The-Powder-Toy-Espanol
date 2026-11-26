@@ -34,11 +34,11 @@ ByteString format::UnixtimeToDateMini(time_t unixtime)
 
 	if(currentTimeData.tm_year != timeData.tm_year)
 	{
-		return UnixtimeToDate(unixtime, "%d %b %Y");
+		return UnixtimeToDate(unixtime, "%d/%m/%Y");
 	}
 	else if(currentTimeData.tm_mon != timeData.tm_mon || currentTimeData.tm_mday != timeData.tm_mday)
 	{
-		return UnixtimeToDate(unixtime, "%d %B");
+		return UnixtimeToDate(unixtime, "%d/%m");
 	}
 	else
 	{
@@ -137,10 +137,10 @@ static std::unique_ptr<PlaneAdapter<std::vector<uint32_t>>> readPNG(
 	auto png = std::unique_ptr<png_struct, decltype(deleter)>(
 		png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr,
 			[](png_structp png, png_const_charp msg) {
-				fprintf(stderr, "PNG error: %s\n", msg);
+				fprintf(stderr, "Error de PNG: %s\n", msg);
 			},
 			[](png_structp png, png_const_charp msg) {
-				fprintf(stderr, "PNG warning: %s\n", msg);
+				fprintf(stderr, "Aviso de PNG: %s\n", msg);
 			}
 		), deleter
 	);
@@ -160,7 +160,7 @@ static std::unique_ptr<PlaneAdapter<std::vector<uint32_t>>> readPNG(
 	auto const end = data.end();
 	auto readFn = [&it, end](png_structp png, png_bytep data, size_t length) {
 		if (size_t(end - it) < length)
-			png_error(png, "Tried to read beyond the buffer");
+			png_error(png, "Se intentó leer más allá del búfer");
 		std::copy_n(it, length, data);
 		it += length;
 	};
@@ -234,10 +234,10 @@ std::unique_ptr<std::vector<char>> format::PixelsToPNG(PlaneAdapter<std::vector<
 	auto png = std::unique_ptr<png_struct, decltype(deleter)>(
 		png_create_write_struct(PNG_LIBPNG_VER_STRING, nullptr,
 			[](png_structp png, png_const_charp msg) {
-				fprintf(stderr, "PNG error: %s\n", msg);
+				fprintf(stderr, "Error de PNG: %s\n", msg);
 			},
 			[](png_structp png, png_const_charp msg) {
-				fprintf(stderr, "PNG warning: %s\n", msg);
+				fprintf(stderr, "Aviso de PNG: %s\n", msg);
 			}
 		), deleter
 	);
@@ -388,7 +388,7 @@ float format::StringToTemperature(String str, TempScale defaultScale)
 	}
 	if (!str.size())
 	{
-		throw std::out_of_range("empty string");
+		throw std::out_of_range("cadena vacía");
 	}
 	auto out = str.ToNumber<float>();
 	switch (scale)

@@ -216,24 +216,24 @@ void GameSave::Expand(const std::vector<char> &data)
 		else if(data[0] == 'O' && data[1] == 'P' && data[2] == 'S')
 		{
 			if (data[3] != '1')
-				throw ParseException(ParseException::WrongVersion, "Save format from newer version");
+				throw ParseException(ParseException::WrongVersion, "Formato de partida de una versión más reciente");
 			readOPS(data);
 		}
 		else
 		{
-			std::cerr << "Got Magic number '" << data[0] << data[1] << data[2] << "'" << std::endl;
-			throw ParseException(ParseException::Corrupt, "Invalid save format");
+			std::cerr << "Identificador de formato recibido: '" << data[0] << data[1] << data[2] << "'" << std::endl;
+			throw ParseException(ParseException::Corrupt, "Formato de partida no válido");
 		}
 		MapPalette();
 	}
 	else
 	{
-		throw ParseException(ParseException::Corrupt, "No data");
+		throw ParseException(ParseException::Corrupt, "Sin datos");
 	}
 	}
 	catch (const std::bad_alloc &)
 	{
-		throw ParseException(ParseException::Corrupt, "Cannot allocate memory");
+		throw ParseException(ParseException::Corrupt, "No se pudo reservar memoria");
 	}
 }
 
@@ -268,7 +268,7 @@ std::pair<bool, std::vector<char>> GameSave::Serialise() const
 	}
 	catch (const std::bad_alloc &)
 	{
-		std::cout << "Save error, out of memory" << std::endl;
+		std::cout << "Error al guardar. Memoria insuficiente." << std::endl;
 	}
 	catch (BuildException & e)
 	{
@@ -491,7 +491,7 @@ void GameSave::readOPS(const std::vector<char> &data)
 		{
 			if (node->GetType() != type)
 			{
-				std::cerr << "Wrong type for " << key << std::endl;
+				std::cerr << "Tipo incorrecto para " << key << std::endl;
 				return nullptr;
 			}
 			return node;
@@ -504,7 +504,7 @@ void GameSave::readOPS(const std::vector<char> &data)
 			auto &user = node->As<Bson::User>();
 			if (user.size() != sizeof(into))
 			{
-				std::cerr << "Wrong size for " << key << std::endl;
+				std::cerr << "Tamaño incorrecto para " << key << std::endl;
 				return false;
 			}
 			memcpy(&into, user.data(), sizeof(into));
@@ -565,14 +565,14 @@ void GameSave::readOPS(const std::vector<char> &data)
 
 	//Incompatible cell size
 	if (inputData[5] != CELL)
-		throw ParseException(ParseException::InvalidDimensions, "Incorrect CELL size");
+		throw ParseException(ParseException::InvalidDimensions, "Tamaño de CELL incorrecto");
 
 	if (!RectBetween({ 0, 0 }, CELLS).Contains(blockS))
-		throw ParseException(ParseException::InvalidDimensions, "Save is of invalid size");
+		throw ParseException(ParseException::InvalidDimensions, "La partida tiene un tamaño incorrecto");
 
 	//Too large/off screen
 	if (!RectBetween({ 0, 0 }, CELLS).Contains(blockP + blockS))
-		throw ParseException(ParseException::InvalidDimensions, "Save extends beyond canvas");
+		throw ParseException(ParseException::InvalidDimensions, "La partida desborda el área de simulación");
 
 	setSize(blockS);
 
@@ -584,15 +584,15 @@ void GameSave::readOPS(const std::vector<char> &data)
 
 	//Check for overflows, don't load saves larger than 200MB
 	if (toAlloc > 209715200 || !toAlloc)
-		throw ParseException(ParseException::InvalidDimensions, "Save data too large, refusing");
+		throw ParseException(ParseException::InvalidDimensions, "Los datos de la partida son demasiado grandes para cargarlos");
 
 	{
 		std::vector<char> bsonData;
 		switch (auto status = BZ2WDecompress(bsonData, std::span(reinterpret_cast<const char *>(inputData.data() + 12), inputData.size() - 12), toAlloc))
 		{
 		case BZ2WDecompressOk: break;
-		case BZ2WDecompressNomem: throw ParseException(ParseException::Corrupt, "Cannot allocate memory");
-		default: throw ParseException(ParseException::Corrupt, String::Build("Cannot decompress: status ", int(status)));
+		case BZ2WDecompressNomem: throw ParseException(ParseException::Corrupt, "No se pudo reservar memoria");
+		default: throw ParseException(ParseException::Corrupt, String::Build("No se pudieron descomprimir los datos. Estado: ", int(status)));
 		}
 
 		try
@@ -601,7 +601,7 @@ void GameSave::readOPS(const std::vector<char> &data)
 		}
 		catch (const Bson::ParseError &ex)
 		{
-			throw ParseException(ParseException::Corrupt, "BSON error when parsing save: " + ByteString(ex.what()).FromUtf8());
+			throw ParseException(ParseException::Corrupt, "Error de BSON al leer la partida: " + ByteString(ex.what()).FromUtf8());
 		}
 	}
 
@@ -671,7 +671,7 @@ void GameSave::readOPS(const std::vector<char> &data)
 		{
 			if (!signNode.Is<Bson::Object>())
 			{
-				std::cerr << "Wrong type for signs[...]" << std::endl;
+				std::cerr << "Tipo incorrecto para signs[...]" << std::endl;
 				continue;
 			}
 			sign tempSign("", 0, 0, sign::Left);
@@ -682,11 +682,11 @@ void GameSave::readOPS(const std::vector<char> &data)
 				{
 					if (tempSign.text == "{t}")
 					{
-						tempSign.text = "Temp: {t}";
+						tempSign.text = "Temp.: {t}";
 					}
 					else if (tempSign.text == "{p}")
 					{
-						tempSign.text = "Pressure: {p}";
+						tempSign.text = "Presión: {p}";
 					}
 				}
 			}
@@ -754,7 +754,7 @@ void GameSave::readOPS(const std::vector<char> &data)
 		}
 		if (effectiveVersion < minimumVersion)
 		{
-			String errorMessage = String::Build("Save from a newer version: Requires version ", minimumVersion[0], ".", minimumVersion[1]);
+			String errorMessage = String::Build("Partida de una versión más reciente. Requiere la versión ", minimumVersion[0], ".", minimumVersion[1]);
 			throw ParseException(ParseException::WrongVersion, errorMessage);
 		}
 		else if (ALLOW_FAKE_NEWER_VERSION && currentVersion < minimumVersion)
@@ -794,7 +794,7 @@ void GameSave::readOPS(const std::vector<char> &data)
 	{
 		unsigned int j = 0;
 		if (blockS.X * blockS.Y > int(wallData.size()))
-			throw ParseException(ParseException::Corrupt, "Not enough wall data");
+			throw ParseException(ParseException::Corrupt, "Faltan datos de muros");
 		auto wallDataPlane = MakePlane(blockS, wallData.data());
 		for (auto bpos : blockS.OriginRect().Range<LEFT_TO_RIGHT, TOP_TO_BOTTOM>())
 		{
@@ -827,7 +827,7 @@ void GameSave::readOPS(const std::vector<char> &data)
 			{
 				if(j+1 >= fanData.size())
 				{
-					throw ParseException(ParseException::Corrupt, "Not enough fan data");
+					throw ParseException(ParseException::Corrupt, "Faltan datos de ventiladores");
 				}
 				fanVelX[blockP + bpos] = (fanData[j++]-127.0f)/64.0f;
 				fanVelY[blockP + bpos] = (fanData[j++]-127.0f)/64.0f;
@@ -845,7 +845,7 @@ void GameSave::readOPS(const std::vector<char> &data)
 		unsigned int j = 0;
 		unsigned char i, i2;
 		if (blockS.X * blockS.Y * 2 > int(pressData.size()))
-			throw ParseException(ParseException::Corrupt, "Not enough pressure data");
+			throw ParseException(ParseException::Corrupt, "Faltan datos de presión");
 		for (auto bpos : blockS.OriginRect().Range<LEFT_TO_RIGHT, TOP_TO_BOTTOM>())
 		{
 			i = pressData[j++];
@@ -861,7 +861,7 @@ void GameSave::readOPS(const std::vector<char> &data)
 		unsigned int j = 0;
 		unsigned char i, i2;
 		if (blockS.X * blockS.Y * 2 > int(vxData.size()))
-			throw ParseException(ParseException::Corrupt, "Not enough vx data");
+			throw ParseException(ParseException::Corrupt, "Faltan datos de vx");
 		for (auto bpos : blockS.OriginRect().Range<LEFT_TO_RIGHT, TOP_TO_BOTTOM>())
 		{
 			i = vxData[j++];
@@ -876,7 +876,7 @@ void GameSave::readOPS(const std::vector<char> &data)
 		unsigned int j = 0;
 		unsigned char i, i2;
 		if (blockS.X * blockS.Y * 2 > int(vyData.size()))
-			throw ParseException(ParseException::Corrupt, "Not enough vy data");
+			throw ParseException(ParseException::Corrupt, "Faltan datos de vy");
 		for (auto bpos : blockS.OriginRect().Range<LEFT_TO_RIGHT, TOP_TO_BOTTOM>())
 		{
 			i = vyData[j++];
@@ -890,7 +890,7 @@ void GameSave::readOPS(const std::vector<char> &data)
 	{
 		unsigned int i = 0, tempTemp;
 		if (blockS.X * blockS.Y * 2 > int(ambientData.size()))
-			throw ParseException(ParseException::Corrupt, "Not enough ambient heat data");
+			throw ParseException(ParseException::Corrupt, "Faltan datos de calor ambiental");
 		for (auto bpos : blockS.OriginRect().Range<LEFT_TO_RIGHT, TOP_TO_BOTTOM>())
 		{
 			tempTemp = ambientData[i++];
@@ -903,7 +903,7 @@ void GameSave::readOPS(const std::vector<char> &data)
 	if (blockAirData.data())
 	{
 		if (blockS.X * blockS.Y * 2 > int(blockAirData.size()))
-			throw ParseException(ParseException::Corrupt, "Not enough block air data");
+			throw ParseException(ParseException::Corrupt, "Faltan datos de bloqueo de aire");
 		auto blockAirDataPlane = MakePlane(blockS, blockAirData.data());
 		auto blockAirhDataPlane = MakePlane(blockS, blockAirData.data() + blockS.X * blockS.Y);
 		for (auto bpos : blockS.OriginRect().Range<LEFT_TO_RIGHT, TOP_TO_BOTTOM>())
@@ -918,7 +918,7 @@ void GameSave::readOPS(const std::vector<char> &data)
 	{
 		if (blockS.X * blockS.Y * 4 * int(sizeof(float)) > int(gravityData.size()))
 		{
-			throw ParseException(ParseException::Corrupt, "Not enough gravity data");
+			throw ParseException(ParseException::Corrupt, "Faltan datos de gravedad");
 		}
 		auto massDataPlane   = MakePlane(blockS, reinterpret_cast<const float    *>(gravityData.data()));
 		auto maskDataPlane   = MakePlane(blockS, reinterpret_cast<const uint32_t *>(gravityData.data() +     blockS.X * blockS.Y * sizeof(float)));
@@ -940,7 +940,7 @@ void GameSave::readOPS(const std::vector<char> &data)
 		int newIndex = 0, tempTemp;
 		int posCount, posTotal, partsPosDataIndex = 0;
 		if (partS.X * partS.Y * 3 > int(partsPosData.size()))
-			throw ParseException(ParseException::Corrupt, "Not enough particle position data");
+			throw ParseException(ParseException::Corrupt, "Faltan datos de posición de partículas");
 
 		partsCount = 0;
 
@@ -960,12 +960,12 @@ void GameSave::readOPS(const std::vector<char> &data)
 				particlesCount = newIndex+1;
 				//i+3 because we have 4 bytes of required fields (type (1), descriptor (2), temp (1))
 				if (i+3 >= partsDataLen)
-					throw ParseException(ParseException::Corrupt, "Ran past particle data buffer");
+					throw ParseException(ParseException::Corrupt, "Se excedió el búfer de datos de partículas");
 				unsigned int fieldDescriptor = (unsigned int)(partsData[i+1]);
 				fieldDescriptor |= (unsigned int)(partsData[i+2]) << 8;
 
 				if (newIndex < 0 || newIndex >= NPART)
-					throw ParseException(ParseException::Corrupt, "Too many particles");
+					throw ParseException(ParseException::Corrupt, "Hay demasiadas partículas");
 
 				//Clear the particle, ready for our new properties
 				memset(&(particles[newIndex]), 0, sizeof(Particle));
@@ -1003,7 +1003,7 @@ void GameSave::readOPS(const std::vector<char> &data)
 				if (fieldDescriptor & 0x8000)
 				{
 					if (i >= partsDataLen)
-						throw ParseException(ParseException::Corrupt, "Ran past particle data buffer while loading third byte of field descriptor");
+						throw ParseException(ParseException::Corrupt, "Se excedió el búfer de partículas al leer el tercer byte del descriptor de campo");
 					fieldDescriptor |= (unsigned int)(partsData[i++]) << 16;
 				}
 
@@ -1011,14 +1011,14 @@ void GameSave::readOPS(const std::vector<char> &data)
 				if(fieldDescriptor & 0x02)
 				{
 					if (i >= partsDataLen)
-						throw ParseException(ParseException::Corrupt, "Ran past particle data buffer while loading life");
+						throw ParseException(ParseException::Corrupt, "Se excedió el búfer de partículas al leer life");
 					particles[newIndex].life = partsData[i++];
 					//i++;
 					//Read 2nd byte
 					if(fieldDescriptor & 0x04)
 					{
 						if (i >= partsDataLen)
-							throw ParseException(ParseException::Corrupt, "Ran past particle data buffer while loading life");
+							throw ParseException(ParseException::Corrupt, "Se excedió el búfer de partículas al leer life");
 						particles[newIndex].life |= (((unsigned)partsData[i++]) << 8);
 					}
 				}
@@ -1027,19 +1027,19 @@ void GameSave::readOPS(const std::vector<char> &data)
 				if(fieldDescriptor & 0x08)
 				{
 					if (i >= partsDataLen)
-						throw ParseException(ParseException::Corrupt, "Ran past particle data buffer while loading tmp");
+						throw ParseException(ParseException::Corrupt, "Se excedió el búfer de partículas al leer tmp");
 					particles[newIndex].tmp = partsData[i++];
 					//Read 2nd byte
 					if(fieldDescriptor & 0x10)
 					{
 						if (i >= partsDataLen)
-							throw ParseException(ParseException::Corrupt, "Ran past particle data buffer while loading tmp");
+							throw ParseException(ParseException::Corrupt, "Se excedió el búfer de partículas al leer tmp");
 						particles[newIndex].tmp |= (((unsigned)partsData[i++]) << 8);
 						//Read 3rd and 4th bytes
 						if(fieldDescriptor & 0x1000)
 						{
 							if (i+1 >= partsDataLen)
-								throw ParseException(ParseException::Corrupt, "Ran past particle data buffer while loading tmp");
+								throw ParseException(ParseException::Corrupt, "Se excedió el búfer de partículas al leer tmp");
 							particles[newIndex].tmp |= (((unsigned)partsData[i++]) << 24);
 							particles[newIndex].tmp |= (((unsigned)partsData[i++]) << 16);
 						}
@@ -1050,13 +1050,13 @@ void GameSave::readOPS(const std::vector<char> &data)
 				if(fieldDescriptor & 0x20)
 				{
 					if (i >= partsDataLen)
-						throw ParseException(ParseException::Corrupt, "Ran past particle data buffer while loading ctype");
+						throw ParseException(ParseException::Corrupt, "Se excedió el búfer de partículas al leer ctype");
 					particles[newIndex].ctype = partsData[i++];
 					//Read additional bytes
 					if(fieldDescriptor & 0x200)
 					{
 						if (i+2 >= partsDataLen)
-							throw ParseException(ParseException::Corrupt, "Ran past particle data buffer while loading ctype");
+							throw ParseException(ParseException::Corrupt, "Se excedió el búfer de partículas al leer ctype");
 						particles[newIndex].ctype |= (((unsigned)partsData[i++]) << 24);
 						particles[newIndex].ctype |= (((unsigned)partsData[i++]) << 16);
 						particles[newIndex].ctype |= (((unsigned)partsData[i++]) << 8);
@@ -1067,7 +1067,7 @@ void GameSave::readOPS(const std::vector<char> &data)
 				if(fieldDescriptor & 0x40)
 				{
 					if (i+3 >= partsDataLen)
-						throw ParseException(ParseException::Corrupt, "Ran past particle data buffer while loading deco");
+						throw ParseException(ParseException::Corrupt, "Se excedió el búfer de partículas al leer la decoración");
 					particles[newIndex].dcolour = (((unsigned)partsData[i++]) << 24);
 					particles[newIndex].dcolour |= (((unsigned)partsData[i++]) << 16);
 					particles[newIndex].dcolour |= (((unsigned)partsData[i++]) << 8);
@@ -1078,7 +1078,7 @@ void GameSave::readOPS(const std::vector<char> &data)
 				if(fieldDescriptor & 0x80)
 				{
 					if (i >= partsDataLen)
-						throw ParseException(ParseException::Corrupt, "Ran past particle data buffer while loading vx");
+						throw ParseException(ParseException::Corrupt, "Se excedió el búfer de partículas al leer vx");
 					particles[newIndex].vx = (partsData[i++]-127.0f)/16.0f;
 				}
 
@@ -1086,7 +1086,7 @@ void GameSave::readOPS(const std::vector<char> &data)
 				if(fieldDescriptor & 0x100)
 				{
 					if (i >= partsDataLen)
-						throw ParseException(ParseException::Corrupt, "Ran past particle data buffer while loading vy");
+						throw ParseException(ParseException::Corrupt, "Se excedió el búfer de partículas al leer vy");
 					particles[newIndex].vy = (partsData[i++]-127.0f)/16.0f;
 				}
 
@@ -1094,12 +1094,12 @@ void GameSave::readOPS(const std::vector<char> &data)
 				if(fieldDescriptor & 0x400)
 				{
 					if (i >= partsDataLen)
-						throw ParseException(ParseException::Corrupt, "Ran past particle data buffer while loading tmp2");
+						throw ParseException(ParseException::Corrupt, "Se excedió el búfer de partículas al leer tmp2");
 					particles[newIndex].tmp2 = partsData[i++];
 					if(fieldDescriptor & 0x800)
 					{
 						if (i >= partsDataLen)
-							throw ParseException(ParseException::Corrupt, "Ran past particle data buffer while loading tmp2");
+							throw ParseException(ParseException::Corrupt, "Se excedió el búfer de partículas al leer tmp2");
 						particles[newIndex].tmp2 |= (((unsigned)partsData[i++]) << 8);
 					}
 				}
@@ -1108,9 +1108,9 @@ void GameSave::readOPS(const std::vector<char> &data)
 				if(fieldDescriptor & 0x2000)
 				{
 					if (i+3 >= partsDataLen)
-						throw ParseException(ParseException::Corrupt, "Ran past particle data buffer while loading tmp3 and tmp4");
+						throw ParseException(ParseException::Corrupt, "Se excedió el búfer de partículas al leer tmp3 y tmp4");
 					if (fieldDescriptor & 0x10000 && i+7 >= partsDataLen)
-						throw ParseException(ParseException::Corrupt, "Ran past particle data buffer while loading high halves of tmp3 and tmp4");
+						throw ParseException(ParseException::Corrupt, "Se excedió el búfer de partículas al leer las mitades altas de tmp3 y tmp4");
 					unsigned int tmp34;
 					tmp34  = (unsigned int)partsData[i + 0];
 					tmp34 |= (unsigned int)partsData[i + 1] << 8;
@@ -1296,7 +1296,7 @@ void GameSave::readOPS(const std::vector<char> &data)
 		}
 
 		if (i != partsDataLen)
-			throw ParseException(ParseException::Corrupt, "Didn't reach end of particle data buffer");
+			throw ParseException(ParseException::Corrupt, "Quedaron datos sin leer en el búfer de partículas");
 	}
 
 	if (soapLinkData.data())
@@ -1360,14 +1360,14 @@ void GameSave::readPSv(const std::vector<char> &dataVec)
 	//This creates a problem for old clients, that display and "corrupt" error instead of a "newer version" error
 
 	if (dataLength<16)
-		throw ParseException(ParseException::Corrupt, "No save data");
+		throw ParseException(ParseException::Corrupt, "No hay datos de partida");
 	if (!(saveData[2]==0x43 && saveData[1]==0x75 && saveData[0]==0x66) && !(saveData[2]==0x76 && saveData[1]==0x53 && saveData[0]==0x50))
-		throw ParseException(ParseException::Corrupt, "Unknown format");
+		throw ParseException(ParseException::Corrupt, "Formato desconocido");
 	if (saveData[2]==0x76 && saveData[1]==0x53 && saveData[0]==0x50) {
 		new_format = 1;
 	}
 	if (saveData[4]>97) // this used to respect currentVersion but no valid PSv will ever have a version > 97 so it's ok to hardcode
-		throw ParseException(ParseException::WrongVersion, "Save from newer version");
+		throw ParseException(ParseException::WrongVersion, "Partida de una versión más reciente");
 	version = { saveData[4], 0 };
 	auto ver = version[0];
 
@@ -1400,21 +1400,21 @@ void GameSave::readPSv(const std::vector<char> &dataVec)
 	blockP = blockP.Clamp(blockS.OriginRect());
 
 	if (saveData[5]!=CELL || blockP.X+blockS.X>XCELLS || blockP.Y+blockS.Y>YCELLS)
-		throw ParseException(ParseException::InvalidDimensions, "Save too large");
+		throw ParseException(ParseException::InvalidDimensions, "Partida demasiado grande");
 	int size = (unsigned)saveData[8];
 	size |= ((unsigned)saveData[9])<<8;
 	size |= ((unsigned)saveData[10])<<16;
 	size |= ((unsigned)saveData[11])<<24;
 
 	if (size > 209715200 || !size)
-		throw ParseException(ParseException::InvalidDimensions, "Save data too large");
+		throw ParseException(ParseException::InvalidDimensions, "Datos de partida demasiado grandes");
 
 	std::vector<char> bsonData;
 	switch (auto status = BZ2WDecompress(bsonData, std::span(reinterpret_cast<const char *>(saveData + 12), dataLength - 12), size))
 	{
 	case BZ2WDecompressOk: break;
-	case BZ2WDecompressNomem: throw ParseException(ParseException::Corrupt, "Cannot allocate memory");
-	default: throw ParseException(ParseException::Corrupt, String::Build("Cannot decompress: status ", int(status)));
+	case BZ2WDecompressNomem: throw ParseException(ParseException::Corrupt, "No se pudo reservar memoria");
+	default: throw ParseException(ParseException::Corrupt, String::Build("No se pudieron descomprimir los datos. Estado: ", int(status)));
 	}
 
 	setSize(blockS);
@@ -1423,11 +1423,11 @@ void GameSave::readPSv(const std::vector<char> &dataVec)
 
 	if constexpr (DEBUG)
 	{
-		std::cout << "Parsing " << dataLength << " bytes of data, version " << ver << std::endl;
+		std::cout << "Leyendo " << dataLength << " bytes de datos. Versión " << ver << std::endl;
 	}
 
 	if (dataLength < blockS.X*blockS.Y)
-		throw ParseException(ParseException::Corrupt, "Save data corrupt (missing data)");
+		throw ParseException(ParseException::Corrupt, "Partida dañada (faltan datos)");
 
 	// normalize coordinates
 	auto partS = blockS * CELL;
@@ -1510,7 +1510,7 @@ void GameSave::readPSv(const std::vector<char> &dataVec)
 		if (dataPlane[bpos - blockP]==4||(ver>=44 && dataPlane[bpos - blockP]==O_WL_FAN))
 		{
 			if (p >= dataLength)
-				throw ParseException(ParseException::Corrupt, "Not enough data at line " MTOS(__LINE__) " in " MTOS(__FILE__));
+				throw ParseException(ParseException::Corrupt, "Faltan datos en la línea " MTOS(__LINE__) " de " MTOS(__FILE__));
 			fanVelX[bpos] = (data[p++]-127.0f)/64.0f;
 		}
 	}
@@ -1520,7 +1520,7 @@ void GameSave::readPSv(const std::vector<char> &dataVec)
 		if (dataPlane[bpos - blockP]==4||(ver>=44 && dataPlane[bpos - blockP]==O_WL_FAN))
 		{
 			if (p >= dataLength)
-				throw ParseException(ParseException::Corrupt, "Not enough data at line " MTOS(__LINE__) " in " MTOS(__FILE__));
+				throw ParseException(ParseException::Corrupt, "Faltan datos en la línea " MTOS(__LINE__) " in " MTOS(__FILE__));
 			fanVelY[bpos] = (data[p++]-127.0f)/64.0f;
 		}
 	}
@@ -1532,7 +1532,7 @@ void GameSave::readPSv(const std::vector<char> &dataVec)
 		for (auto pos : RectSized(partP, partS).Range<TOP_TO_BOTTOM, LEFT_TO_RIGHT>())
 		{
 			if (p >= dataLength)
-				throw ParseException(ParseException::Corrupt, "Not enough data at line " MTOS(__LINE__) " in " MTOS(__FILE__));
+				throw ParseException(ParseException::Corrupt, "Faltan datos en la línea " MTOS(__LINE__) " in " MTOS(__FILE__));
 			auto j=data[p++];
 			if (int(j) >= PT_NUM) { // not possible these days since PMAPBITS >= 8
 				j = PT_DUST;//throw ParseException(ParseException::Corrupt, "Not enough data at line " MTOS(__LINE__) " in " MTOS(__FILE__));
@@ -1567,7 +1567,7 @@ void GameSave::readPSv(const std::vector<char> &dataVec)
 		{
 			i--;
 			if (p+1 >= dataLength)
-				throw ParseException(ParseException::Corrupt, "Not enough data at line " MTOS(__LINE__) " in " MTOS(__FILE__));
+				throw ParseException(ParseException::Corrupt, "Faltan datos en la línea " MTOS(__LINE__) " in " MTOS(__FILE__));
 			if (i < NPART)
 			{
 				particles[i].vx = (data[p++]-127.0f)/16.0f;
@@ -1584,7 +1584,7 @@ void GameSave::readPSv(const std::vector<char> &dataVec)
 		{
 			if (ver>=44) {
 				if (p + 2 > dataLength) {
-					throw ParseException(ParseException::Corrupt, "Not enough data at line " MTOS(__LINE__) " in " MTOS(__FILE__));
+					throw ParseException(ParseException::Corrupt, "Faltan datos en la línea " MTOS(__LINE__) " in " MTOS(__FILE__));
 				}
 				if (i <= NPART) {
 					ttv = (data[p++])<<8;
@@ -1595,7 +1595,7 @@ void GameSave::readPSv(const std::vector<char> &dataVec)
 				}
 			} else {
 				if (p >= dataLength)
-					throw ParseException(ParseException::Corrupt, "Not enough data at line " MTOS(__LINE__) " in " MTOS(__FILE__));
+					throw ParseException(ParseException::Corrupt, "Faltan datos en la línea " MTOS(__LINE__) " in " MTOS(__FILE__));
 				if (i <= NPART)
 					particles[i-1].life = data[p++]*4;
 				else
@@ -1610,7 +1610,7 @@ void GameSave::readPSv(const std::vector<char> &dataVec)
 			if (i)
 			{
 				if (p + 2 > dataLength) {
-					throw ParseException(ParseException::Corrupt, "Not enough data at line " MTOS(__LINE__) " in " MTOS(__FILE__));
+					throw ParseException(ParseException::Corrupt, "Faltan datos en la línea " MTOS(__LINE__) " in " MTOS(__FILE__));
 				}
 				if (i <= NPART) {
 					ttv = (data[p++])<<8;
@@ -1641,7 +1641,7 @@ void GameSave::readPSv(const std::vector<char> &dataVec)
 			if (i && (ty==PT_PBCN || (ty==PT_TRON && ver>=77)))
 			{
 				if (p >= dataLength)
-					throw ParseException(ParseException::Corrupt, "Not enough data at line " MTOS(__LINE__) " in " MTOS(__FILE__));
+					throw ParseException(ParseException::Corrupt, "Faltan datos en la línea " MTOS(__LINE__) " in " MTOS(__FILE__));
 				if (i <= NPART)
 					particles[i-1].tmp2 = data[p++];
 				else
@@ -1657,7 +1657,7 @@ void GameSave::readPSv(const std::vector<char> &dataVec)
 		{
 			if (ver>=49) {
 				if (p >= dataLength) {
-					throw ParseException(ParseException::Corrupt, "Not enough data at line " MTOS(__LINE__) " in " MTOS(__FILE__));
+					throw ParseException(ParseException::Corrupt, "Faltan datos en la línea " MTOS(__LINE__) " in " MTOS(__FILE__));
 				}
 				if (i <= NPART) {
 					particles[i-1].dcolour = data[p++]<<24;
@@ -1675,7 +1675,7 @@ void GameSave::readPSv(const std::vector<char> &dataVec)
 		{
 			if (ver>=49) {
 				if (p >= dataLength) {
-					throw ParseException(ParseException::Corrupt, "Not enough data at line " MTOS(__LINE__) " in " MTOS(__FILE__));
+					throw ParseException(ParseException::Corrupt, "Faltan datos en la línea " MTOS(__LINE__) " in " MTOS(__FILE__));
 				}
 				if (i <= NPART) {
 					particles[i-1].dcolour |= data[p++]<<16;
@@ -1693,7 +1693,7 @@ void GameSave::readPSv(const std::vector<char> &dataVec)
 		{
 			if (ver>=49) {
 				if (p >= dataLength) {
-					throw ParseException(ParseException::Corrupt, "Not enough data at line " MTOS(__LINE__) " in " MTOS(__FILE__));
+					throw ParseException(ParseException::Corrupt, "Faltan datos en la línea " MTOS(__LINE__) " in " MTOS(__FILE__));
 				}
 				if (i <= NPART) {
 					particles[i-1].dcolour |= data[p++]<<8;
@@ -1711,7 +1711,7 @@ void GameSave::readPSv(const std::vector<char> &dataVec)
 		{
 			if (ver>=49) {
 				if (p >= dataLength) {
-					throw ParseException(ParseException::Corrupt, "Not enough data at line " MTOS(__LINE__) " in " MTOS(__FILE__));
+					throw ParseException(ParseException::Corrupt, "Faltan datos en la línea " MTOS(__LINE__) " in " MTOS(__FILE__));
 				}
 				if (i <= NPART) {
 					particles[i-1].dcolour |= data[p++];
@@ -1731,7 +1731,7 @@ void GameSave::readPSv(const std::vector<char> &dataVec)
 			{
 				if (p >= dataLength)
 				{
-					throw ParseException(ParseException::Corrupt, "Not enough data at line " MTOS(__LINE__) " in " MTOS(__FILE__));
+					throw ParseException(ParseException::Corrupt, "Faltan datos en la línea " MTOS(__LINE__) " in " MTOS(__FILE__));
 				}
 				if (i <= NPART)
 				{
@@ -1740,7 +1740,7 @@ void GameSave::readPSv(const std::vector<char> &dataVec)
 							ttv = (data[p++])<<8;
 							if (p >= dataLength)
 							{
-								throw ParseException(ParseException::Corrupt, "Not enough data at line " MTOS(__LINE__) " in " MTOS(__FILE__));
+								throw ParseException(ParseException::Corrupt, "Faltan datos en la línea " MTOS(__LINE__) " in " MTOS(__FILE__));
 							}
 							ttv |= (data[p++]);
 							if (particles[i-1].type==PT_PUMP) {
@@ -1761,7 +1761,7 @@ void GameSave::readPSv(const std::vector<char> &dataVec)
 					if (new_format) {
 						if (p >= dataLength)
 						{
-							throw ParseException(ParseException::Corrupt, "Not enough data at line " MTOS(__LINE__) " in " MTOS(__FILE__));
+							throw ParseException(ParseException::Corrupt, "Faltan datos en la línea " MTOS(__LINE__) " in " MTOS(__FILE__));
 						}
 						p++;
 					}
@@ -1781,7 +1781,7 @@ void GameSave::readPSv(const std::vector<char> &dataVec)
 		if (i && (ty==PT_CLNE || (ty==PT_PCLN && ver>=43) || (ty==PT_BCLN && ver>=44) || (ty==PT_SPRK && ver>=21) || (ty==PT_LAVA && ver>=34) || (ty==PT_PIPE && ver>=43) || (ty==PT_LIFE && ver>=51) || (ty==PT_PBCN && ver>=52) || (ty==PT_WIRE && ver>=55) || (ty==PT_STOR && ver>=59) || (ty==PT_CONV && ver>=60)))
 		{
 			if (p >= dataLength)
-				throw ParseException(ParseException::Corrupt, "Not enough data at line " MTOS(__LINE__) " in " MTOS(__FILE__));
+				throw ParseException(ParseException::Corrupt, "Faltan datos en la línea " MTOS(__LINE__) " in " MTOS(__FILE__));
 			if (i <= NPART)
 				particles[i-1].ctype = data[p++];
 			else
@@ -1946,7 +1946,7 @@ void GameSave::readPSv(const std::vector<char> &dataVec)
 	for (auto i = 0; i < signCount; i++)
 	{
 		if (p+6 > dataLength)
-			throw ParseException(ParseException::Corrupt, "Not enough data at line " MTOS(__LINE__) " in " MTOS(__FILE__));
+			throw ParseException(ParseException::Corrupt, "Faltan datos en la línea " MTOS(__LINE__) " in " MTOS(__FILE__));
 		{
 			int x = data[p++];
 			x |= ((unsigned)data[p++])<<8;
@@ -1964,7 +1964,7 @@ void GameSave::readPSv(const std::vector<char> &dataVec)
 		{
 			int l = data[p++];
 			if (p+l > dataLength)
-				throw ParseException(ParseException::Corrupt, "Not enough data at line " MTOS(__LINE__) " in " MTOS(__FILE__));
+				throw ParseException(ParseException::Corrupt, "Faltan datos en la línea " MTOS(__LINE__) " in " MTOS(__FILE__));
 			if(l>254)
 				l = 254;
 			memcpy(tempSignText, &data[p], l);
@@ -1974,11 +1974,11 @@ void GameSave::readPSv(const std::vector<char> &dataVec)
 		tempSign.text = format::CleanString(ByteString(tempSignText).FromUtf8(), true, true, true).Substr(0, 45);
 		if (tempSign.text == "{t}")
 		{
-			tempSign.text = "Temp: {t}";
+			tempSign.text = "Temp.: {t}";
 		}
 		else if (tempSign.text == "{p}")
 		{
-			tempSign.text = "Pressure: {p}";
+			tempSign.text = "Presión: {p}";
 		}
 		tempSigns.push_back(tempSign);
 	}
@@ -1997,7 +1997,7 @@ std::pair<bool, std::vector<char>> GameSave::serialiseOPS() const
 {
 	if (blockSize.X > 255 || blockSize.Y > 255)
 	{
-		throw BuildException("simulation size not supported by the save format");
+		throw BuildException("El formato de partida no admite este tamaño de simulación");
 	}
 
 	// minimum version this save is compatible with
@@ -2733,21 +2733,21 @@ std::pair<bool, std::vector<char>> GameSave::serialiseOPS() const
 	}
 	catch (const Bson::DumpError &ex)
 	{
-		throw BuildException(String::Build("BSON error when dumping save: ", ByteString(ex.what()).FromUtf8()));
+		throw BuildException(String::Build("Error de BSON al guardar la partida: ", ByteString(ex.what()).FromUtf8()));
 	}
 
 	std::vector<char> outputData;
 	switch (auto status = BZ2WCompress(outputData, finalData))
 	{
 	case BZ2WCompressOk: break;
-	case BZ2WCompressNomem: throw BuildException(String::Build("Save error, out of memory"));
-	default: throw BuildException(String::Build("Cannot compress: status ", int(status)));
+	case BZ2WCompressNomem: throw BuildException(String::Build("Error al guardar. Memoria insuficiente."));
+	default: throw BuildException(String::Build("No se pudieron comprimir los datos. Estado: ", int(status)));
 	}
 	auto compressedSize = int(outputData.size());
 
 	if constexpr (DEBUG)
 	{
-		printf("compressed data: %d\n", compressedSize);
+		printf("Datos comprimidos: %d\n", compressedSize);
 	}
 	outputData.resize(compressedSize + 12);
 

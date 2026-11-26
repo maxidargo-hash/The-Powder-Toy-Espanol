@@ -24,7 +24,7 @@ const GameSave *SaveFile::LazyGetGameSave() // non-owning
 			}
 			else
 			{
-				loadingError = "cannot access file";
+				loadingError = "No se puede acceder al archivo";
 			}
 		}
 		catch(std::exception & e)

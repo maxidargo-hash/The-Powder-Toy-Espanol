@@ -241,11 +241,11 @@ void PreviewModel::Update()
 		{
 			if (favouriteSaveRequest->Favourite())
 			{
-				new ErrorMessage("Error", "Could not favourite the save: " + ByteString(ex.what()).FromUtf8());
+				new ErrorMessage("Error", "No se pudo añadir la partida a favoritos: " + ByteString(ex.what()).FromUtf8());
 			}
 			else
 			{
-				new ErrorMessage("Error", "Could not unfavourite the save: " + ByteString(ex.what()).FromUtf8());
+				new ErrorMessage("Error", "No se pudo quitar la partida de favoritos: " + ByteString(ex.what()).FromUtf8());
 			}
 		}
 		favouriteSaveRequest.reset();

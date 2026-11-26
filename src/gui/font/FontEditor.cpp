@@ -24,7 +24,7 @@ void FontEditor::ReadDataFile(ByteString dataFile)
 	std::fstream file;
 	file.open(dataFile, std::ios_base::in | std::ios_base::binary);
 	if(!file)
-		throw std::runtime_error("Could not open " + dataFile);
+		throw std::runtime_error("No se pudo abrir " + dataFile);
 	file.seekg(0, std::ios_base::end);
 	std::vector<char> fileData(file.tellg());
 	file.seekg(0);
@@ -36,7 +36,7 @@ void FontEditor::ReadDataFile(ByteString dataFile)
 	std::vector< std::array<int, 2> > fontRangesBuf;
 	if (BZ2WDecompress(fontDataBuf, fileData) != BZ2WDecompressOk)
 	{
-		throw std::runtime_error("Could not decompress font data");
+		throw std::runtime_error("No se pudieron descomprimir los datos de la fuente");
 	}
 	int first = -1;
 	int last = -1;
@@ -47,26 +47,26 @@ void FontEditor::ReadDataFile(ByteString dataFile)
 	{
 		if (ptr + 4 > end)
 		{
-			throw std::runtime_error("Could not decompress font data");
+			throw std::runtime_error("No se pudieron descomprimir los datos de la fuente");
 		}
 		auto codePoint = *reinterpret_cast<uint32_t *>(ptr) & 0xFFFFFFU;
 		if (codePoint >= 0x110000U)
 		{
-			throw std::runtime_error("Could not decompress font data");
+			throw std::runtime_error("No se pudieron descomprimir los datos de la fuente");
 		}
 		auto width = *reinterpret_cast<uint8_t *>(ptr + 3);
 		if (width > 64)
 		{
-			throw std::runtime_error("Could not decompress font data");
+			throw std::runtime_error("No se pudieron descomprimir los datos de la fuente");
 		}
 		if (ptr + 4 + width * 3 > end)
 		{
-			throw std::runtime_error("Could not decompress font data");
+			throw std::runtime_error("No se pudieron descomprimir los datos de la fuente");
 		}
 		auto cp = (int)codePoint;
 		if (last >= cp)
 		{
-			throw std::runtime_error("Could not decompress font data");
+			throw std::runtime_error("No se pudieron descomprimir los datos de la fuente");
 		}
 		if (first != -1 && last + 1 < cp)
 		{
@@ -109,7 +109,7 @@ void FontEditor::WriteDataFile(ByteString dataFile, std::vector<unsigned char> c
 	std::fstream file;
 	file.open(dataFile, std::ios_base::out | std::ios_base::trunc | std::ios_base::binary);
 	if(!file)
-		throw std::runtime_error("Could not open " + dataFile);
+		throw std::runtime_error("No se pudo abrir " + dataFile);
 
 	std::vector<char> uncompressed;
 	size_t pos = 0;
@@ -133,7 +133,7 @@ void FontEditor::WriteDataFile(ByteString dataFile, std::vector<unsigned char> c
 	std::vector<char> compressed;
 	if (BZ2WCompress(compressed, uncompressed) != BZ2WCompressOk)
 	{
-		throw std::runtime_error("Could not compress font data");
+		throw std::runtime_error("No se pudieron comprimir los datos de la fuente");
 	}
 	file.write(compressed.data(), compressed.size());
 
@@ -296,7 +296,7 @@ FontEditor::FontEditor(ByteString _dataFile):
 	grow->SetActionCallback({ [this] { GrowChar(); } });
 	AddComponent(grow);
 
-	ui::Button *add = new ui::Button(ui::Point(currentX, baseline), ui::Point(36, 17), "Add");
+	ui::Button *add = new ui::Button(ui::Point(currentX, baseline), ui::Point(36, 17), "Añadir");
 	currentX += 37;
 	add->SetActionCallback({ [this] {
 		if (fontWidths.find(currentChar) == fontWidths.end())
@@ -308,7 +308,7 @@ FontEditor::FontEditor(ByteString _dataFile):
 	} });
 	AddComponent(add);
 
-	ui::Button *remove = new ui::Button(ui::Point(currentX, baseline), ui::Point(36, 17), "Remove");
+	ui::Button *remove = new ui::Button(ui::Point(currentX, baseline), ui::Point(36, 17), "Quitar");
 	currentX += 37;
 	remove->SetActionCallback({ [this] {
 		if (fontWidths.find(currentChar) != fontWidths.end())
@@ -320,7 +320,7 @@ FontEditor::FontEditor(ByteString _dataFile):
 	} });
 	AddComponent(remove);
 	
-	ui::Button *showGrid = new ui::Button(ui::Point(currentX, baseline), ui::Point(32, 17), "Grid");
+	ui::Button *showGrid = new ui::Button(ui::Point(currentX, baseline), ui::Point(32, 17), "Cuadrícula");
 	currentX += 33;
 	showGrid->SetTogglable(true);
 	showGrid->SetToggleState(grid);
@@ -329,7 +329,7 @@ FontEditor::FontEditor(ByteString _dataFile):
 	} });
 	AddComponent(showGrid);
 	
-	ui::Button *showRulers = new ui::Button(ui::Point(currentX, baseline), ui::Point(32, 17), "Rulers");
+	ui::Button *showRulers = new ui::Button(ui::Point(currentX, baseline), ui::Point(32, 17), "Reglas");
 	currentX += 33;
 	showRulers->SetTogglable(true);
 	showRulers->SetToggleState(rulers);
@@ -340,7 +340,7 @@ FontEditor::FontEditor(ByteString _dataFile):
 
 	currentX += 28;
 
-	ui::Button *upButton = new ui::Button(ui::Point(currentX, baseline), ui::Point(20, 17), "UP");
+	ui::Button *upButton = new ui::Button(ui::Point(currentX, baseline), ui::Point(20, 17), "ARR");
 	currentX += 21;
 	upButton->SetActionCallback({ [this] { Translate(fontPixels[currentChar], 0, -1); } });
 	AddComponent(upButton);
@@ -361,14 +361,14 @@ FontEditor::FontEditor(ByteString _dataFile):
 
 	currentX += 83;
 
-	ui::Button *leftButton = new ui::Button(ui::Point(currentX, baseline), ui::Point(20, 17), "LT");
+	ui::Button *leftButton = new ui::Button(ui::Point(currentX, baseline), ui::Point(20, 17), "IZQ");
 	currentX += 21;
 	leftButton->SetActionCallback({ [this] { Translate(fontPixels[currentChar], -1, 0); } });
 	AddComponent(leftButton);
 
 	currentX += 21;
 
-	ui::Button *rightButton = new ui::Button(ui::Point(currentX, baseline), ui::Point(20, 17), "RT");
+	ui::Button *rightButton = new ui::Button(ui::Point(currentX, baseline), ui::Point(20, 17), "DER");
 	currentX += 21;
 	rightButton->SetActionCallback({ [this] { Translate(fontPixels[currentChar], 1, 0); } });
 	AddComponent(rightButton);
@@ -376,12 +376,12 @@ FontEditor::FontEditor(ByteString _dataFile):
 	baseline += 18;
 	currentX = 1;
 	
-	ui::Button *render = new ui::Button(ui::Point(currentX, baseline), ui::Point(50, 17), "Render");
+	ui::Button *render = new ui::Button(ui::Point(currentX, baseline), ui::Point(50, 17), "Dibujar");
 	currentX += 51;
 	render->SetActionCallback({ [this] { Render(); } });
 	AddComponent(render);
 	
-	savedButton = new ui::Button(ui::Point(currentX, baseline), ui::Point(50, 17), "Save");
+	savedButton = new ui::Button(ui::Point(currentX, baseline), ui::Point(50, 17), "Guardar");
 	currentX += 51;
 	savedButton->SetTogglable(true);
 	savedButton->SetToggleState(true);
@@ -406,7 +406,7 @@ FontEditor::FontEditor(ByteString _dataFile):
 	currentX += 36;
 	AddComponent(swapTextbox);
 
-	ui::Button *swapButton = new ui::Button(ui::Point(currentX, baseline), ui::Point(30, 17), "Swap");
+	ui::Button *swapButton = new ui::Button(ui::Point(currentX, baseline), ui::Point(30, 17), "Intercambiar");
 	currentX += 31;
 	swapButton->SetActionCallback({ [this, swapTextbox] {
 		auto num = swapTextbox->GetText().ToNumber<unsigned int>(Format::Hex(), true);
@@ -433,7 +433,7 @@ FontEditor::FontEditor(ByteString _dataFile):
 
 	currentX += 51;
 
-	ui::Button *downButton = new ui::Button(ui::Point(currentX, baseline), ui::Point(20, 17), "DN");
+	ui::Button *downButton = new ui::Button(ui::Point(currentX, baseline), ui::Point(20, 17), "ABA");
 	currentX += 21;
 	downButton->SetActionCallback({ [this] { Translate(fontPixels[currentChar], 0, 1); } });
 	AddComponent(downButton);
@@ -529,11 +529,11 @@ FontEditor::FontEditor(ByteString target, ByteString source):
 					for(int i = 0; i < tgtFontWidths[p.first]; i++)
 						same = same && tgtFontPixels[p.first][j][i] == srcFontPixels[p.first][j][i];
 			if(!same)
-				std::cout << "U+" << std::hex << (unsigned int)p.first << " is present in both files and is different!" << std::endl;
+				std::cout << "U+" << std::hex << (unsigned int)p.first << " aparece en ambos archivos y es distinto" << std::endl;
 		}
 		else
 		{
-			std::cout << "Adding U+" << std::hex << (unsigned int)p.first << " to the target" << std::endl;
+			std::cout << "Añadiendo U+" << std::hex << (unsigned int)p.first << " al destino" << std::endl;
 			tgtFontWidths[p.first] = srcFontWidths[p.first];
 			tgtFontPixels[p.first] = p.second;
 		}
@@ -578,7 +578,7 @@ void FontEditor::OnDraw()
 	}
 	else
 	{
-		g->BlendText({ 8, 8 }, "No character", 0xFF0000_rgb .WithAlpha(255));
+		g->BlendText({ 8, 8 }, "Sin carácter", 0xFF0000_rgb .WithAlpha(255));
 	}
 }
 

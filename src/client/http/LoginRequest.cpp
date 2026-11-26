@@ -27,7 +27,7 @@ namespace http
 			loginInfo.user.UserID = document["UserID"].asInt();
 			if (!loginInfo.user.UserID)
 			{
-				throw RequestError("bad user ID");
+				throw RequestError("ID de usuario no válido");
 			}
 			loginInfo.user.SessionID = document["SessionID"].asString();
 			loginInfo.user.SessionKey = document["SessionKey"].asString();
@@ -42,7 +42,7 @@ namespace http
 		}
 		catch (const std::exception &ex)
 		{
-			throw RequestError("Could not read response: " + ByteString(ex.what()));
+			throw RequestError("No se pudo leer la respuesta: " + ByteString(ex.what()));
 		}
 		return loginInfo;
 	}

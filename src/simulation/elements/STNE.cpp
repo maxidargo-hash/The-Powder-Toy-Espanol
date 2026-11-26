@@ -27,7 +27,7 @@ void Element::Element_STNE()
 	Weight = 90;
 
 	HeatConduct = 150;
-	Description = "Stone. Heavy particles, meltable.";
+	Description = "Piedra. Partículas pesadas que se pueden fundir.";
 
 	Properties = TYPE_PART;
 

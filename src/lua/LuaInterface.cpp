@@ -77,7 +77,7 @@ static int beginMessageBox(lua_State *L)
 static int beginThrowError(lua_State *L)
 {
 	GetLSI()->AssertInterfaceEvent();
-	auto errorMessage = PickIfType(L, 1, String("Error text"));
+	auto errorMessage = PickIfType(L, 1, String("Texto del error"));
 	auto cb = std::make_shared<LuaSmartRef>(); // * Bind to main lua state (might be different from L).
 	if (lua_gettop(L))
 	{
@@ -106,7 +106,7 @@ static int beginInput(lua_State *L)
 {
 	GetLSI()->AssertInterfaceEvent();
 	auto title = PickIfType(L, 1, String("Title"));
-	auto prompt = PickIfType(L, 2, String("Enter some text:"));
+	auto prompt = PickIfType(L, 2, String("Escribe algo:"));
 	auto text = PickIfType(L, 3, String(""));
 	auto shadow = PickIfType(L, 4, String(""));
 	auto cb = std::make_shared<LuaSmartRef>(); // * Bind to main lua state (might be different from L).
@@ -151,7 +151,7 @@ static int beginConfirm(lua_State *L)
 	GetLSI()->AssertInterfaceEvent();
 	auto title = PickIfType(L, 1, String("Title"));
 	auto message = PickIfType(L, 2, String("Message"));
-	auto buttonText = PickIfType(L, 3, String("Confirm"));
+	auto buttonText = PickIfType(L, 3, String("Confirmar"));
 	auto cb = std::make_shared<LuaSmartRef>(); // * Bind to main lua state (might be different from L).
 	if (lua_gettop(L))
 	{
@@ -211,7 +211,7 @@ static int brushID(lua_State *L)
 	auto index = luaL_checkint(L, 1);
 	if (index < 0 || index >= int(lsi->gameModel->BrushListSize()))
 	{
-		return luaL_error(L, "Invalid brush index %i", index);
+		return luaL_error(L, "Índice de pincel no válido: %i", index);
 	}
 	lsi->gameModel->SetBrushID(index);
 	return 0;
@@ -249,7 +249,7 @@ static int activeTool(lua_State *L)
 	auto index = luaL_checkint(L, 1);
 	if (index < 0 || index >= NUM_TOOLINDICES)
 	{
-		return luaL_error(L, "Invalid tool index %i", index);
+		return luaL_error(L, "Índice de herramienta no válido: %i", index);
 	}
 	if (lua_gettop(L) < 2)
 	{
@@ -261,7 +261,7 @@ static int activeTool(lua_State *L)
 	auto *tool = lsi->gameModel->GetToolFromIdentifier(identifier);
 	if (!tool)
 	{
-		return luaL_error(L, "Invalid tool identifier %s", identifier.c_str());
+		return luaL_error(L, "Identificador de herramienta no válido: %s", identifier.c_str());
 	}
 	lsi->gameController->SetActiveTool(index, tool);
 	return 0;
@@ -413,7 +413,7 @@ static int activeMenu(lua_State *L)
 	if (menuid >= 0 && menuid < int(sd.msections.size()))
 		lsi->gameController->SetActiveMenu(menuid);
 	else
-		return luaL_error(L, "Invalid menu");
+		return luaL_error(L, "Menú no válido");
 	return 0;
 }
 
@@ -425,7 +425,7 @@ static int menuEnabled(lua_State *L)
 	{
 		auto &sd = SimulationData::CRef();
 		if (menusection < 0 || menusection >= int(sd.msections.size()))
-			return luaL_error(L, "Invalid menu");
+			return luaL_error(L, "Menú no válido");
 	}
 	int acount = lua_gettop(L);
 	if (acount == 1)

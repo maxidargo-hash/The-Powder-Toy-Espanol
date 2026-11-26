@@ -32,7 +32,7 @@ void Element::Element_PRTO()
 	Weight = 100;
 
 	HeatConduct = 0;
-	Description = "Portal OUT. Particles come out here. Also has temperature dependent channels. (same as WIFI)";
+	Description = "Portal de salida. Usa canales que dependen de su temperatura, como WIFI.";
 
 	Properties = TYPE_SOLID;
 

@@ -27,7 +27,7 @@ void Element::Element_BGLA()
 	Weight = 90;
 
 	HeatConduct = 150;
-	Description = "Broken Glass, heavy particles formed when glass breaks under pressure. Meltable. Bagels.";
+	Description = "Vidrio roto. Partículas pesadas que se forman al romperse el vidrio por presión. Puede fundirse. Bagels.";
 
 	Properties = TYPE_PART | PROP_NEUTPASS | PROP_PHOTPASS | PROP_HOT_GLOW | PROP_DEADLY;
 

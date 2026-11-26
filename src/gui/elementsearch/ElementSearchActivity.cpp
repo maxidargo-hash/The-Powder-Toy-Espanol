@@ -29,7 +29,7 @@ ElementSearchActivity::ElementSearchActivity(GameController * gameController, st
 	isToolTipFadingIn(false),
 	exit(false)
 {
-	ui::Label * title = new ui::Label(ui::Point(4, 5), ui::Point(Size.X-8, 15), "Element Search");
+	ui::Label * title = new ui::Label(ui::Point(4, 5), ui::Point(Size.X-8, 15), "Buscar elementos");
 	title->SetTextColour(style::Colour::InformationTitle);
 	title->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	AddComponent(title);
@@ -40,9 +40,9 @@ ElementSearchActivity::ElementSearchActivity(GameController * gameController, st
 	AddComponent(searchField);
 	FocusComponent(searchField);
 
-	ui::Button * closeButton = new ui::Button(ui::Point(0, Size.Y-15), ui::Point((Size.X/2)+1, 15), "Close");
+	ui::Button * closeButton = new ui::Button(ui::Point(0, Size.Y-15), ui::Point((Size.X/2)+1, 15), "Cerrar");
 	closeButton->SetActionCallback({ [this] { exit = true; } });
-	ui::Button * okButton = new ui::Button(ui::Point(Size.X/2, Size.Y-15), ui::Point(Size.X/2, 15), "OK");
+	ui::Button * okButton = new ui::Button(ui::Point(Size.X/2, Size.Y-15), ui::Point(Size.X/2, 15), "Aceptar");
 	okButton->SetActionCallback({ [this] {
 		if (GetFirstResult())
 			SetActiveTool(0, GetFirstResult());
@@ -57,6 +57,20 @@ ElementSearchActivity::ElementSearchActivity(GameController * gameController, st
 	searchTools("");
 }
 
+static String NormalizeSearchText(String text)
+{
+	text = text.ToLower();
+	constexpr std::u32string_view accented = U"áéíóúüÁÉÍÓÚÜÑ";
+	constexpr std::u32string_view normalized = U"aeiouuaeiouuñ";
+	for (auto &character : text)
+	{
+		auto index = accented.find(character);
+		if (index != accented.npos)
+			character = normalized[index];
+	}
+	return text;
+}
+
 void ElementSearchActivity::searchTools(String query)
 {
 	firstResult = nullptr;
@@ -69,7 +83,7 @@ void ElementSearchActivity::searchTools(String query)
 	ui::Point viewPosition = { 1, 1 };
 	ui::Point current = ui::Point(0, 0);
 
-	String queryLower = query.ToLower();
+	String queryLower = NormalizeSearchText(std::move(query));
 
 	struct Match
 	{
@@ -116,14 +130,14 @@ void ElementSearchActivity::searchTools(String query)
 	{
 		for (auto *tool : menu->GetToolList())
 		{
-			menudescriptionLower.insert(std::make_pair(tool, menu->GetDescription().ToLower()));
+			menudescriptionLower.insert(std::make_pair(tool, NormalizeSearchText(menu->GetDescription())));
 		}
 	}
 
 	for (int toolIndex = 0; toolIndex < (int)tools.size(); ++toolIndex)
 	{
-		pushIfMatches(tools[toolIndex]->Name.ToLower(), toolIndex, 0);
-		pushIfMatches(tools[toolIndex]->Description.ToLower(), toolIndex, 1);
+		pushIfMatches(NormalizeSearchText(tools[toolIndex]->Name), toolIndex, 0);
+		pushIfMatches(NormalizeSearchText(tools[toolIndex]->Description), toolIndex, 1);
 		auto it = menudescriptionLower.find(tools[toolIndex]);
 		if (it != menudescriptionLower.end())
 		{

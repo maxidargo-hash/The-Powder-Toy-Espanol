@@ -245,7 +245,7 @@ GameView::GameView():
 	reloadButton->SetActionCallback({ [this] { c->ReloadSim(); }, [this] { c->OpenSavePreview(); } });
 	AddComponent(reloadButton);
 
-	saveSimulationButton = new SplitButton(ui::Point(currentX, Size.Y-16), ui::Point(150, 15), "[untitled simulation]", "", "", 19);
+	saveSimulationButton = new SplitButton(ui::Point(currentX, Size.Y-16), ui::Point(150, 15), "[simulación sin título]", "", "", 19);
 	saveSimulationButton->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	saveSimulationButton->SetIcon(IconSave);
 	currentX+=151;
@@ -316,7 +316,7 @@ GameView::GameView():
 	displayModeButton->SetActionCallback({ [this] { c->OpenRenderOptions(); } });
 	AddComponent(displayModeButton);
 
-	pauseButton = new ui::Button(ui::Point(Size.X-16, Size.Y-16), ui::Point(15, 15), "", "Pause/Resume the simulation");  //Pause
+	pauseButton = new ui::Button(ui::Point(Size.X-16, Size.Y-16), ui::Point(15, 15), "", "Pausar o reanudar la simulación");  //Pause
 	pauseButton->SetIcon(IconPause);
 	pauseButton->SetTogglable(true);
 	pauseButton->SetActionCallback({ [this] { c->SetPaused(pauseButton->GetToggleState()); } });
@@ -417,7 +417,7 @@ void GameView::NotifyMenuListChanged(GameModel * sender)
 			tempString += menuList[i]->GetIcon();
 			String description = menuList[i]->GetDescription();
 			if (i == SC_FAVORITES && !Favorite::Ref().AnyFavorites())
-				description += " (Use ctrl+shift+click to toggle the favorite status of an element)";
+				description += " (Ctrl+Mayús+clic para añadir o quitar un favorito)";
 			auto *tempButton = new MenuButton(ui::Point(WINDOWW-16, currentY), ui::Point(15, 15), tempString, description);
 			tempButton->Appearance.Margin = ui::Border(0, 2, 3, 2);
 			tempButton->menuID = i;
@@ -604,7 +604,7 @@ void GameView::NotifyActiveMenuToolListChanged(GameModel * sender)
 					}
 					else if (identifier.BeginsWith("DEFAULT_PT_LIFECUST_"))
 					{
-						new ConfirmPrompt("Eliminar tipo personalizado de Vida", "Are you sure you want to remove " + identifier.Substr(20).FromUtf8() + "?", { [this, identifier]() {
+						new ConfirmPrompt("Eliminar tipo personalizado de Vida", "¿Quieres eliminar " + identifier.Substr(20).FromUtf8() + "?", { [this, identifier]() {
 							c->RemoveCustomGol(identifier);
 						} });
 					}
@@ -919,7 +919,7 @@ void GameView::NotifySaveChanged(GameModel * sender)
 	else
 	{
 		saveSimulationButton->SetShowSplit(false);
-		saveSimulationButton->SetText("[untitled simulation]");
+		saveSimulationButton->SetText("[simulación sin título]");
 		reloadButton->Enabled = false;
 		upVoteButton->Enabled = false;
 		upVoteButton->Appearance.BackgroundDisabled = (ui::Colour(0, 0, 0));
@@ -981,7 +981,7 @@ ByteString GameView::TakeScreenshot(int captureUI, int fileType)
 		auto *rgbSurface = SDL_ConvertSurfaceFormat(rgbaSurface, SDL_PIXELFORMAT_RGB888, 0);
 		if (!rgbSurface || SDL_SaveBMP(rgbSurface, filename.c_str()))
 		{
-			std::cerr << "SDL_SaveBMP failed: " << SDL_GetError() << std::endl;
+			std::cerr << "Error de SDL_SaveBMP: " << SDL_GetError() << std::endl;
 			filename = "";
 		}
 		SDL_FreeSurface(rgbSurface);
@@ -1353,7 +1353,7 @@ void GameView::BeginStampSelection()
 	selectMode = SelectStamp;
 	selectPoint1 = selectPoint2 = ui::Point(-1, -1);
 	isMouseDown = false;
-	buttonTip = "\x0F\xEF\xEF\020Click-and-drag to specify an area to create a stamp (right click = cancel)";
+	buttonTip = "\x0F\xEF\xEF\020Arrastra para seleccionar el área del sello (clic derecho para cancelar)";
 	buttonTipShow = 120;
 }
 
@@ -1556,7 +1556,7 @@ void GameView::OnKeyPress(int key, int scan, bool repeat, bool shift, bool ctrl,
 			selectMode = SelectCopy;
 			selectPoint1 = selectPoint2 = ui::Point(-1, -1);
 			isMouseDown = false;
-			buttonTip = "\x0F\xEF\xEF\020Click-and-drag to specify an area to copy (right click = cancel)";
+			buttonTip = "\x0F\xEF\xEF\020Arrastra para seleccionar el área que quieres copiar (clic derecho para cancelar)";
 			buttonTipShow = 120;
 		}
 		break;
@@ -1566,7 +1566,7 @@ void GameView::OnKeyPress(int key, int scan, bool repeat, bool shift, bool ctrl,
 			selectMode = SelectCut;
 			selectPoint1 = selectPoint2 = ui::Point(-1, -1);
 			isMouseDown = false;
-			buttonTip = "\x0F\xEF\xEF\020Click-and-drag to specify an area to copy then cut (right click = cancel)";
+			buttonTip = "\x0F\xEF\xEF\020Arrastra para seleccionar el área que quieres cortar (clic derecho para cancelar)";
 			buttonTipShow = 120;
 		}
 		break;
@@ -1709,7 +1709,7 @@ void GameView::OnFileDrop(ByteString filename)
 		auto saveFile = Client::Ref().GetStamp(filename);
 		if (!saveFile || !saveFile->GetGameSave())
 		{
-			new ErrorMessage("Error al cargar sello", "Dropped stamp could not be loaded: " + saveFile->GetError());
+			new ErrorMessage("Error al cargar sello", "No se pudo cargar el sello arrastrado: " + saveFile->GetError());
 			return;
 		}
 		c->LoadStamp(saveFile->TakeGameSave());
@@ -1721,7 +1721,7 @@ void GameView::OnFileDrop(ByteString filename)
 			return;
 		if (saveFile->GetError().length())
 		{
-			new ErrorMessage("Error al cargar partida", "Dropped save file could not be loaded: " + saveFile->GetError());
+			new ErrorMessage("Error al cargar partida", "No se pudo cargar el archivo arrastrado: " + saveFile->GetError());
 			return;
 		}
 		c->LoadSaveFile(std::move(saveFile));
@@ -1777,13 +1777,13 @@ void GameView::OnTick()
 		switch (si.second)
 		{
 		case sign::Type::Save:
-			tooltip << "Go to save ID:" << str.Substr(3, si.first - 3);
+			tooltip << "Abrir partida por ID: " << str.Substr(3, si.first - 3);
 			break;
 		case sign::Type::Thread:
-			tooltip << "Open forum thread " << str.Substr(3, si.first - 3) << " in browser";
+			tooltip << "Abrir el hilo del foro " << str.Substr(3, si.first - 3) << " en el navegador";
 			break;
 		case sign::Type::Search:
-			tooltip << "Search for " << str.Substr(3, si.first - 3);
+			tooltip << "Buscar " << str.Substr(3, si.first - 3);
 			break;
 		default: break;
 		}
@@ -2375,11 +2375,11 @@ void GameView::OnDraw()
 				{
 					if (ctype == PT_LAVA && c->IsValidElement(sample.particle.tmp4))
 					{
-						sampleInfo << c->ElementResolve(type, 0) << " with molten " << c->ElementResolve(sample.particle.tmp4, -1);
+						sampleInfo << c->ElementResolve(type, 0) << " con material fundido " << c->ElementResolve(sample.particle.tmp4, -1);
 					}
 					else
 					{
-						sampleInfo << c->ElementResolve(type, 0) << " with " << c->ElementResolve(ctype, sample.particle.tmp4);
+						sampleInfo << c->ElementResolve(type, 0) << " con " << c->ElementResolve(ctype, sample.particle.tmp4);
 					}
 				}
 				else if (type == PT_LIFE)
@@ -2389,11 +2389,11 @@ void GameView::OnDraw()
 				else if (type == PT_FILT)
 				{
 					sampleInfo << c->ElementResolve(type, ctype);
-					String filtModes[] = {"set colour", "AND", "OR", "AND-NOT", "red shift", "blue shift", "no effect", "XOR", "NOT", "old QRTZ scattering", "variable red shift", "variable blue shift"};
+					String filtModes[] = {"fijar color", "AND", "OR", "AND-NOT", "corrimiento al rojo", "corrimiento al azul", "sin efecto", "XOR", "NOT", "dispersión antigua de QRTZ", "corrimiento variable al rojo", "corrimiento variable al azul"};
 					if (sample.particle.tmp>=0 && sample.particle.tmp<=11)
 						sampleInfo << " (" << filtModes[sample.particle.tmp] << ")";
 					else
-						sampleInfo << " (unknown mode)";
+						sampleInfo << " (modo desconocido)";
 				}
 				else if (type == PT_SEED || (type == PT_PLNT && ctype))
 				{
@@ -2404,7 +2404,7 @@ void GameView::OnDraw()
 					auto dir = (ctype >> PLNT_DIR) & 7;
 					auto active = ctype & 1;
 
-					static const std::array<String, 8> directions = {"N", "NW", "W", "SW", "S", "SE", "E", "NE"};
+					static const std::array<String, 8> directions = {"N", "NO", "O", "SO", "S", "SE", "E", "NE"};
 					static const std::array<std::array<String, 4>, 3> colours = {{
 						{{"cc", "cC", "Cc", "CC"}}, {{"mm", "mM", "Mm", "MM"}}, {{"yy", "yY", "Yy", "YY"}} }};
 					auto cyan = (colour >> 4) & 3;
@@ -2433,7 +2433,7 @@ void GameView::OnDraw()
 				}
 				sampleInfo << ", Temp: ";
 				format::RenderTemperature(sampleInfo, sample.particle.temp, c->GetTemperatureScale());
-				sampleInfo << ", Life: " << sample.particle.life;
+				sampleInfo << ", Vida: " << sample.particle.life;
 				if (sample.particle.type != PT_RFRG && sample.particle.type != PT_RFGL && sample.particle.type != PT_LIFE)
 				{
 					if (sample.particle.type == PT_CONV)
@@ -2455,24 +2455,24 @@ void GameView::OnDraw()
 						|| type == PT_CONV || type == PT_ETRD)
 					sampleInfo << ", Tmp2: " << sample.particle.tmp2;
 
-				sampleInfo << ", Pressure: " << sample.AirPressure;
+				sampleInfo << ", Presión: " << sample.AirPressure;
 			}
 			else
 			{
 				sampleInfo << c->BasicParticleInfo(sample.particle);
 				sampleInfo << ", Temp: ";
 				format::RenderTemperature(sampleInfo, sample.particle.temp, c->GetTemperatureScale());
-				sampleInfo << ", Pressure: " << sample.AirPressure;
+				sampleInfo << ", Presión: " << sample.AirPressure;
 			}
 		}
 		else if (sample.WallType)
 		{
 			sampleInfo << c->WallName(sample.WallType);
-			sampleInfo << ", Pressure: " << sample.AirPressure;
+			sampleInfo << ", Presión: " << sample.AirPressure;
 		}
 		else if (sample.isMouseInSim)
 		{
-			sampleInfo << "Empty, Pressure: " << sample.AirPressure;
+			sampleInfo << "Vacío, presión: " << sample.AirPressure;
 		}
 		else
 		{
@@ -2535,7 +2535,7 @@ void GameView::OnDraw()
 
 			if (c->GetAHeatEnable() && sample.isMouseInSim)
 			{
-				sampleInfo << ", AHeat: ";
+				sampleInfo << ", Calor amb.: ";
 				format::RenderTemperature(sampleInfo, sample.AirTemperature, c->GetTemperatureScale());
 			}
 
@@ -2554,9 +2554,9 @@ void GameView::OnDraw()
 		if (showDebug)
 		{
 			if (rendererSettings->findingElement)
-				fpsInfo << " Parts: " << rendererStats.foundParticles << "/" << sample.NumParts;
+				fpsInfo << " Partículas: " << rendererStats.foundParticles << "/" << sample.NumParts;
 			else
-				fpsInfo << " Parts: " << sample.NumParts;
+				fpsInfo << " Partículas: " << sample.NumParts;
 		}
 		if ((std::holds_alternative<HdispLimitAuto>(rendererSettings->wantHdispLimitMin) ||
 		     std::holds_alternative<HdispLimitAuto>(rendererSettings->wantHdispLimitMax)) && rendererStats.hdispLimitValid)
@@ -2568,20 +2568,20 @@ void GameView::OnDraw()
 			fpsInfo << "]";
 		}
 		if (c->GetReplaceModeFlags()&REPLACE_MODE)
-			fpsInfo << " [REPLACE MODE]";
+			fpsInfo << " [REEMPLAZAR]";
 		if (c->GetReplaceModeFlags()&SPECIFIC_DELETE)
-			fpsInfo << " [SPECIFIC DELETE]";
+			fpsInfo << " [BORRADO SELECTIVO]";
 		if (rendererSettings->gridSize)
-			fpsInfo << " [GRID: " << rendererSettings->gridSize << "]";
+			fpsInfo << " [CUADRÍCULA: " << rendererSettings->gridSize << "]";
 		if (rendererSettings->findingElement)
-			fpsInfo << " [FIND]";
+			fpsInfo << " [BUSCAR]";
 		if (c->GetDebugFlags() & DEBUG_SIMHUD)
 		{
-			fpsInfo << "\nSimulation";
-			fpsInfo << "\n  FPS cap: ";
+			fpsInfo << "\nSimulación";
+			fpsInfo << "\n  Límite de FPS: ";
 			if (std::holds_alternative<FpsLimitNone>(simFpsLimit))
 			{
-				fpsInfo << "none";
+				fpsInfo << "ninguno";
 			}
 			else
 			{
@@ -2590,47 +2590,47 @@ void GameView::OnDraw()
 		}
 		if (c->GetDebugFlags() & DEBUG_RENHUD)
 		{
-			fpsInfo << "\nRendering";
-			fpsInfo << "\n  Draw cap: ";
+			fpsInfo << "\nGráficos";
+			fpsInfo << "\n  Límite de dibujo: ";
 			auto drawLimit = ui::Engine::Ref().GetDrawingFrequencyLimit();
 			if (std::holds_alternative<DrawLimitDisplay>(drawLimit))
 			{
-				fpsInfo << "display";
+				fpsInfo << "pantalla";
 			}
 			else
 			{
 				fpsInfo << std::get<DrawLimitExplicit>(drawLimit).value;
 			}
-			fpsInfo << ", effective: ";
+			fpsInfo << ", efectivo: ";
 			if (auto drawCap = ui::Engine::Ref().GetEffectiveDrawCap())
 			{
 				fpsInfo << *drawCap;
 			}
 			else
 			{
-				fpsInfo << "none";
+				fpsInfo << "ninguno";
 			}
 			fpsInfo << "\n  SRT: ";
 			if (!c->GetThreadedRendering())
 			{
-				fpsInfo << "disabled";
+				fpsInfo << "desactivado";
 			}
 			else if (threadedRenderingAllowed)
 			{
-				fpsInfo << "enabled";
+				fpsInfo << "activado";
 			}
 			else
 			{
-				fpsInfo << "hindered";
+				fpsInfo << "limitado";
 			}
-			fpsInfo << "\n  Refresh rate: ";
+			fpsInfo << "\n  Frecuencia: ";
 			auto refreshRate = ui::Engine::Ref().GetRefreshRate();
 			fpsInfo << std::visit([](auto &refreshRate) {
 				return refreshRate.value;
 			}, refreshRate);
 			if (std::holds_alternative<RefreshRateDefault>(refreshRate))
 			{
-				fpsInfo << " (default)";
+				fpsInfo << " (predeterminada)";
 			}
 		}
 		if (auto *frameTime = c->GetFrameTime())

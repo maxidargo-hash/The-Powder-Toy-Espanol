@@ -53,7 +53,7 @@ void ApplyFpsLimit()
 		delay = int(1000.f / *drawLimit);
 	}
 	emscripten_set_main_loop_timing(EM_TIMING_SETTIMEOUT, delay);
-	std::cerr << "explicit fps limit: " << delay << "ms delays" << std::endl;
+	std::cerr << "límite explícito de FPS: " << delay << " ms de espera" << std::endl;
 }
 
 // Is actually only called once at startup, the real main loop body is MainLoopBody.

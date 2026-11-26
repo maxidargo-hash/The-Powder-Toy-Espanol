@@ -293,7 +293,7 @@ static std::vector<int> EvaluateSelector(Simulation *sim, AnyType selector)
 		{
 			ui::Point tempPoint = ((PointType)selector).Value();
 			if(tempPoint.X<0 || tempPoint.Y<0 || tempPoint.Y >= YRES || tempPoint.X >= XRES)
-				throw GeneralException("Invalid position");
+				throw GeneralException("Posición no válida");
 
 			auto r = sim->pmap[tempPoint.Y][tempPoint.X];
 			if (!r)
@@ -308,7 +308,7 @@ static std::vector<int> EvaluateSelector(Simulation *sim, AnyType selector)
 		else
 			partIndex = ((NumberType)selector).Value();
 		if(partIndex<0 || partIndex>=NPART || sim->parts[partIndex].type==0)
-			throw GeneralException("Invalid particle");
+			throw GeneralException("Partícula no válida");
 
 		indices.push_back(partIndex);
 	}
@@ -331,9 +331,9 @@ static std::vector<int> EvaluateSelector(Simulation *sim, AnyType selector)
 			type = sd.GetParticleType(((StringType)selector).Value().ToUtf8());
 
 		if (type<0 || type>=PT_NUM)
-			throw GeneralException("Invalid particle type");
+			throw GeneralException("Tipo de partícula no válido");
 		if (type==0)
-			throw GeneralException("Cannot access properties of particles that do not exist");
+			throw GeneralException("No se puede acceder a las propiedades de partículas inexistentes");
 		for (int j = 0; j < NPART; j++)
 		{
 			if (sim->parts[j].type == type)
@@ -343,7 +343,7 @@ static std::vector<int> EvaluateSelector(Simulation *sim, AnyType selector)
 		}
 	}
 	else
-		throw GeneralException("Invalid selector");
+		throw GeneralException("Selector no válido");
 	return indices;
 }
 
@@ -358,7 +358,7 @@ AnyType CommandInterface::tptS_set(std::deque<String> * words)
 	auto prop = GetPropertyOffset(property.Value().ToUtf8());
 	if (!prop)
 	{
-		throw GeneralException("Invalid property");
+		throw GeneralException("Propiedad no válida");
 	}
 	auto &propInfo = Particle::GetProperties()[*prop];
 
@@ -417,7 +417,7 @@ AnyType CommandInterface::tptS_set(std::deque<String> * words)
 
 		default:
 			// get something else => bail
-			throw GeneralException("Invalid property value");
+			throw GeneralException("Valor de propiedad no válido");
 		}
 	}
 	catch (const AccessProperty::ParseError &ex)
@@ -425,7 +425,7 @@ AnyType CommandInterface::tptS_set(std::deque<String> * words)
 		// TODO: add element CAKE to invalidate this
 		if (value.GetType() == TypeString && StringType(value).Value().ToUpper() == "CAKE")
 		{
-			throw GeneralException("Cake is a lie, not an element");
+			throw GeneralException("El pastel es una mentira. No es un elemento.");
 		}
 		throw GeneralException(ByteString(ex.what()).FromUtf8());
 	}
@@ -448,7 +448,7 @@ AnyType CommandInterface::tptS_get(std::deque<String> * words)
 	auto prop = GetPropertyOffset(property.Value().ToUtf8());
 	if (!prop)
 	{
-		throw GeneralException("Invalid property");
+		throw GeneralException("Propiedad no válida");
 	}
 	auto &propInfo = Particle::GetProperties()[*prop];
 	AccessProperty accessProperty{ *prop };
@@ -456,11 +456,11 @@ AnyType CommandInterface::tptS_get(std::deque<String> * words)
 	auto indices = EvaluateSelector(sim, selector);
 	if (indices.size() > 1)
 	{
-		throw GeneralException("Multiple matching particles");
+		throw GeneralException("Coinciden varias partículas");
 	}
 	if (indices.size() < 1)
 	{
-		throw GeneralException("No matching particles");
+		throw GeneralException("No coincide ninguna partícula");
 	}
 
 	auto value = accessProperty.Get(sim, indices[0]);
@@ -493,14 +493,14 @@ AnyType CommandInterface::tptS_create(std::deque<String> * words)
 	else if(createType.GetType() == TypeString)
 		type = sd.GetParticleType(((StringType)createType).Value().ToUtf8());
 	else
-		throw GeneralException("Invalid type");
+		throw GeneralException("Tipo no válido");
 
 	if(type == -1)
-		throw GeneralException("Invalid particle type");
+		throw GeneralException("Tipo de partícula no válido");
 
 	ui::Point tempPoint = position.Value();
 	if(tempPoint.X<0 || tempPoint.Y<0 || tempPoint.Y >= YRES || tempPoint.X >= XRES)
-				throw GeneralException("Invalid position");
+				throw GeneralException("Posición no válida");
 
 	int v = -1;
 	if (ID(type))
@@ -524,18 +524,18 @@ AnyType CommandInterface::tptS_delete(std::deque<String> * words)
 	{
 		ui::Point deletePoint = ((PointType)partRef).Value();
 		if(deletePoint.X<0 || deletePoint.Y<0 || deletePoint.Y >= YRES || deletePoint.X >= XRES)
-			throw GeneralException("Invalid position");
+			throw GeneralException("Posición no válida");
 		sim->delete_part(deletePoint.X, deletePoint.Y);
 	}
 	else if(partRef.GetType() == TypeNumber)
 	{
 		int partIndex = ((NumberType)partRef).Value();
 		if(partIndex < 0 || partIndex >= NPART)
-			throw GeneralException("Invalid particle index");
+			throw GeneralException("Índice de partícula no válido");
 		sim->kill_part(partIndex);
 	}
 	else
-		throw GeneralException("Invalid particle reference");
+		throw GeneralException("Referencia a partícula no válida");
 
 	return NumberType(0);
 }
@@ -551,7 +551,7 @@ AnyType CommandInterface::tptS_load(std::deque<String> * words)
 		return NumberType(0);
 	}
 	else
-		throw GeneralException("Invalid save ID");
+		throw GeneralException("ID de partida no válido");
 }
 
 AnyType CommandInterface::tptS_bubble(std::deque<String> * words)
@@ -561,7 +561,7 @@ AnyType CommandInterface::tptS_bubble(std::deque<String> * words)
 	ui::Point bubblePos = bubblePosA.Value();
 
 	if(bubblePos.X<0 || bubblePos.Y<0 || bubblePos.Y >= YRES || bubblePos.X >= XRES)
-			throw GeneralException("Invalid position");
+			throw GeneralException("Posición no válida");
 
 	Simulation * sim = m->GetSimulation();
 
@@ -641,7 +641,7 @@ AnyType CommandInterface::tptS_reset(std::deque<String> * words)
 	}
 	else
 	{
-		throw GeneralException("Unknown reset command");
+		throw GeneralException("Comando reset desconocido");
 	}
 
 	return NumberType(0);

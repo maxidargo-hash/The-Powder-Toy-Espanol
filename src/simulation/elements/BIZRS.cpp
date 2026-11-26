@@ -29,7 +29,7 @@ void Element::Element_BIZRS()
 
 	DefaultProperties.temp = R_TEMP + 300.0f + 273.15f;
 	HeatConduct = 251;
-	Description = "Bizarre solid.";
+	Description = "Sólido extraño.";
 
 	Properties = TYPE_SOLID;
 

@@ -25,9 +25,9 @@ void ParticleDebug::Debug(int mode, int x, int y)
 		while (i < NPART - 1 && !sim->parts[i].type)
 			i++;
 		if (i == NPART - 1)
-			logmessage = "End of particles reached, updated sim";
+			logmessage = "Fin de las partículas. Simulación actualizada.";
 		else
-			logmessage = String::Build("Updated particle #", i);
+			logmessage = String::Build("Partícula actualizada: n.º ", i);
 	}
 	else if (mode == 1)
 	{
@@ -49,11 +49,11 @@ void ParticleDebug::Debug(int mode, int x, int y)
 	model->UpdateUpTo(i + 1);
 	if (sim->debug_nextToUpdate)
 	{
-		logmessage = String::Build("Updated particles from #", prevToUpdate, " through #", i);
+		logmessage = String::Build("Partículas actualizadas desde la n.º ", prevToUpdate, " hasta la n.º ", i);
 	}
 	else
 	{
-		logmessage = String::Build("Updated particles from #", prevToUpdate, " to end");
+		logmessage = String::Build("Partículas actualizadas desde la n.º ", prevToUpdate, " hasta el final");
 	}
 	model->Log(logmessage, false);
 }
@@ -88,7 +88,7 @@ bool ParticleDebug::KeyPress(int key, int scan, bool shift, bool ctrl, bool alt,
 				return true;
 			if (sim->debug_nextToUpdate > 0)
 			{
-				String logmessage = String::Build("Updated particles from #", sim->debug_nextToUpdate, " to end due to frame step");
+				String logmessage = String::Build("Partículas actualizadas desde la n.º ", sim->debug_nextToUpdate, " hasta el final por avance de fotograma");
 				model->UpdateUpTo(NPART);
 				model->Log(logmessage, false);
 			}

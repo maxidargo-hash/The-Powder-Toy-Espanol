@@ -29,7 +29,7 @@ void Element::Element_FUSE()
 	Weight = 100;
 
 	HeatConduct = 200;
-	Description = "Burns slowly. Ignites at very high temperatures or when sparked.";
+	Description = "Arde lentamente. Se enciende con mucho calor o con una chispa.";
 
 	Properties = TYPE_SOLID;
 

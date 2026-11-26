@@ -30,7 +30,7 @@ void Element::Element_RSSS()
 	Weight = 100;
 
 	HeatConduct = 130;
-	Description = "Solidified resist. Blocks pressure and insulates electricity. Liquefies on contact with neutrons.";
+	Description = "Fotorresina solidificada. Bloquea la presión y aísla la electricidad. Se licúa al tocar neutrones.";
 
 	Properties = TYPE_SOLID|PROP_NEUTPASS;
 	CarriesTypeIn = (1U << FIELD_CTYPE) | (1U << FIELD_TMP);

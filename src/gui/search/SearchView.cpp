@@ -30,15 +30,15 @@ SearchView::SearchView():
 
 	Client::Ref().AddListener(this);
 
-	nextButton = new ui::Button(ui::Point(WINDOWW-52, WINDOWH-18), ui::Point(50, 16), String("Next ") + 0xE015);
-	previousButton = new ui::Button(ui::Point(2, WINDOWH-18), ui::Point(50, 16), 0xE016 + String(" Prev"));
-	tagsLabel  = new ui::Label(ui::Point(270, WINDOWH-18), ui::Point(WINDOWW-540, 16), "\boPopular Tags:");
+	nextButton = new ui::Button(ui::Point(WINDOWW-52, WINDOWH-18), ui::Point(50, 16), String("Sig. ") + 0xE015);
+	previousButton = new ui::Button(ui::Point(2, WINDOWH-18), ui::Point(50, 16), 0xE016 + String(" Ant."));
+	tagsLabel  = new ui::Label(ui::Point(270, WINDOWH-18), ui::Point(WINDOWW-540, 16), "\boEtiquetas populares:");
 	motdLabel  = new ui::RichLabel(ui::Point(51, WINDOWH-18), ui::Point(WINDOWW-102, 16), Client::Ref().GetMessageOfTheDay());
 
 	pageTextbox = new ui::Textbox(ui::Point(283, WINDOWH-18), ui::Point(41, 16), "");
 	pageTextbox->SetActionCallback({ [this] { textChanged(); } });
 	pageTextbox->SetInputType(ui::Textbox::Number);
-	pageLabel = new ui::Label(ui::Point(0, WINDOWH-18), ui::Point(30, 16), "Page"); //page [TEXTBOX] of y
+	pageLabel = new ui::Label(ui::Point(0, WINDOWH-18), ui::Point(30, 16), "Página"); //page [TEXTBOX] of y
 	pageLabel->Appearance.HorizontalAlign = ui::Appearance::AlignRight;
 	pageCountLabel = new ui::Label(ui::Point(WINDOWW/2+6, WINDOWH-18), ui::Point(50, 16), "");
 	pageCountLabel->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
@@ -46,7 +46,7 @@ SearchView::SearchView():
 	AddComponent(pageCountLabel);
 	AddComponent(pageTextbox);
 
-	searchField = new ui::Textbox(ui::Point(60, 10), ui::Point(WINDOWW-283, 17), "", "[search, F1 for help]");
+	searchField = new ui::Textbox(ui::Point(60, 10), ui::Point(WINDOWW-283, 17), "", "[buscar, F1 para ayuda]");
 	searchField->Appearance.icon = IconSearch;
 	searchField->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	searchField->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
@@ -56,16 +56,16 @@ SearchView::SearchView():
 
 	dateRange = new ui::DropDown(ui::Point(WINDOWW-185, 10), ui::Point(36, 17));
 	dateRange->SetActionCallback({ [this] { c->ChangePeriod(dateRange->GetOption().second); } });
-	dateRange->AddOption({"All", 0});
-	dateRange->AddOption({"Day", 1});
-	dateRange->AddOption({"Week", 2});
-	dateRange->AddOption({"Month", 3});
-	dateRange->AddOption({"Year", 4});
+	dateRange->AddOption({"Todas", 0});
+	dateRange->AddOption({"Día", 1});
+	dateRange->AddOption({"Semana", 2});
+	dateRange->AddOption({"Mes", 3});
+	dateRange->AddOption({"Año", 4});
 	dateRange->Appearance.HorizontalAlign = ui::Appearance::AlignCentre;
 	dateRange->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	AddComponent(dateRange);
 
-	sortButton = new ui::Button(ui::Point(WINDOWW-140, 10), ui::Point(61, 17), "Sort");
+	sortButton = new ui::Button(ui::Point(WINDOWW-140, 10), ui::Point(61, 17), "Ordenar");
 	sortButton->SetIcon(IconVoteSort);
 	sortButton->SetTogglable(true);
 	sortButton->SetActionCallback({ [this] { c->ChangeSort(); } });
@@ -73,7 +73,7 @@ SearchView::SearchView():
 	sortButton->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	AddComponent(sortButton);
 
-	ownButton = new ui::Button(ui::Point(WINDOWW-70, 10), ui::Point(61, 17), "My Own");
+	ownButton = new ui::Button(ui::Point(WINDOWW-70, 10), ui::Point(61, 17), "Mis partidas");
 	ownButton->SetIcon(IconMyOwn);
 	ownButton->SetTogglable(true);
 	ownButton->SetActionCallback({ [this] { c->ShowOwn(ownButton->GetToggleState()); } });
@@ -116,27 +116,27 @@ SearchView::SearchView():
 	loadingSpinner = new ui::Spinner(ui::Point((WINDOWW/2)-12, (WINDOWH/2)+12), ui::Point(24, 24));
 	AddComponent(loadingSpinner);
 
-	ui::Label * searchPrompt = new ui::Label(ui::Point(10, 10), ui::Point(50, 16), "Search:");
+	ui::Label * searchPrompt = new ui::Label(ui::Point(10, 10), ui::Point(50, 16), "Buscar:");
 	searchPrompt->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	searchPrompt->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	AddComponent(searchPrompt);
 
-	removeSelected = new ui::Button(ui::Point(((WINDOWW-415)/2), WINDOWH-18), ui::Point(100, 16), "Delete");
+	removeSelected = new ui::Button(ui::Point(((WINDOWW-415)/2), WINDOWH-18), ui::Point(100, 16), "Eliminar");
 	removeSelected->Visible = false;
 	removeSelected->SetActionCallback({ [this] { c->RemoveSelected(); } });
 	AddComponent(removeSelected);
 
-	unpublishSelected = new ui::Button(ui::Point(((WINDOWW-415)/2)+105, WINDOWH-18), ui::Point(100, 16), "Unpublish");
+	unpublishSelected = new ui::Button(ui::Point(((WINDOWW-415)/2)+105, WINDOWH-18), ui::Point(100, 16), "Retirar");
 	unpublishSelected->Visible = false;
 	unpublishSelected->SetActionCallback({ [this] { c->UnpublishSelected(publishButtonShown); } });
 	AddComponent(unpublishSelected);
 
-	favouriteSelected = new ui::Button(ui::Point(((WINDOWW-415)/2)+210, WINDOWH-18), ui::Point(100, 16), "Favourite");
+	favouriteSelected = new ui::Button(ui::Point(((WINDOWW-415)/2)+210, WINDOWH-18), ui::Point(100, 16), "Favorito");
 	favouriteSelected->Visible = false;
 	favouriteSelected->SetActionCallback({ [this] { c->FavouriteSelected(); } });
 	AddComponent(favouriteSelected);
 
-	clearSelection = new ui::Button(ui::Point(((WINDOWW-415)/2)+315, WINDOWH-18), ui::Point(100, 16), "Clear selection");
+	clearSelection = new ui::Button(ui::Point(((WINDOWW-415)/2)+315, WINDOWH-18), ui::Point(100, 16), "Limpiar selección");
 	clearSelection->Visible = false;
 	clearSelection->SetActionCallback({ [this] { c->ClearSelection(); } });
 	AddComponent(clearSelection);
@@ -169,33 +169,33 @@ void SearchView::doSearch()
 void SearchView::searchHelp()
 {
 	String info =
-		"Type in the search bar to begin automatically searching save titles and tags. Search terms are ORed together.\n"
+		"Escribe en la barra para buscar en títulos y etiquetas. Basta que coincida uno de los términos.\n"
 		"\n"
-		"Sorting: click the \bt\"By Votes\"\bw / \bt\"By Date\"\bw buttons to change the order saves are displayed in\n"
-		"Categories: If you're logged in, use \bt\"My Own\"\bw to view only your own saves, or click the Star icon to view your favorited saves\n"
-		"Date Range: Click the dropdown to the right of the search box to select the date range for your search\n"
+		"Orden: elige \bt«Por votos»\bw o \bt«Por fecha»\bw para cambiar el orden de las partidas.\n"
+		"Categorías: inicia sesión para usar \bt«Mis partidas»\bw o pulsa la estrella para ver tus favoritos.\n"
+		"Fechas: usa el menú a la derecha de la barra para indicar el período que quieres buscar.\n"
 		"\n"
-		"Special search terms:\n"
-		"\btid:#######\bw - search by save id\n"
-		"\bthistory:#######\bw - see previous versions for a save id\n"
-		"\btuser:XXXXXX\bw - search for saves by a specific user\n"
-		"\btbefore:YYYY-MM-DD\bw - all saves originally created before a certain date. Month and Day portions are both optional\n"
-		"\btafter:YYYY-MM-DD\bw - all saves originally created after a certain date. Month and Day portions are both optional\n"
+		"Términos de búsqueda especiales:\n"
+		"\btid:#######\bw - busca por ID de partida\n"
+		"\bthistory:#######\bw - muestra versiones anteriores de la partida\n"
+		"\btuser:XXXXXX\bw - busca partidas de un usuario\n"
+		"\btbefore:YYYY-MM-DD\bw - partidas creadas antes de la fecha. El mes y el día son opcionales.\n"
+		"\btafter:YYYY-MM-DD\bw - partidas creadas después de la fecha. El mes y el día son opcionales.\n"
 		"\n"
-		"Advanced search:\n"
-		"Start a search with \bt~\bw to do an advanced search. This search works across save titles, descriptions, usernames, and tags, rather than only save titles and tags."
-		" It also concatenates search terms with AND instead of OR.\n"
-		"Use \bt|\bw to OR together search terms, for example \bg~bomb | nuke | explosive\bw\n"
-		"Use \bt!\bw to negate terms, for example \bg~city !destroyable !desert\bw\n"
-		"Use \bt\"\bw to create multi-word search terms, for example \bg~\"power plant\" uran | plut | polo\bw\n"
-		"Use \bt@title\bw to limit search to only save titles, for example \bg~@title subframe\bw\n"
-		"Use \bt@description\bw to limit search to only save descriptions, for example \bg~@description \"No description provided\"\bw\n"
-		"Use \bt@user\bw to limit search to only specific users, for example \bg~@user 117n00b | Catelite | Fluttershy @title laser\bw\n"
-		"Use \bt@tags\bw to limit search to just save tags, for example \bg~@tags resistcup @title printer | @description spider before:2024-06\bw\n"
-		"Parenthesis can be used to further complicate your searches. For example: \bg~(@user MG99 @description complete) | (@user goglesq @tags tutorial)\bw"
+		"Búsqueda avanzada:\n"
+		"Empieza con \bt~\bw para buscar en títulos, descripciones, nombres de usuario y etiquetas."
+		" El resultado debe incluir todos los términos de búsqueda.\n"
+		"Usa \bt|\bw para buscar cualquiera de los términos. Ejemplo: \bg~bomb | nuke | explosive\bw\n"
+		"Usa \bt!\bw para excluir términos. Ejemplo: \bg~city !destroyable !desert\bw\n"
+		"Usa \bt\"\bw para buscar frases. Ejemplo: \bg~\"power plant\" uran | plut | polo\bw\n"
+		"Usa \bt@title\bw para buscar en títulos. Ejemplo: \bg~@title subframe\bw\n"
+		"Usa \bt@description\bw para buscar en descripciones. Ejemplo: \bg~@description \"No description provided\"\bw\n"
+		"Usa \bt@user\bw para buscar usuarios. Ejemplo: \bg~@user 117n00b | Catelite | Fluttershy @title laser\bw\n"
+		"Usa \bt@tags\bw para buscar en etiquetas. Ejemplo: \bg~@tags resistcup @title printer | @description spider before:2024-06\bw\n"
+		"Usa paréntesis para agrupar términos. Ejemplo: \bg~(@user MG99 @description complete) | (@user goglesq @tags tutorial)\bw"
 		;
 
-	new InformationMessage("Search Help", info, true);
+	new InformationMessage("Ayuda de búsqueda", info, true);
 }
 
 void SearchView::clearSearch()
@@ -258,13 +258,13 @@ void SearchView::NotifySortChanged(SearchModel * sender)
 	if(sender->GetSort() == http::sortByVotes)
 	{
 		sortButton->SetToggleState(false);
-		sortButton->SetText("By votes");
+		sortButton->SetText("Por votos");
 		sortButton->SetIcon(IconVoteSort);
 	}
 	else
 	{
 		sortButton->SetToggleState(true);
-		sortButton->SetText("By date");
+		sortButton->SetText("Por fecha");
 		sortButton->SetIcon(IconDateSort);
 	}
 }
@@ -315,7 +315,7 @@ void SearchView::NotifyPageChanged(SearchModel * sender)
 	}
 	else
 	{
-		String pageInfo = String::Build("of ", pageCount);
+		String pageInfo = String::Build("de ", pageCount);
 		pageCountLabel->SetText(pageInfo);
 		int width = Graphics::TextSize(pageInfo).X - 1;
 
@@ -507,9 +507,9 @@ void SearchView::NotifySaveListChanged(SearchModel * sender)
 	//string messageOfTheDay = sender->GetMessageOfTheDay();
 
 	if(sender->GetShowFavourite())
-		favouriteSelected->SetText("Unfavourite");
+		favouriteSelected->SetText("Quitar de favoritos");
 	else
-		favouriteSelected->SetText("Favourite");
+		favouriteSelected->SetText("Favorito");
 
 	auto user = Client::Ref().GetAuthUser();
 	for (size_t i = 0; i < saveButtons.size(); i++)
@@ -550,7 +550,7 @@ void SearchView::NotifySaveListChanged(SearchModel * sender)
 		}
 		if (!sender->GetSavesLoaded())
 		{
-			errorLabel->SetText("Loading...");
+			errorLabel->SetText("Cargando...");
 			loadingSpinner->Visible = true;
 		}
 		else
@@ -558,7 +558,7 @@ void SearchView::NotifySaveListChanged(SearchModel * sender)
 			if(sender->GetLastError().length())
 				errorLabel->SetText("\bo" + sender->GetLastError());
 			else
-				errorLabel->SetText("\boNo saves found");
+				errorLabel->SetText("\boNo se encontraron partidas");
 		}
 	}
 	else
@@ -655,12 +655,12 @@ void SearchView::NotifySelectedChanged(SearchModel * sender)
 		pageCountLabel->Visible = false;
 		if (published <= selected.size()/2)
 		{
-			unpublishSelected->SetText("Publish");
+			unpublishSelected->SetText("Publicar");
 			publishButtonShown = true;
 		}
 		else
 		{
-			unpublishSelected->SetText("Unpublish");
+			unpublishSelected->SetText("Retirar");
 			publishButtonShown = false;
 		}
 	}

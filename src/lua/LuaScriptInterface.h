@@ -165,7 +165,7 @@ public:
 	{
 		if (!(eventTraits & eventTraitInterface))
 		{
-			luaL_error(L, "this functionality is restricted to interface events");
+			luaL_error(L, "Esta función solo se puede usar en eventos de interfaz");
 		}
 	}
 
@@ -173,7 +173,7 @@ public:
 	{
 		if (!(eventTraits & (eventTraitInterface | eventTraitTool)))
 		{
-			luaL_error(L, "this functionality is restricted to tool events");
+			luaL_error(L, "Esta función solo se puede usar en eventos de herramienta");
 		}
 	}
 
@@ -181,7 +181,7 @@ public:
 	{
 		if (eventTraits & eventTraitConstSim)
 		{
-			luaL_error(L, "this functionality is restricted to mutable simulation events");
+			luaL_error(L, "Esta función solo se puede usar en eventos que permiten modificar la simulación");
 		}
 	}
 
@@ -190,7 +190,7 @@ public:
 		AssertInterfaceEvent();
 		if (eventTraits & eventTraitConstTools)
 		{
-			luaL_error(L, "this functionality is restricted to mutable tool events");
+			luaL_error(L, "Esta función solo se puede usar en eventos que permiten modificar la herramienta");
 		}
 	}
 
@@ -200,9 +200,9 @@ public:
 		if ((eventTraits & eventTraitMonopartAccess) && monopartAccessPartID != partID)
 		{
 			if (partID == -1)
-				luaL_error(L, "particle lifecycle and position management is restricted in this event");
+				luaL_error(L, "Este evento restringe los cambios de posición y del ciclo de vida de partículas");
 			else
-				luaL_error(L, "particle management is restricted to ID %i", monopartAccessPartID);
+				luaL_error(L, "Solo se puede gestionar la partícula con ID %i", monopartAccessPartID);
 		}
 	}
 

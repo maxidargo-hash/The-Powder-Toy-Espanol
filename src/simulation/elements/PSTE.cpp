@@ -28,7 +28,7 @@ void Element::Element_PSTE()
 
 	DefaultProperties.temp = R_TEMP - 2.0f + 273.15f;
 	HeatConduct = 29;
-	Description = "Colloid, Hardens under pressure.";
+	Description = "Coloide. Se endurece bajo presión.";
 
 	Properties = TYPE_LIQUID;
 

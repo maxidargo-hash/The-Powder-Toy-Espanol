@@ -103,7 +103,7 @@ void VideoBuffer::Resize(Vec2<int> size, bool resample)
 			{
 				if (!resamplers[c]->put_line(samples[c].get()))
 				{
-					fprintf(stderr, "Out of memory when resampling\n");
+					fprintf(stderr, "Memoria insuficiente al remuestrear\n");
 					Crop(size.OriginRect()); // Better than leaving the image at original size I guess
 					return;
 				}
@@ -204,12 +204,12 @@ void Graphics::draw_icon(int x, int y, Icon icon, unsigned char alpha, bool inve
 		if(invert)
 		{
 			BlendChar({ x-11, y+1 }, 0xE04B, 0x006400_rgb .WithAlpha(alpha));
-			BlendText({ x+2, y+1 }, "Vote", 0x006400_rgb .WithAlpha(alpha));
+			BlendText({ x+2, y+1 }, "Vota", 0x006400_rgb .WithAlpha(alpha));
 		}
 		else
 		{
 			BlendChar({ x-11, y+1 }, 0xE04B, 0x00BB12_rgb .WithAlpha(alpha));
-			BlendText({ x+2, y+1 }, "Vote", 0x00BB12_rgb .WithAlpha(alpha));
+			BlendText({ x+2, y+1 }, "Vota", 0x00BB12_rgb .WithAlpha(alpha));
 		}
 		break;
 	case IconVoteDown:

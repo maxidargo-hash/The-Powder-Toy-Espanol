@@ -27,7 +27,7 @@ void Element::Element_THRM()
 	Weight = 90;
 
 	HeatConduct = 211;
-	Description = "Thermite. Burns into extremely hot molten metal.";
+	Description = "Termita. Al arder se convierte en metal fundido muy caliente.";
 
 	Properties = TYPE_PART;
 

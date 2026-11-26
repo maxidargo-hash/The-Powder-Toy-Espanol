@@ -211,7 +211,7 @@ static void luaCreateWrapper(ELEMENT_CREATE_FUNC_ARGS)
 		lsi->monopartAccessPartID = i;
 		if (tpt_lua_pcall(lsi->L, 5, 0, 0, eventTraitSimRng | eventTraitMonopartAccess))
 		{
-			lsi->Log(CommandInterface::LogError, "In create func: " + LuaGetError());
+			lsi->Log(CommandInterface::LogError, "En la función create: " + LuaGetError());
 			lua_pop(lsi->L, 1);
 		}
 		lsi->monopartAccessPartID = -1;
@@ -239,7 +239,7 @@ static bool luaCreateAllowedWrapper(ELEMENT_CREATE_ALLOWED_FUNC_ARGS)
 		lua_pushinteger(lsi->L, t);
 		if (tpt_lua_pcall(lsi->L, 4, 1, 0, eventTraitSimRng | eventTraitConstSim))
 		{
-			lsi->Log(CommandInterface::LogError, "In create allowed: " + LuaGetError());
+			lsi->Log(CommandInterface::LogError, "En la función CreateAllowed: " + LuaGetError());
 			lua_pop(lsi->L, 1);
 		}
 		else
@@ -271,7 +271,7 @@ static void luaChangeTypeWrapper(ELEMENT_CHANGETYPE_FUNC_ARGS)
 		lsi->monopartAccessPartID = i;
 		if (tpt_lua_pcall(lsi->L, 5, 0, 0, eventTraitSimRng | eventTraitMonopartAccess))
 		{
-			lsi->Log(CommandInterface::LogError, "In change type: " + LuaGetError());
+			lsi->Log(CommandInterface::LogError, "En la función ChangeType: " + LuaGetError());
 			lua_pop(lsi->L, 1);
 		}
 		lsi->monopartAccessPartID = -1;
@@ -321,15 +321,15 @@ static int allocate(lua_State *L)
 
 	if (id.Contains("_"))
 	{
-		return luaL_error(L, "The element name may not contain '_'.");
+		return luaL_error(L, "El nombre del elemento no puede contener «_».");
 	}
 	if (group.Contains("_"))
 	{
-		return luaL_error(L, "The group name may not contain '_'.");
+		return luaL_error(L, "El nombre del grupo no puede contener «_».");
 	}
 	if (group == "DEFAULT")
 	{
-		return luaL_error(L, "You cannot create elements in the 'DEFAULT' group.");
+		return luaL_error(L, "No se pueden crear elementos en el grupo DEFAULT.");
 	}
 
 	auto identifier = group + "_PT_" + id;
@@ -341,7 +341,7 @@ static int allocate(lua_State *L)
 		for(int i = 0; i < PT_NUM; i++)
 		{
 			if(elements[i].Enabled && ByteString(elements[i].Identifier) == identifier)
-				return luaL_error(L, "Element identifier already in use");
+				return luaL_error(L, "El identificador de elemento ya está en uso");
 		}
 
 		// Start out at 255 so that lua element IDs are still one byte (better save compatibility)
@@ -406,7 +406,7 @@ static int element(lua_State *L)
 	int id = luaL_checkinteger(L, 1);
 	if (!SimulationData::CRef().IsElementOrNone(id))
 	{
-		return luaL_error(L, "Invalid element");
+		return luaL_error(L, "Elemento no válido");
 	}
 
 	if (lua_gettop(L) > 1)
@@ -551,7 +551,7 @@ static int property(lua_State *L)
 	int id = luaL_checkinteger(L, 1);
 	if (!SimulationData::CRef().IsElementOrNone(id))
 	{
-		return luaL_error(L, "Invalid element");
+		return luaL_error(L, "Elemento no válido");
 	}
 	ByteString propertyName = tpt_lua_checkByteString(L, 2);
 
@@ -575,7 +575,7 @@ static int property(lua_State *L)
 					int type = luaL_checkinteger(L, 3);
 					if (!SimulationData::CRef().IsElementOrNone(type) && type != NT && type != ST)
 					{
-						return luaL_error(L, "Invalid element");
+						return luaL_error(L, "Elemento no válido");
 					}
 				}
 				intptr_t propertyAddress = (intptr_t)(((unsigned char*)&elements[id]) + prop->Offset);
@@ -688,7 +688,7 @@ static int property(lua_State *L)
 		}
 		else
 		{
-			return luaL_error(L, "Invalid element property");
+			return luaL_error(L, "Propiedad de elemento no válida");
 		}
 		return 0;
 	}
@@ -710,7 +710,7 @@ static int property(lua_State *L)
 		getDefaultProperties(L, id);
 		return 1;
 	}
-	return luaL_error(L, "Invalid element property");
+	return luaL_error(L, "Propiedad de elemento no válida");
 }
 
 static int ffree(lua_State *L)
@@ -724,13 +724,13 @@ static int ffree(lua_State *L)
 		auto &sd = SimulationData::CRef();
 		if (!sd.IsElement(id))
 		{
-			return luaL_error(L, "Invalid element");
+			return luaL_error(L, "Elemento no válido");
 		}
 
 		identifier = sd.elements[id].Identifier;
 		if (identifier.BeginsWith("DEFAULT_PT_"))
 		{
-			return luaL_error(L, "Cannot free default elements");
+			return luaL_error(L, "No se pueden liberar elementos predeterminados");
 		}
 	}
 
@@ -807,7 +807,7 @@ static int loadDefault(lua_State *L)
 			luaL_checktype(L, 1, LUA_TNUMBER);
 			int id = lua_tointeger(L, 1);
 			if (id < 0 || id >= PT_NUM)
-				return luaL_error(L, "Invalid element");
+				return luaL_error(L, "Elemento no válido");
 			loadDefaultOne(id);
 		}
 		else

@@ -27,7 +27,7 @@ void Element::Element_WAX()
 	Weight = 100;
 
 	HeatConduct = 44;
-	Description = "Flammable, melts at moderately high temperatures.";
+	Description = "Cera. Inflamable. Se funde a temperaturas moderadamente altas.";
 
 	Properties = TYPE_SOLID;
 

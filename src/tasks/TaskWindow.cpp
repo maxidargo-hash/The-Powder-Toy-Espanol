@@ -72,7 +72,7 @@ void TaskWindow::NotifyProgress(Task * task)
 	if(progress>-1)
 		progressStatus = String::Build(progress, "%");
 	else
-		progressStatus = "Please wait...";
+		progressStatus = "Espera un momento...";
 	progressBar->SetProgress(progress);
 	progressBar->SetStatus(progressStatus);
 }

@@ -21,7 +21,7 @@ namespace http
 		if ((authMode == authRequire ||
 		     authMode == authRequireAppendSession) && !user)
 		{
-			FailEarly("Not authenticated");
+			FailEarly("Debes iniciar sesión");
 			return;
 		}
 		if (authMode != authOmit && user)
@@ -42,7 +42,7 @@ namespace http
 		}
 		catch (const std::exception &ex)
 		{
-			throw RequestError("Could not read response: " + ByteString(ex.what()));
+			throw RequestError("No se pudo leer la respuesta: " + ByteString(ex.what()));
 		}
 		return document;
 	}

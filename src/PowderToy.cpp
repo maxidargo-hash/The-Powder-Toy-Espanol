@@ -86,10 +86,10 @@ void LargeScreenDialog()
 {
 	StringBuilder message;
 	auto scale = ui::Engine::Ref().windowFrameOps.scale;
-	message << "Switching to " << scale << "x size mode since your screen was determined to be large enough: ";
-	message << desktopWidth << "x" << desktopHeight << " detected, " << WINDOWW * scale << "x" << WINDOWH * scale << " required";
-	message << "\nTo undo this, hit Cancel. You can change this in settings at any time.";
-	new ConfirmPrompt("Large screen detected", message.Build(), { nullptr, []() {
+	message << "Cambiando a escala " << scale << "x porque la pantalla es lo bastante grande: ";
+	message << desktopWidth << "x" << desktopHeight << " detectado, " << WINDOWW * scale << "x" << WINDOWH * scale << " requerido";
+	message << "\nPulsa «Cancelar» para deshacer el cambio. Puedes cambiar la escala en Configuración.";
+	new ConfirmPrompt("Pantalla grande detectada", message.Build(), { nullptr, []() {
 		GlobalPrefs::Ref().Set("Scale", 1);
 		ui::Engine::Ref().windowFrameOps.scale = 1;
 	} });
@@ -110,16 +110,16 @@ static void BlueScreen(String detailMessage, std::optional<std::vector<String>> 
 	Platform::RenameFile(crashLogPath, crashPrevLogPath, true);
 
 	StringBuilder crashInfo;
-	crashInfo << "ERROR - Details: " << detailMessage << "\n";
-	crashInfo << "An unrecoverable fault has occurred, please report it by visiting the website below\n\n  " << SERVER << "\n\n";
-	crashInfo << "An attempt will be made to save all of this information to " << crashLogPath.FromUtf8() << " in your data folder.\n";
-	crashInfo << "Please attach this file to your report.\n\n";
-	crashInfo << "Version: " << VersionInfo().FromUtf8() << "\n";
-	crashInfo << "Tag: " << VCS_TAG << "\n";
-	crashInfo << "Date: " << format::UnixtimeToDate(time(nullptr), "%Y-%m-%dT%H:%M:%SZ", false).FromUtf8() << "\n";
+	crashInfo << "Detalles del error: " << detailMessage << "\n";
+	crashInfo << "Se produjo un fallo irrecuperable. Infórmalo en este sitio web.\n\n  " << SERVER << "\n\n";
+	crashInfo << "Se intentará guardar toda la información en " << crashLogPath.FromUtf8() << " dentro de la carpeta de datos.\n";
+	crashInfo << "Adjunta este archivo a tu informe.\n\n";
+	crashInfo << "Versión: " << VersionInfo().FromUtf8() << "\n";
+	crashInfo << "Etiqueta: " << VCS_TAG << "\n";
+	crashInfo << "Fecha: " << format::UnixtimeToDate(time(nullptr), "%Y-%m-%dT%H:%M:%SZ", false).FromUtf8() << "\n";
 	if (stackTrace)
 	{
-		crashInfo << "Stack trace; Main is at 0x" << Format::Hex() << intptr_t(Main) << ":\n";
+		crashInfo << "Traza de pila. Main está en 0x" << Format::Hex() << intptr_t(Main) << ":\n";
 		for (auto &item : *stackTrace)
 		{
 			crashInfo << " - " << item << "\n";
@@ -127,7 +127,7 @@ static void BlueScreen(String detailMessage, std::optional<std::vector<String>> 
 	}
 	else
 	{
-		crashInfo << "Stack trace not available\n";
+		crashInfo << "Traza de pila no disponible\n";
 	}
 	String errorText = crashInfo.Build();
 	constexpr auto width = 440;
@@ -168,16 +168,16 @@ static struct
 	int sig;
 	const char *message;
 } signalMessages[] = {
-	{ SIGSEGV, "Memory read/write error" },
-	{ SIGFPE, "Floating point exception" },
-	{ SIGILL, "Program execution exception" },
-	{ SIGABRT, "Unexpected program abort" },
+	{ SIGSEGV, "Error de lectura o escritura en memoria" },
+	{ SIGFPE, "Excepción de coma flotante" },
+	{ SIGILL, "Excepción al ejecutar el programa" },
+	{ SIGABRT, "Interrupción inesperada del programa" },
 	{ 0, nullptr },
 };
 
 static void SigHandler(int signal)
 {
-	const char *message = "Unknown signal";
+	const char *message = "Señal desconocida";
 	for (auto *msg = signalMessages; msg->message; ++msg)
 	{
 		if (msg->sig == signal)
@@ -191,7 +191,7 @@ static void SigHandler(int signal)
 
 static void TerminateHandler()
 {
-	ByteString err = "std::terminate called without a current exception";
+	ByteString err = "std::terminate se llamó sin una excepción activa";
 	auto eptr = std::current_exception();
 	try
 	{
@@ -202,11 +202,11 @@ static void TerminateHandler()
 	}
 	catch (const std::exception &e)
 	{
-		err = "unhandled exception: " + ByteString(e.what());
+		err = "excepción no gestionada: " + ByteString(e.what());
 	}
 	catch (...)
 	{
-		err = "unhandled exception not derived from std::exception, cannot determine reason";
+		err = "excepción no gestionada que no deriva de std::exception. No se pudo determinar la causa.";
 	}
 	BlueScreen(err.FromUtf8(), Platform::StackTrace());
 }
@@ -267,7 +267,7 @@ int Main(int argc, char *argv[])
 	// https://bugzilla.libsdl.org/show_bug.cgi?id=3796
 	if (SDL_Init(0) < 0)
 	{
-		fprintf(stderr, "Initializing SDL: %s\n", SDL_GetError());
+		fprintf(stderr, "Iniciando SDL: %s\n", SDL_GetError());
 		return 1;
 	}
 
@@ -308,7 +308,7 @@ int Main(int argc, char *argv[])
 			}
 			else
 			{
-				std::cerr << "no value provided for command line parameter " << str << std::endl;
+				std::cerr << "falta el valor del parámetro de línea de comandos " << str << std::endl;
 			}
 		}
 		else
@@ -333,14 +333,14 @@ int Main(int argc, char *argv[])
 	{
 		if constexpr (DEBUG)
 		{
-			std::cout << "Loading " << openArg.value() << std::endl;
+			std::cout << "Cargando " << openArg.value() << std::endl;
 		}
 		if (Platform::FileExists(openArg.value()))
 		{
 			std::vector<char> gameSaveData;
 			if (!Platform::ReadFile(gameSaveData, openArg.value()))
 			{
-				openResult = String("Could not read file");
+				openResult = String("No se pudo leer el archivo");
 			}
 			else
 			{
@@ -349,7 +349,7 @@ int Main(int argc, char *argv[])
 		}
 		else
 		{
-			openResult = String("Could not open file");
+			openResult = String("No se pudo abrir el archivo");
 		}
 	}
 
@@ -359,7 +359,7 @@ int Main(int argc, char *argv[])
 		if (Platform::ChangeDir(ddirArg.value()))
 			Platform::sharedCwd = Platform::GetCwd();
 		else
-			perror("failed to chdir to requested ddir");
+			perror("no se pudo abrir la carpeta de datos indicada");
 	}
 	else if constexpr (SHARED_DATA_FOLDER)
 	{
@@ -370,7 +370,7 @@ int Main(int argc, char *argv[])
 			{
 				if (!Platform::ChangeDir(ddir))
 				{
-					perror("failed to chdir to default ddir");
+					perror("no se pudo abrir la carpeta de datos predeterminada");
 					ddir = {};
 				}
 			}
@@ -444,7 +444,7 @@ int Main(int argc, char *argv[])
 		}
 		catch (const std::runtime_error &e)
 		{
-			std::cerr << "failed to set scale: " << e.what() << std::endl;
+			std::cerr << "no se pudo establecer la escala: " << e.what() << std::endl;
 		}
 	}
 
@@ -549,7 +549,7 @@ int Main(int argc, char *argv[])
 		}
 		catch (std::exception & e)
 		{
-			openResult = String("Could not open save file:\n" + ByteString(e.what()).FromUtf8()) ;
+			openResult = String("No se pudo abrir la partida:\n" + ByteString(e.what()).FromUtf8()) ;
 		}
 	}
 	if (auto *openError = std::get_if<OpenError>(&openResult))
@@ -562,7 +562,7 @@ int Main(int argc, char *argv[])
 	{
 		engine.g->Clear();
 		engine.g->DrawRect(RectSized(engine.g->Size() / 2 - Vec2(100, 25), Vec2(200, 50)), 0xB4B4B4_rgb);
-		String loadingText = "Loading save...";
+		String loadingText = "Cargando partida...";
 		engine.g->BlendText(engine.g->Size() / 2 - Vec2((Graphics::TextSize(loadingText).X - 1) / 2, 5), loadingText, style::Colour::InformationTitle);
 
 		blit(engine.g->Data());
@@ -572,17 +572,17 @@ int Main(int argc, char *argv[])
 			if (ByteString::Split split = ptsaveArg.value().SplitBy(':'))
 			{
 				if (split.Before() != "ptsave")
-					throw std::runtime_error("Not a ptsave link");
+					throw std::runtime_error("El enlace debe usar ptsave");
 				saveIdPart = split.After().SplitBy('#').Before();
 			}
 			else
-				throw std::runtime_error("Invalid save link");
+				throw std::runtime_error("Enlace de partida no válido");
 
 			if (!saveIdPart.size())
-				throw std::runtime_error("No Save ID");
+				throw std::runtime_error("Falta el ID de partida");
 			if constexpr (DEBUG)
 			{
-				std::cout << "Got Ptsave: id: " << saveIdPart << std::endl;
+				std::cout << "Enlace ptsave recibido. ID: " << saveIdPart << std::endl;
 			}
 			ByteString saveHistoryPart = "0";
 			if (auto split = saveIdPart.SplitBy('@'))
