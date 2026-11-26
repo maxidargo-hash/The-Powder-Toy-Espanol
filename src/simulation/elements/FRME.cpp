@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,7 +54,7 @@ void FRME_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 0;
 	elem->Latent = 0;
-	elem->Description = "Frame, can be used with pistons to push many particles.";
+	elem->Description = TPT_ES("Bastidor. Con un pistón puede empujar muchas partículas a la vez.");
 
 	elem->Properties = TYPE_SOLID;
 

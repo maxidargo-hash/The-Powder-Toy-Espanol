@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -147,7 +148,7 @@ void SING_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 70;
 	elem->Latent = 0;
-	elem->Description = "Singularity. Creates huge amounts of negative pressure and destroys everything.";
+	elem->Description = TPT_ES("Singularidad. Genera una enorme presión negativa y destruye todo.");
 
 	elem->Properties = TYPE_PART|PROP_LIFE_DEC;
 

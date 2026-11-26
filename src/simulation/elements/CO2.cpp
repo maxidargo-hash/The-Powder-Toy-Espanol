@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -106,7 +107,7 @@ void CO2_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 88;
 	elem->Latent = 0;
-	elem->Description = "Carbon Dioxide. Heavy gas, drifts downwards. Carbonates water and turns to dry ice when cold.";
+	elem->Description = TPT_ES("Dióxido de carbono. Gas pesado que desciende, carbonata el agua y se solidifica en hielo seco al enfriarse.");
 
 	elem->Properties = TYPE_GAS;
 

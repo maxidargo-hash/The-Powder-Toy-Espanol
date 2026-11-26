@@ -68,7 +68,7 @@ public:
 		SaveException(message)
 	{
 #ifdef DEBUG
-		std::cout << "Error building save: " << message << std::endl;
+		std::cout << "Error al generar la partida: " << message << std::endl;
 #endif
 	}
 };

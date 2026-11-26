@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,7 +53,7 @@ void NWHL_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 186;
 	elem->Latent = 0;
-	elem->Description = "White hole, pushes away other particles with gravity. (Requires Newtonian gravity)";
+	elem->Description = TPT_ES("Agujero blanco. Repele partículas mediante la gravedad newtoniana.");
 
 	elem->Properties = TYPE_SOLID;
 

@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -304,7 +305,7 @@ void SOAP_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = R_TEMP - 2.0f + 273.15f;
 	elem->HeatConduct = 29;
 	elem->Latent = 0;
-	elem->Description = "Soap. Creates bubbles, washes off deco color, and cures virus.";
+	elem->Description = TPT_ES("Jabón. Crea burbujas, elimina la decoración y cura el virus.");
 
 	elem->Properties = TYPE_LIQUID|PROP_NEUTPENETRATE|PROP_LIFE_DEC;
 

@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -59,7 +60,7 @@ void ISZS_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = 140.00f;
 	elem->HeatConduct = 251;
 	elem->Latent = 0;
-	elem->Description = "Solid form of ISOZ, slowly decays into PHOT.";
+	elem->Description = TPT_ES("Forma sólida de ISOZ. Se desintegra lentamente en PHOT.");
 
 	elem->Properties = TYPE_SOLID | PROP_PHOTPASS;
 

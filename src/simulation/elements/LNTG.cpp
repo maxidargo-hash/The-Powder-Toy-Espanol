@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,7 +45,7 @@ void LNTG_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = 70.15f;
 	elem->HeatConduct = 70;
 	elem->Latent = 0;
-	elem->Description = "Liquid Nitrogen. Very cold, disappears whenever it touches anything warmer.";
+	elem->Description = TPT_ES("Nitrógeno líquido. Muy frío. Desaparece al tocar algo más cálido.");
 
 	elem->Properties = TYPE_LIQUID;
 

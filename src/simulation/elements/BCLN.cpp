@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -93,7 +94,7 @@ void BCLN_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 251;
 	elem->Latent = 0;
-	elem->Description = "Breakable Clone.";
+	elem->Description = TPT_ES("Clon frágil.");
 
 	elem->Properties = TYPE_SOLID | PROP_PHOTPASS | PROP_LIFE_DEC | PROP_LIFE_KILL_DEC | PROP_BREAKABLECLONE | PROP_NOCTYPEDRAW;
 	elem->CarriesTypeIn = 1U << FIELD_CTYPE;

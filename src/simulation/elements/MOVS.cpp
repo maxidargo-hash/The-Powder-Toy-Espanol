@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -154,7 +155,7 @@ void MOVS_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = R_TEMP + 273.15f;
 	elem->HeatConduct = 70;
 	elem->Latent = 0;
-	elem->Description = "Moving solid. Acts like a bouncy ball.";
+	elem->Description = TPT_ES("Sólido móvil. Rebota como una pelota.");
 
 	elem->Properties = TYPE_PART;
 

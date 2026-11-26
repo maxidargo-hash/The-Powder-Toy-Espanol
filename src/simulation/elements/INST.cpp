@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -157,7 +158,7 @@ void INST_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 251;
 	elem->Latent = 0;
-	elem->Description = "Instantly conducts, PSCN to charge, NSCN to take.";
+	elem->Description = TPT_ES("Conductor instantáneo. PSCN introduce la corriente y NSCN la extrae.");
 
 	elem->Properties = TYPE_SOLID|PROP_LIFE_DEC;
 

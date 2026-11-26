@@ -44,7 +44,7 @@ void DRIC_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = 172.65f;
 	elem->HeatConduct = 2;
 	elem->Latent = 0;
-	elem->Description = "Dry Ice, formed when CO2 is cooled.";
+	elem->Description = "Hielo seco. Se forma al enfriarse el CO2.";
 
 	elem->Properties = TYPE_SOLID;
 

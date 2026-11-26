@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -798,7 +799,7 @@ void STKM_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = R_TEMP + 14.6f + 273.15f;
 	elem->HeatConduct = 0;
 	elem->Latent = 0;
-	elem->Description = "Stickman. Don't kill him! Control with the arrow keys.";
+	elem->Description = TPT_ES("Muñeco. ¡Protégelo! Contrólalo con las flechas.");
 
 	elem->Properties = PROP_NOCTYPEDRAW;
 	elem->CarriesTypeIn = 1U << FIELD_CTYPE;

@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 #ifdef LUACONSOLE
 
 #include "LuaWindow.h"
@@ -192,7 +193,7 @@ int LuaWindow::position(lua_State * l)
 
 		if (posX < 1 || posY < 1)
 		{
-			return luaL_error(l, "Invalid position: '%d,%d'", posX, posY);
+			return luaL_error(l, TPT_ES("Posición no válida: '%d,%d'"), posX, posY);
 		}
 		window->SetPosition(Point(posX, posY));
 		return 0;
@@ -217,7 +218,7 @@ int LuaWindow::size(lua_State * l)
 
 		if (sizeX < 10 || sizeY < 10)
 		{
-			return luaL_error(l, "Invalid size: '%d,%d'", sizeX, sizeY);
+			return luaL_error(l, TPT_ES("Tamaño no válido: '%d,%d'"), sizeX, sizeY);
 		}
 		window->Resize(window->GetPosition(), Point(sizeX, sizeY));
 		return 0;

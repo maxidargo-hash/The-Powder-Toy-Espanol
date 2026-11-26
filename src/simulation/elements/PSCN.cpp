@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,7 +45,7 @@ void PSCN_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 251;
 	elem->Latent = 0;
-	elem->Description = "P-Type Silicon, Will transfer current to any conductor. Enables powered materials.";
+	elem->Description = TPT_ES("Silicio de tipo P. Transmite corriente a cualquier conductor. Activa materiales eléctricos.");
 
 	elem->Properties = TYPE_SOLID|PROP_CONDUCTS|PROP_LIFE_DEC;
 

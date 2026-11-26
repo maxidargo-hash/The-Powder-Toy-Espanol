@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -64,7 +65,7 @@ void FRZZ_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = 253.15f;
 	elem->HeatConduct = 46;
 	elem->Latent = 0;
-	elem->Description = "Freeze powder. When melted, forms ice that always cools. Spreads with regular water.";
+	elem->Description = TPT_ES("Polvo congelante. Al fundirse forma hielo que enfría de manera constante. Se propaga con agua normal.");
 
 	elem->Properties = TYPE_PART;
 

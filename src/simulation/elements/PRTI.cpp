@@ -149,7 +149,7 @@ void PRTI_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 0;
 	elem->Latent = 0;
-	elem->Description = "Portal IN. Particles go in here. Also has temperature dependent channels. (same as WIFI)";
+	elem->Description = "Portal de entrada. Usa canales que dependen de su temperatura, como WIFI.";
 
 	elem->Properties = TYPE_SOLID;
 

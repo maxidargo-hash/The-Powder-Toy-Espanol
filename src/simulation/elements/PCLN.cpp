@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -128,7 +129,7 @@ void PCLN_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 251;
 	elem->Latent = 0;
-	elem->Description = "Powered clone. When activated, duplicates any particles it touches.";
+	elem->Description = TPT_ES("Clon eléctrico. Cuando se activa, duplica las partículas que toca.");
 
 	elem->Properties = TYPE_SOLID | PROP_PHOTPASS | PROP_CLONE | PROP_POWERED | PROP_NOCTYPEDRAW;
 	elem->CarriesTypeIn = 1U << FIELD_CTYPE;

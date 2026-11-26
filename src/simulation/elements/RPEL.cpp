@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -70,7 +71,7 @@ void RPEL_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = 20.0f + 273.15f;
 	elem->HeatConduct = 0;
 	elem->Latent = 0;
-	elem->Description = "Repels or attracts particles based on its temperature.";
+	elem->Description = TPT_ES("Repele o atrae partículas según su temperatura.");
 
 	elem->Properties = TYPE_SOLID;
 

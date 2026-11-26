@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -110,7 +111,7 @@ void ANIM_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.tmp = 1;
 	elem->HeatConduct = 0;
 	elem->Latent = 0;
-	elem->Description = "Animated Liquid Crystal. Can show multiple frames, use left/right in the deco editor.";
+	elem->Description = TPT_ES("Cristal líquido animado. Cambia de fotograma con izquierda y derecha en el editor de decoración.");
 
 	elem->Properties = TYPE_SOLID|PROP_POWERED;
 

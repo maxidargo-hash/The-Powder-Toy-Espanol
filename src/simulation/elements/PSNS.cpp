@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -96,7 +97,7 @@ void PSNS_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = 4.0f + 273.15f;
 	elem->HeatConduct = 0;
 	elem->Latent = 0;
-	elem->Description = "Pressure sensor, creates a spark when the pressure is greater than its temperature.";
+	elem->Description = TPT_ES("Sensor de presión. Genera una chispa si la presión supera la temperatura del sensor.");
 
 	elem->Properties = TYPE_SOLID;
 

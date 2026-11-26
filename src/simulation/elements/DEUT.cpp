@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -151,7 +152,7 @@ void DEUT_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = R_TEMP - 2.0f + 273.15f;
 	elem->HeatConduct = 251;
 	elem->Latent = 0;
-	elem->Description = "Deuterium oxide. Gets more concentrated when cold, explodes with neutrons or protons.";
+	elem->Description = TPT_ES("Óxido de deuterio. Se concentra con el frío y explota al contacto con neutrones o protones.");
 
 	elem->Properties = TYPE_LIQUID|PROP_NEUTPASS;
 

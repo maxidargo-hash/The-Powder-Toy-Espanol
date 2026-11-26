@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -133,7 +134,7 @@ void H2_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 251;
 	elem->Latent = 0;
-	elem->Description = "Hydrogen. Combusts with OXYG to make WATR. Undergoes fusion at high temperature and pressure.";
+	elem->Description = TPT_ES("Hidrógeno. Se quema con OXYG y forma WATR. Se fusiona a gran presión y temperatura.");
 
 	elem->Properties = TYPE_GAS | PROP_PHOTPASS;
 

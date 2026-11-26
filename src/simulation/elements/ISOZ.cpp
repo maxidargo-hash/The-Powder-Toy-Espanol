@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,7 +47,7 @@ void ISOZ_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = R_TEMP - 2.0f + 273.15f;
 	elem->HeatConduct = 29;
 	elem->Latent = 0;
-	elem->Description = "Isotope-Z. Radioactive liquid. Decays into photons when touching PHOT or under negative pressure.";
+	elem->Description = TPT_ES("Isótopo Z. Líquido radiactivo que se desintegra en fotones al tocar PHOT o bajo presión negativa.");
 
 	elem->Properties = TYPE_LIQUID | PROP_NEUTPENETRATE | PROP_PHOTPASS;
 

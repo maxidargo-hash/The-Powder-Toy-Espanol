@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -61,7 +62,7 @@ void URAN_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = R_TEMP + 30.0f + 273.15f;
 	elem->HeatConduct = 251;
 	elem->Latent = 0;
-	elem->Description = "Uranium. Heavy particles. Generates heat under pressure.";
+	elem->Description = TPT_ES("Uranio. Partículas pesadas que generan calor bajo presión.");
 
 	elem->Properties = TYPE_PART | PROP_RADIOACTIVE;
 

@@ -70,7 +70,7 @@ void LAVA_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = R_TEMP + 1500.0f + 273.15f;
 	elem->HeatConduct = 60;
 	elem->Latent = 0;
-	elem->Description = "Molten lava. Ignites flammable materials. Generated when metals and other materials melt, solidifies when cold.";
+	elem->Description = "Lava fundida. Enciende materiales inflamables. Se forma al fundirse metales y otros materiales y se solidifica al enfriarse.";
 
 	elem->Properties = TYPE_LIQUID|PROP_LIFE_DEC;
 	elem->CarriesTypeIn = 1U << FIELD_CTYPE;

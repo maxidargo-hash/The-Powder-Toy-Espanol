@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,7 +44,7 @@ void VOID_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 251;
 	elem->Latent = 0;
-	elem->Description = "Hole, will drain away any particles.";
+	elem->Description = TPT_ES("Agujero que elimina las partículas que caen en él.");
 
 	elem->Properties = TYPE_SOLID;
 

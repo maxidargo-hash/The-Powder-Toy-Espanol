@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 #include <sstream>
 #include "json/json.h"
 #include "ProfileViewer.h"
@@ -48,7 +49,7 @@ ProfileViewer::ProfileViewer(std::string profileName):
 		avatarUploadButton->SetCallback([&](int mb) { this->UploadAvatar(); });
 		scrollArea->AddComponent(avatarUploadButton);
 
-		enableEditingButton = new Button(Point(0, size.Y-16), Point(this->size.X/2+1, 16), "Enable Editing");
+		enableEditingButton = new Button(Point(0, size.Y-16), Point(this->size.X/2+1, 16), TPT_ES("Activar edición"));
 		enableEditingButton->SetCallback([&](int mb) { this->EnableEditing(); });
 		enableEditingButton->SetEnabled(false);
 		this->AddComponent(enableEditingButton);
@@ -60,9 +61,9 @@ ProfileViewer::ProfileViewer(std::string profileName):
 	}
 
 	if (ownProfile)
-		openProfileButton = new Button(Point(size.X/2, size.Y-16), Point(this->size.X/2, 16), "Open Profile Online");
+		openProfileButton = new Button(Point(size.X/2, size.Y-16), Point(this->size.X/2, 16), TPT_ES("Abrir perfil en línea"));
 	else
-		openProfileButton = new Button(Point(0, size.Y-16), Point(this->size.X, 16), "Open Profile Online");
+		openProfileButton = new Button(Point(0, size.Y-16), Point(this->size.X, 16), TPT_ES("Abrir perfil en línea"));
 	openProfileButton->SetCallback([&](int mb) { this->OpenProfile(); });
 	this->AddComponent(openProfileButton);
 }
@@ -92,28 +93,28 @@ void ProfileViewer::OnTick(uint32_t ticks)
 					ageLabel = new Label(Point(29, 20), Point(Label::AUTOSIZE, Label::AUTOSIZE), root["User"]["Age"].asString());
 				else
 				{
-					ageLabel = new Label(Point(29, 20), Point(Label::AUTOSIZE, Label::AUTOSIZE), "\x0F\xC0\xC0\xC0Not Provided");
+					ageLabel = new Label(Point(29, 20), Point(Label::AUTOSIZE, Label::AUTOSIZE), "\x0F\xC0\xC0\xC0Sin especificar");
 					ageLabel->SetEnabled(false);
 				}
 				if (root["User"]["Location"].isString())
 					locationLabel = new Label(Point(53, 34), Point(Label::AUTOSIZE, Label::AUTOSIZE), root["User"]["Location"].asString());
 				else
 				{
-					locationLabel = new Label(Point(53, 34), Point(Label::AUTOSIZE, Label::AUTOSIZE), "\x0F\xC0\xC0\xC0Not Provided");
+					locationLabel = new Label(Point(53, 34), Point(Label::AUTOSIZE, Label::AUTOSIZE), "\x0F\xC0\xC0\xC0Sin especificar");
 					locationLabel->SetEnabled(false);
 				}
 				if (root["User"]["Website"].isString())
 					websiteLabel = new Label(Point(49, 48), Point(Label::AUTOSIZE, Label::AUTOSIZE), root["User"]["Website"].asString());
 				else
 				{
-					websiteLabel = new Label(Point(49, 48), Point(Label::AUTOSIZE, Label::AUTOSIZE), "\x0F\xC0\xC0\xC0Not Provided");
+					websiteLabel = new Label(Point(49, 48), Point(Label::AUTOSIZE, Label::AUTOSIZE), "\x0F\xC0\xC0\xC0Sin especificar");
 					websiteLabel->SetEnabled(false);
 				}
 				if (root["User"]["Biography"].isString())
 					biographyLabel = new Label(Point(7, 133), Point(scrollArea->GetUsableWidth() - 7, Label::AUTOSIZE), root["User"]["Biography"].asString(), true);
 				else
 				{
-					biographyLabel = new Label(Point(7, 133), Point(scrollArea->GetUsableWidth() - 7, Label::AUTOSIZE), "\x0F\xC0\xC0\xC0Not Provided", true);
+					biographyLabel = new Label(Point(7, 133), Point(scrollArea->GetUsableWidth() - 7, Label::AUTOSIZE), "\x0F\xC0\xC0\xC0Sin especificar", true);
 					biographyLabel->SetEnabled(false);
 				}
 
@@ -142,14 +143,14 @@ void ProfileViewer::OnTick(uint32_t ticks)
 			catch (std::exception &e)
 			{
 				// TODO: make a new version of error_ui because this is bad
-				biographyLabel = new Label(Point(7, 133), Point(scrollArea->GetUsableWidth() - 7, Label::AUTOSIZE), "\brError parsing data from server", true);
+				biographyLabel = new Label(Point(7, 133), Point(scrollArea->GetUsableWidth() - 7, Label::AUTOSIZE), "\brError al leer los datos del servidor", true);
 				scrollArea->AddComponent(biographyLabel);
 			}
 		}
 		else
 		{
 			// TODO: make a new version of error_ui because this is bad
-			biographyLabel = new Label(Point(7, 133), Point(scrollArea->GetUsableWidth() - 7, Label::AUTOSIZE), "\brServer returned error", true);
+			biographyLabel = new Label(Point(7, 133), Point(scrollArea->GetUsableWidth() - 7, Label::AUTOSIZE), TPT_ES("\brEl servidor devolvió un error"), true);
 			scrollArea->AddComponent(biographyLabel);
 		}
 
@@ -196,10 +197,10 @@ void ProfileViewer::EnableEditing()
 	dynamic_cast<Textbox*>(biographyLabel)->SetType(Textbox::MULTILINE);
 
 	enableEditingButton->SetCallback([&](int mb) { this->SaveProfile(); });
-	enableEditingButton->SetText("Save");
+	enableEditingButton->SetText("Guardar");
 
 	openProfileButton->SetCallback([&](int mb) { this->OpenProfileEdit(); });
-	openProfileButton->SetText("Edit profile online");
+	openProfileButton->SetText(TPT_ES("Editar perfil en línea"));
 }
 
 void ProfileViewer::SaveProfile()
@@ -207,8 +208,8 @@ void ProfileViewer::SaveProfile()
 	profileSaveDownload = new Request(SCHEME SERVER "/Profile.json");
 	profileSaveDownload->AuthHeaders(svf_user_id, svf_session_id);
 	profileSaveDownload->AddPostData(http::FormData{
-		{ "Location", locationLabel->GetText() },
-		{ "Biography", biographyLabel->GetText() },
+		{ TPT_ES("Ubicación"), locationLabel->GetText() },
+		{ TPT_ES("Biografía"), biographyLabel->GetText() },
 		// { "Website", websiteLabel->GetText() }
 	});
 
@@ -245,12 +246,12 @@ void ProfileViewer::OnDrawAfterSubwindows(gfx::VideoBuffer *buf)
 {
 	if (avatar)
 		buf->DrawImage(avatar, 210, 10-scrollArea->GetScrollPosition(), 40, 40);
-	buf->DrawString(10, 24-scrollArea->GetScrollPosition(), "Age:", 175, 175, 175, 255);
-	buf->DrawString(10, 38-scrollArea->GetScrollPosition(), "Location:", 175, 175, 175, 255);
-	buf->DrawString(10, 52-scrollArea->GetScrollPosition(), "Website:", 175, 175, 175, 255);
-	buf->DrawString(10, 66-scrollArea->GetScrollPosition(), "Saves:", 175, 175, 175, 255);
-	buf->DrawString(15, 80-scrollArea->GetScrollPosition(), "Count:", 175, 175, 175, 255);
-	buf->DrawString(15, 94-scrollArea->GetScrollPosition(), "Average Score:", 175, 175, 175, 255);
-	buf->DrawString(15, 108-scrollArea->GetScrollPosition(), "Highest Score:", 175, 175, 175, 255);
-	buf->DrawString(10, 122-scrollArea->GetScrollPosition(), "Biography:", 175, 175, 175, 255);
+	buf->DrawString(10, 24-scrollArea->GetScrollPosition(), "Edad:", 175, 175, 175, 255);
+	buf->DrawString(10, 38-scrollArea->GetScrollPosition(), TPT_ES("Ubicación:"), 175, 175, 175, 255);
+	buf->DrawString(10, 52-scrollArea->GetScrollPosition(), "Sitio web:", 175, 175, 175, 255);
+	buf->DrawString(10, 66-scrollArea->GetScrollPosition(), "Partidas:", 175, 175, 175, 255);
+	buf->DrawString(15, 80-scrollArea->GetScrollPosition(), "Cantidad:", 175, 175, 175, 255);
+	buf->DrawString(15, 94-scrollArea->GetScrollPosition(), "Punt. media:", 175, 175, 175, 255);
+	buf->DrawString(15, 108-scrollArea->GetScrollPosition(), TPT_ES("Punt. máxima:"), 175, 175, 175, 255);
+	buf->DrawString(10, 122-scrollArea->GetScrollPosition(), TPT_ES("Biografía:"), 175, 175, 175, 255);
 }

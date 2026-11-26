@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 #include "LuaTool.h"
 #include "luascriptinterface.h"
 #include "common/Point.h"
@@ -51,7 +52,7 @@ int LuaTool::luaPerformWrapper(LuaTool *tool, Simulation *sim, particle *cpart, 
 		lua_pushinteger(l, brushY);
 		if (tpt_lua_pcall(l, 6, 1, 0, eventTraitNone))
 		{
-			luacon_log("In perform func: " + luacon_geterror());
+			luacon_log(TPT_ES("En la función perform: ") + luacon_geterror());
 			lua_pop(l, 1);
 		}
 		else
@@ -75,7 +76,7 @@ void LuaTool::luaClickWrapper(int index, Simulation *sim, Brush *brush, Point po
 	lua_pushnumber(l, the_game->GetToolStrength());
 	if (tpt_lua_pcall(l, 4, 0, 0, eventTraitNone))
 	{
-		luacon_log("In click func: " + luacon_geterror());
+		luacon_log(TPT_ES("En la función click: ") + luacon_geterror());
 		lua_pop(l, 1);
 	}
 }
@@ -122,7 +123,7 @@ void LuaTool::luaDrawLineWrapper(int index, Simulation *sim, Brush *brush, Point
 	lua_pushboolean(l, dragging);
 	if (tpt_lua_pcall(l, 7, 0, 0, eventTraitNone))
 	{
-		luacon_log("In drawLine func: " + luacon_geterror());
+		luacon_log(TPT_ES("En la función drawLine: ") + luacon_geterror());
 		lua_pop(l, 1);
 	}
 }
@@ -138,7 +139,7 @@ void LuaTool::luaDrawRectWrapper(int index, Simulation *sim, Brush *brush, Point
 	lua_pushnumber(l, the_game->GetToolStrength());
 	if (tpt_lua_pcall(l, 6, 0, 0, eventTraitNone))
 	{
-		luacon_log("In drawRect func: " + luacon_geterror());
+		luacon_log(TPT_ES("En la función drawRect: ") + luacon_geterror());
 		lua_pop(l, 1);
 	}
 }
@@ -152,7 +153,7 @@ void LuaTool::luaDrawFillWrapper(int index, Simulation *sim, Brush *brush, Point
 	lua_pushnumber(l, 1.0f /*the_game->GetToolStrength()*/);
 	if (tpt_lua_pcall(l, 4, 0, 0, eventTraitNone))
 	{
-		luacon_log("In drawFill func: " + luacon_geterror());
+		luacon_log(TPT_ES("En la función drawFill: ") + luacon_geterror());
 		lua_pop(l, 1);
 	}
 }
@@ -163,7 +164,7 @@ void LuaTool::luaSelectWrapper(int index, int toolSelection)
 	lua_pushinteger(l, toolSelection);
 	if (tpt_lua_pcall(l, 1, 0, 0, eventTraitNone))
 	{
-		luacon_log("In select func: " + luacon_geterror());
+		luacon_log(TPT_ES("En la función select: ") + luacon_geterror());
 		lua_pop(l, 1);
 	}
 }

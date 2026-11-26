@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 #include "PropWindow.h"
 #include <algorithm>
 #include <sstream>
@@ -29,7 +30,7 @@ PropWindow::PropWindow():
 #endif
 	propTool = dynamic_cast<PropTool*>(GetToolFromIdentifier("DEFAULT_UI_PROPERTY"));
 
-	Label *editPropertyLabel = new Label(Point(5, 3), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Edit Property:");
+	Label *editPropertyLabel = new Label(Point(5, 3), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Editar propiedad:");
 	editPropertyLabel->SetColor(COLRGB(140, 140, 255));
 	this->AddComponent(editPropertyLabel);
 
@@ -51,7 +52,7 @@ PropWindow::PropWindow():
 	FocusComponent(valueTextbox);
 #endif
 
-	Button *okButton = new Button(Point(0, this->size.Y - buttonHeight), Point(this->size.X, buttonHeight), "OK");
+	Button *okButton = new Button(Point(0, this->size.Y - buttonHeight), Point(this->size.X, buttonHeight), "Aceptar");
 	okButton->SetCloseButton(true);
 	okButton->SetCallback([&](int) {
 		this->UpdatePropTool(true);
@@ -228,7 +229,7 @@ bool PropWindow::ParseValue(std::string value, bool showError)
 		if (ret)
 			tempValue = propValue;
 		else if (showError)
-			Engine::Ref().ShowWindow(new ErrorPrompt("Invalid floating point number"));
+			Engine::Ref().ShowWindow(new ErrorPrompt(TPT_ES("Número decimal no válido")));
 		return ret;
 	}
 
@@ -301,9 +302,9 @@ bool PropWindow::ParseValue(std::string value, bool showError)
 	if (showError)
 	{
 		if (properties[selectedProperty].Type == StructProperty::ParticleType)
-			Engine::Ref().ShowWindow(new ErrorPrompt("Invalid element name"));
+			Engine::Ref().ShowWindow(new ErrorPrompt(TPT_ES("Nombre de elemento no válido")));
 		else
-			Engine::Ref().ShowWindow(new ErrorPrompt("Invalid number"));
+			Engine::Ref().ShowWindow(new ErrorPrompt(TPT_ES("Número no válido")));
 	}
 	return false;
 }

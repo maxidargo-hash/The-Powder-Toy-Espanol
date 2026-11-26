@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -71,7 +72,7 @@ void INVIS_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 164;
 	elem->Latent = 0;
-	elem->Description = "Invisible under pressure, allowing particles through.";
+	elem->Description = TPT_ES("Se vuelve invisible bajo presión y deja pasar partículas.");
 
 	elem->Properties = TYPE_SOLID | PROP_NEUTPASS | PROP_PHOTPASS;
 

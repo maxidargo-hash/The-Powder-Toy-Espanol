@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,7 +45,7 @@ void PSTS_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = R_TEMP - 2.0f + 273.15f;
 	elem->HeatConduct = 29;
 	elem->Latent = 0;
-	elem->Description = "Solid form of PSTE.";
+	elem->Description = TPT_ES("Forma sólida de PSTE.");
 
 	elem->Properties = TYPE_SOLID;
 

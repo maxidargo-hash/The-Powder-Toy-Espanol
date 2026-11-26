@@ -207,7 +207,7 @@ void PRTO_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 0;
 	elem->Latent = 0;
-	elem->Description = "Portal OUT. Particles come out here. Also has temperature dependent channels. (same as WIFI)";
+	elem->Description = "Portal de salida. Usa canales que dependen de su temperatura, como WIFI.";
 
 	elem->Properties = TYPE_SOLID;
 

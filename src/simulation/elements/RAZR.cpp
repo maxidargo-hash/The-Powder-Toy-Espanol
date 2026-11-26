@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,7 +44,7 @@ void RAZR_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 50;
 	elem->Latent = 0;
-	elem->Description = "Heavy silver particles, displaces everything.";
+	elem->Description = TPT_ES("Partículas pesadas de plata que desplazan a las demás.");
 
 	elem->Properties = TYPE_PART|PROP_DEADLY;
 

@@ -45,7 +45,7 @@ void NTCT_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 251;
 	elem->Latent = 0;
-	elem->Description = "NTC Thermistor. Conducts with PSCN and NSCN, but only when heated above 100C.";
+	elem->Description = "Termistor NTC. Conduce con PSCN y NSCN solo por encima de 100 grados C.";
 
 	elem->Properties = TYPE_SOLID|PROP_CONDUCTS|PROP_LIFE_DEC;
 

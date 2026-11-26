@@ -104,7 +104,7 @@ void BRAY_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 251;
 	elem->Latent = 0;
-	elem->Description = "Ray Point. Rays create points when they collide.";
+	elem->Description = "Punto de rayo. Se crea cuando chocan los rayos.";
 
 	elem->Properties = TYPE_SOLID|PROP_LIFE_DEC|PROP_LIFE_KILL;
 

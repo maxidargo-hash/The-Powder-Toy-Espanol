@@ -9,9 +9,9 @@ CreateSign::CreateSign(int signID, Point pos):
 	theSign(Sign("", pos.X, pos.Y, Sign::Middle))
 {
 	if (signID == -1)
-		newSignLabel = new Label(Point(5, 3), Point(Label::AUTOSIZE, Label::AUTOSIZE), "New sign:");
+		newSignLabel = new Label(Point(5, 3), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Crear letrero:");
 	else
-		newSignLabel = new Label(Point(5, 3), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Edit sign:");
+		newSignLabel = new Label(Point(5, 3), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Editar letrero:");
 	newSignLabel->SetColor(COLRGB(140, 140, 255));
 	this->AddComponent(newSignLabel);
 
@@ -22,36 +22,36 @@ CreateSign::CreateSign(int signID, Point pos):
 	FocusComponent(signTextbox);
 #endif
 
-	pointerLabel = new Label(signTextbox->Below(Point(0, 4)), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Pointer:");
+	pointerLabel = new Label(signTextbox->Below(Point(0, 4)), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Flecha:");
 	this->AddComponent(pointerLabel);
 
-	leftJuButton = new Button(pointerLabel->Right(Point(3, 0)), Point(Button::AUTOSIZE, Button::AUTOSIZE), "\xA0 Left");
+	leftJuButton = new Button(pointerLabel->Right(Point(3, 0)), Point(Button::AUTOSIZE, Button::AUTOSIZE), "\xA0 Izquierda");
 	leftJuButton->SetCallback([&](int mb) { this->SetJustification(Sign::Left); });
 	this->AddComponent(leftJuButton);
 
-	middleJuButton = new Button(leftJuButton->Right(Point(5, 0)), Point(Button::AUTOSIZE, Button::AUTOSIZE), "\x9E Middle");
+	middleJuButton = new Button(leftJuButton->Right(Point(5, 0)), Point(Button::AUTOSIZE, Button::AUTOSIZE), "\x9E Centro");
 	middleJuButton->SetCallback([&](int mb) { this->SetJustification(Sign::Middle); });
 	this->AddComponent(middleJuButton);
 
-	rightJuButton = new Button(middleJuButton->Right(Point(5, 0)), Point(Button::AUTOSIZE, Button::AUTOSIZE), "\x9F Right");
+	rightJuButton = new Button(middleJuButton->Right(Point(5, 0)), Point(Button::AUTOSIZE, Button::AUTOSIZE), "\x9F Derecha");
 	rightJuButton->SetCallback([&](int mb) { this->SetJustification(Sign::Right); });
 	this->AddComponent(rightJuButton);
 
-	noneJuButton = new Button(rightJuButton->Right(Point(5, 0)), Point(Button::AUTOSIZE, Button::AUTOSIZE), "\x9D None");
+	noneJuButton = new Button(rightJuButton->Right(Point(5, 0)), Point(Button::AUTOSIZE, Button::AUTOSIZE), "\x9D Ninguna");
 	noneJuButton->SetCallback([&](int mb) { this->SetJustification(Sign::NoJustification); });
 	this->AddComponent(noneJuButton);
 
-	moveButton = new Button(leftJuButton->Below(Point(0, 4)), leftJuButton->GetSize(), "Move");
+	moveButton = new Button(leftJuButton->Below(Point(0, 4)), leftJuButton->GetSize(), "Mover");
 	moveButton->SetCallback([&](int mb) { this->MoveSign(); });
 	moveButton->SetCloseButton(true);
 	this->AddComponent(moveButton);
 
-	deleteButton = new Button(middleJuButton->Below(Point(0, 4)), middleJuButton->GetSize(), "\x85 Delete");
+	deleteButton = new Button(middleJuButton->Below(Point(0, 4)), middleJuButton->GetSize(), "\x85 Borrar");
 	deleteButton->SetCallback([&](int mb) { this->DeleteSign(); });
 	deleteButton->SetCloseButton(true);
 	this->AddComponent(deleteButton);
 
-	okButton = new Button(Point(0, this->size.Y-15), Point(this->size.X+1, 15), "OK");
+	okButton = new Button(Point(0, this->size.Y-15), Point(this->size.X+1, 15), "Aceptar");
 	okButton->SetCallback([&](int mb) { this->SaveSign(); });
 	okButton->SetCloseButton(true);
 	this->AddComponent(okButton);

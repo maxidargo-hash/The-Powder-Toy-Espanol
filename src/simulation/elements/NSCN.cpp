@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,7 +45,7 @@ void NSCN_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 251;
 	elem->Latent = 0;
-	elem->Description = "N-Type Silicon, Will not transfer current to P-Type Silicon. Disables powered materials.";
+	elem->Description = TPT_ES("Silicio de tipo N. No transmite corriente al silicio de tipo P. Desactiva materiales eléctricos.");
 
 	elem->Properties = TYPE_SOLID|PROP_CONDUCTS|PROP_LIFE_DEC;
 

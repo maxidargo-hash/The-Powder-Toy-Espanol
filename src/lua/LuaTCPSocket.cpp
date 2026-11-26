@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 #include "LuaTCPSocket.h"
 
 #ifndef NOHTTP
@@ -146,13 +147,13 @@ namespace LuaTCPSocket
 		if (!tcps->easy)
 		{
 			Reset(tcps);
-			return luaL_error(l, "curl_easy_init failed");
+			return luaL_error(l, TPT_ES("Falló curl_easy_init"));
 		}
 		tcps->multi = curl_multi_init();
 		if (!tcps->multi)
 		{
 			Reset(tcps);
-			return luaL_error(l, "curl_multi_init failed");
+			return luaL_error(l, TPT_ES("Falló curl_multi_init"));
 		}
 		curl_multi_add_handle(tcps->multi, tcps->easy);
 		luaL_newmetatable(l, "TCPSocket");
@@ -180,7 +181,7 @@ namespace LuaTCPSocket
 		auto *tcps = (TCPSocket *)luaL_checkudata(l, 1, "TCPSocket");
 		if (tcps->status != StatusConnected)
 		{
-			return luaL_error(l, "attempt to send on socket while not connected");
+			return luaL_error(l, TPT_ES("No se puede enviar por un socket sin conexión"));
 		}
 		size_t dlenu;
 		auto *data = luaL_checklstring(l, 2, &dlenu);
@@ -255,7 +256,7 @@ namespace LuaTCPSocket
 		auto *tcps = (TCPSocket *)luaL_checkudata(l, 1, "TCPSocket");
 		if (tcps->status != StatusConnected)
 		{
-			return luaL_error(l, "attempt to receive on socket while not connected");
+			return luaL_error(l, TPT_ES("No se puede recibir por un socket sin conexión"));
 		}
 		enum
 		{
@@ -440,11 +441,11 @@ namespace LuaTCPSocket
 		auto *tcps = (TCPSocket *)luaL_checkudata(l, 1, "TCPSocket");
 		if (tcps->status == StatusDead)
 		{
-			return luaL_error(l, "attempt to connect dead socket");
+			return luaL_error(l, "No se puede conectar un socket cerrado");
 		}
 		if (tcps->status == StatusConnected)
 		{
-			return luaL_error(l, "attempt to connect connected socket");
+			return luaL_error(l, TPT_ES("El socket ya está conectado"));
 		}
 		auto startedAt = Now();
 		while (true)
@@ -542,7 +543,7 @@ namespace LuaTCPSocket
 		auto *tcps = (TCPSocket *)luaL_checkudata(l, 1, "TCPSocket");
 		if (tcps->status != StatusConnected)
 		{
-			return luaL_error(l, "attempt to get remote socket info while not connected");
+			return luaL_error(l, TPT_ES("No se puede consultar el extremo remoto de un socket sin conexión"));
 		}
 		char *address;
 		curl_easy_getinfo(tcps->easy, CURLINFO_PRIMARY_IP, &address);
@@ -578,7 +579,7 @@ namespace LuaTCPSocket
 		auto *tcps = (TCPSocket *)luaL_checkudata(l, 1, "TCPSocket");
 		if (tcps->status != StatusConnected)
 		{
-			return luaL_error(l, "attempt to get local socket info while not connected");
+			return luaL_error(l, TPT_ES("No se puede consultar el extremo local de un socket sin conexión"));
 		}
 		char *address;
 		curl_easy_getinfo(tcps->easy, CURLINFO_LOCAL_IP, &address);
@@ -631,7 +632,7 @@ namespace LuaTCPSocket
 			tcps->writeClosed = true;
 			return 0;
 		}
-		return luaL_error(l, "unknown direction");
+		return luaL_error(l, TPT_ES("Dirección desconocida"));
 	}
 #endif
 

@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 #include "RenderModesUI.h"
 #include "defines.h"
 #include "graphics.h"
@@ -33,7 +34,7 @@ RenderModesUI::RenderModesUI():
 	InitializeButtons();
 
 #ifdef TOUCHUI
-	swapButton = new Button(Point(0, 0), Point(40, MENUSIZE), "Adv.");
+	swapButton = new Button(Point(0, 0), Point(40, MENUSIZE), "Av.");
 	swapButton->SetCallback([&](int mb) { this->SwapInterface(); });
 	this->AddComponent(swapButton);
 #endif
@@ -62,7 +63,7 @@ void RenderModesUI::SwapInterface()
 		displayCheckboxes.clear();
 		colorCheckboxes.clear();
 		InitializeButtons();
-		swapButton->SetText("Adv.");
+		swapButton->SetText("Av.");
 	}
 	interfaceSwap = !interfaceSwap;
 #endif
@@ -170,85 +171,85 @@ void RenderModesUI::InitializeCheckboxes()
 
 	Checkbox *effectsCheckbox = new Checkbox(pos, size, "\xE1");
 	InitializeRenderCheckbox(effectsCheckbox, RENDER_EFFE);
-	SetCheckboxToolTip(effectsCheckbox, "Adds Special flare effects to some elements");
+	SetCheckboxToolTip(effectsCheckbox, TPT_ES("Añade destellos especiales a algunos elementos"));
 
 	Checkbox *glowCheckbox = new Checkbox(CheckboxPos(effectsCheckbox, NULL), size, "\xDF");
 	InitializeRenderCheckbox(glowCheckbox, RENDER_GLOW);
-	SetCheckboxToolTip(glowCheckbox, "Glow effect on some elements");
+	SetCheckboxToolTip(glowCheckbox, TPT_ES("Añade brillo a algunos elementos"));
 
 	Checkbox *fireCheckbox = new Checkbox(CheckboxPos(glowCheckbox, effectsCheckbox), size, "\x9B");
 	InitializeRenderCheckbox(fireCheckbox, RENDER_FIRE);
-	SetCheckboxToolTip(fireCheckbox, "Fire effect for gasses");
+	SetCheckboxToolTip(fireCheckbox, TPT_ES("Añade un efecto de fuego a los gases"));
 
 	Checkbox *blurCheckbox = new Checkbox(CheckboxPos(fireCheckbox, glowCheckbox), size, "\xC4");
 	InitializeRenderCheckbox(blurCheckbox, RENDER_BLUR);
-	SetCheckboxToolTip(blurCheckbox, "Blur effect for liquids");
+	SetCheckboxToolTip(blurCheckbox, TPT_ES("Difumina los líquidos"));
 
 	Checkbox *basicCheckbox = new Checkbox(CheckboxPos(blurCheckbox, fireCheckbox), size, "\xDB");
 	InitializeRenderCheckbox(basicCheckbox, RENDER_BASC);
-	SetCheckboxToolTip(basicCheckbox, "Basic rendering, without this, most things will be invisible");
+	SetCheckboxToolTip(basicCheckbox, TPT_ES("Gráficos básicos. Al desactivarlos, casi todo se vuelve invisible."));
 
 	Checkbox *blobCheckbox = new Checkbox(CheckboxPos(basicCheckbox, blurCheckbox), size, "\xBF");
 	InitializeRenderCheckbox(blobCheckbox, RENDER_BLOB);
-	SetCheckboxToolTip(blobCheckbox, "Makes everything be drawn like a blob");
+	SetCheckboxToolTip(blobCheckbox, TPT_ES("Dibuja todas las partículas con formas redondeadas"));
 
 	Checkbox *sparkCheckbox = new Checkbox(CheckboxPos(blobCheckbox, basicCheckbox), size, "\xDF");
 	InitializeRenderCheckbox(sparkCheckbox, RENDER_SPRK);
-	SetCheckboxToolTip(sparkCheckbox, "Glow effect on sparks");
+	SetCheckboxToolTip(sparkCheckbox, "Hace brillar las chispas");
 
 	Checkbox *noneCheckbox = new Checkbox(CheckboxPos(sparkCheckbox, blobCheckbox), size, "\xDB");
 	InitializeRenderCheckbox(noneCheckbox, RENDER_NONE);
-	SetCheckboxToolTip(noneCheckbox, "Even more basic rendering - only elements and stickmen are rendered");
+	SetCheckboxToolTip(noneCheckbox, TPT_ES("Gráficos mínimos. Dibuja solo elementos y muñecos."));
 
 	line1Pos = noneCheckbox->Right(Point(4, 0)).X;
 
 	Checkbox *crackerCheckbox = new Checkbox(Point(line1Pos+6, sparkCheckbox->GetPosition().Y), size, "\xD4");
 	InitializeDisplayCheckbox(crackerCheckbox, DISPLAY_AIRC);
-	SetCheckboxToolTip(crackerCheckbox, "Displays pressure as red and blue, and velocity as white");
+	SetCheckboxToolTip(crackerCheckbox, TPT_ES("Muestra la presión en rojo y azul y la velocidad en blanco"));
 
 	Checkbox *airPressureCheckbox = new Checkbox(CheckboxPos(crackerCheckbox, NULL), size, "\x99");
 	InitializeDisplayCheckbox(airPressureCheckbox, DISPLAY_AIRP);
-	SetCheckboxToolTip(airPressureCheckbox, "Displays pressure, red is positive and blue is negative");
+	SetCheckboxToolTip(airPressureCheckbox, TPT_ES("Muestra la presión positiva en rojo y la negativa en azul"));
 
 	Checkbox *airVelocityCheckbox = new Checkbox(CheckboxPos(airPressureCheckbox, crackerCheckbox), size, "\x98");
 	InitializeDisplayCheckbox(airVelocityCheckbox, DISPLAY_AIRV);
-	SetCheckboxToolTip(airVelocityCheckbox, "Displays velocity and positive pressure: up/down adds blue, right/left adds red, still pressure adds green");
+	SetCheckboxToolTip(airVelocityCheckbox, TPT_ES("Muestra velocidad y presión positiva. Azul: arriba/abajo. Rojo: izquierda/derecha. Verde: presión en reposo."));
 
 	Checkbox *airHeatCheckbox = new Checkbox(CheckboxPos(airVelocityCheckbox, airPressureCheckbox), size, "\xBD");
 	InitializeDisplayCheckbox(airHeatCheckbox, DISPLAY_AIRH);
-	SetCheckboxToolTip(airHeatCheckbox, "Displays the temperature of the air like heat display does");
+	SetCheckboxToolTip(airHeatCheckbox, "Muestra la temperatura del aire con la misma escala que el modo de calor");
 
 	Checkbox *vorticityCheckbox = new Checkbox(CheckboxPos(airHeatCheckbox, airVelocityCheckbox), size, "\x0F\xA6\x4D\x79\xD4");
 	InitializeDisplayCheckbox(vorticityCheckbox, DISPLAY_AIRW);
-	SetCheckboxToolTip(vorticityCheckbox, "Displays vorticity, red is clockwise and blue is anticlockwise");
+	SetCheckboxToolTip(vorticityCheckbox, "Muestra la vorticidad en rojo para el giro horario y en azul para el antihorario");
 
 	line2Pos = vorticityCheckbox->Right(Point(4, 0)).X;
 
 	Checkbox *warpCheckbox = new Checkbox(Point(line2Pos+6, vorticityCheckbox->GetPosition().Y), size, "\xDE");
 	InitializeDisplayCheckbox(warpCheckbox, DISPLAY_WARP);
-	SetCheckboxToolTip(warpCheckbox, "Gravity lensing, Newtonian Gravity bends light with this on");
+	SetCheckboxToolTip(warpCheckbox, "Lente gravitatoria. La gravedad newtoniana curva la luz.");
 
 	Checkbox *persistentCheckbox = new Checkbox(CheckboxPos(warpCheckbox, nullptr), size, "\x9A");
 	InitializeDisplayCheckbox(persistentCheckbox, DISPLAY_PERS);
-	SetCheckboxToolTip(persistentCheckbox, "Element paths persist on the screen for a while");
+	SetCheckboxToolTip(persistentCheckbox, "Deja visible por un momento la trayectoria de los elementos");
 
 	line3Pos = persistentCheckbox->Right(Point(4, 0)).X;
 
 	Checkbox *basic2Checkbox = new Checkbox(Point(line3Pos+6, warpCheckbox->GetPosition().Y), size, "\xDB");
 	InitializeColorCheckbox(basic2Checkbox, COLOR_BASC);
-	SetCheckboxToolTip(basic2Checkbox, "No special effects at all for anything, overrides all other options and deco");
+	SetCheckboxToolTip(basic2Checkbox, TPT_ES("Oculta la decoración y desactiva todos los efectos gráficos"));
 
 	Checkbox *lifeCheckbox = new Checkbox(CheckboxPos(basic2Checkbox, NULL), size, "\xE0");
 	InitializeColorCheckbox(lifeCheckbox, COLOR_LIFE);
-	SetCheckboxToolTip(lifeCheckbox, "Displays the life value of elements in greyscale gradients");
+	SetCheckboxToolTip(lifeCheckbox, "Muestra el valor de vida de los elementos en escala de grises");
 
 	Checkbox *heatCheckbox = new Checkbox(CheckboxPos(lifeCheckbox, basic2Checkbox), size, "\xBD");
 	InitializeColorCheckbox(heatCheckbox, COLOR_HEAT);
-	SetCheckboxToolTip(heatCheckbox, "Displays temperatures of the elements, dark blue is coldest, pink is hottest");
+	SetCheckboxToolTip(heatCheckbox, TPT_ES("Muestra la temperatura de los elementos del azul oscuro (frío) al rosa (caliente)"));
 
 	Checkbox *heatGradientCheckbox = new Checkbox(CheckboxPos(heatCheckbox, lifeCheckbox), size, "\xD3");
 	InitializeColorCheckbox(heatGradientCheckbox, COLOR_GRAD);
-	SetCheckboxToolTip(heatGradientCheckbox, "Changes colors of elements slightly to show heat diffusing through them");
+	SetCheckboxToolTip(heatGradientCheckbox, TPT_ES("Modifica el color de los elementos para mostrar cómo se propaga el calor"));
 }
 
 
@@ -297,51 +298,51 @@ void RenderModesUI::InitializeButtons()
 #endif
 
 	Button *velocityButton = new Button(pos, size, "\x98");
-	SetButtonToolTip(velocityButton, "Velocity display mode preset");
+	SetButtonToolTip(velocityButton, TPT_ES("Modo de visualización de velocidad"));
 	InitializeButton(velocityButton, CM_VEL);
 
 	Button *pressureButton = new Button(ButtonPos(velocityButton, NULL), size, "\x99");
-	SetButtonToolTip(pressureButton, "Pressure display mode preset");
+	SetButtonToolTip(pressureButton, TPT_ES("Modo de visualización de presión"));
 	InitializeButton(pressureButton, CM_PRESS);
 
 	Button *persistentButton = new Button(ButtonPos(pressureButton, velocityButton), size, "\x9A");
-	SetButtonToolTip(persistentButton, "Persistent display mode preset");
+	SetButtonToolTip(persistentButton, "Modo de rastros persistentes");
 	InitializeButton(persistentButton, CM_PERS);
 
 	Button *fireButton = new Button(ButtonPos(persistentButton, pressureButton), size, "\x9B");
-	SetButtonToolTip(fireButton, "Fire display mode preset");
+	SetButtonToolTip(fireButton, TPT_ES("Modo de visualización de fuego"));
 	InitializeButton(fireButton, CM_FIRE);
 
 	Button *blobButton = new Button(ButtonPos(fireButton, persistentButton),size, "\xBF");
-	SetButtonToolTip(blobButton, "Blob display mode preset");
+	SetButtonToolTip(blobButton, TPT_ES("Modo de partículas redondeadas"));
 	InitializeButton(blobButton, CM_BLOB);
 
 	Button *heatButton = new Button(ButtonPos(blobButton, fireButton), size, "\xBD");
-	SetButtonToolTip(heatButton, "Heat display mode preset");
+	SetButtonToolTip(heatButton, TPT_ES("Modo de visualización de calor"));
 	InitializeButton(heatButton, CM_HEAT);
 
 	Button *fancyButton = new Button(ButtonPos(heatButton, blobButton), size, "\xC4");
-	SetButtonToolTip(fancyButton, "Fancy display mode preset");
+	SetButtonToolTip(fancyButton, "Modo de efectos avanzados");
 	InitializeButton(fancyButton, CM_FANCY);
 
 	Button *nothingButton = new Button(ButtonPos(fancyButton, heatButton), size, "\xDB");
-	SetButtonToolTip(nothingButton, "Nothing display mode preset");
+	SetButtonToolTip(nothingButton, TPT_ES("Modo de visualización simple"));
 	InitializeButton(nothingButton, CM_NOTHING);
 
 	Button *heatGradientButton = new Button(ButtonPos(nothingButton, fancyButton), size, "\xD3");
-	SetButtonToolTip(heatGradientButton, "Heat gradient display mode preset");
+	SetButtonToolTip(heatGradientButton, TPT_ES("Modo de gradiente térmico"));
 	InitializeButton(heatGradientButton, CM_GRAD);
 
 	Button *alternateVelocityButton = new Button(ButtonPos(heatGradientButton, nothingButton), size, "\xD4");
-	SetButtonToolTip(alternateVelocityButton, "Alternate Velocity display mode preset");
+	SetButtonToolTip(alternateVelocityButton, "Modo alternativo de velocidad");
 	InitializeButton(alternateVelocityButton, CM_CRACK);
 
 	Button *lifeButton = new Button(ButtonPos(alternateVelocityButton, heatGradientButton), size, "\xE0");
-	SetButtonToolTip(lifeButton, "Life display mode preset");
+	SetButtonToolTip(lifeButton, TPT_ES("Modo de visualización de vida"));
 	InitializeButton(lifeButton, CM_LIFE);
 
 	Button *vortButton = new Button(ButtonPos(lifeButton, alternateVelocityButton), size, "\x0F\xA6\x4D\x79\xD4");
-	SetButtonToolTip(vortButton, "Vorticity display mode preset");
+	SetButtonToolTip(vortButton, "Modo de vorticidad");
 	InitializeButton(vortButton, CM_VORT);
 }
 

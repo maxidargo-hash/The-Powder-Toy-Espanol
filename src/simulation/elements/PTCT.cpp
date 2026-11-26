@@ -50,7 +50,7 @@ void PTCT_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 251;
 	elem->Latent = 0;
-	elem->Description = "PTC Thermistor. Conducts with PSCN and NSCN, but only when cooled below 100C.";
+	elem->Description = "Termistor PTC. Conduce con PSCN y NSCN solo por debajo de 100 grados C.";
 
 	elem->Properties = TYPE_SOLID|PROP_CONDUCTS|PROP_LIFE_DEC;
 

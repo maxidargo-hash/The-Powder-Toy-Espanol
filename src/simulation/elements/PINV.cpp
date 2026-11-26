@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -57,7 +58,7 @@ void PINV_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 0;
 	elem->Latent = 0;
-	elem->Description = "Powered invisible,invisible to particles while activated.";
+	elem->Description = TPT_ES("Invisible para otras partículas cuando recibe corriente.");
 
 	elem->Properties = TYPE_SOLID | PROP_NEUTPASS | PROP_PHOTPASS | PROP_POWERED | PROP_INDESTRUCTIBLE;
 

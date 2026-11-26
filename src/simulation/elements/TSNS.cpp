@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -133,7 +134,7 @@ void TSNS_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 0;
 	elem->Latent = 0;
-	elem->Description = "Temperature sensor, creates a spark when there's a nearby particle with a greater temperature.";
+	elem->Description = TPT_ES("Sensor de temperatura. Genera una chispa si una partícula cercana está más caliente.");
 
 	elem->Properties = TYPE_SOLID;
 

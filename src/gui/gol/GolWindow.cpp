@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 #include "GolWindow.h"
 #include "common/tpt-rand.h"
 #include "game/Menus.h"
@@ -21,7 +22,7 @@ GolWindow::GolWindow(std::string ruleStr, int color1, int color2, bool leftTool)
 	highColor = color1 ? color1 : COLRGB(RNG::Ref().between(0x80, 0xFF), RNG::Ref().between(0x80, 0xFF), RNG::Ref().between(0x80, 0xFF));
 	lowColor = color2 ? color2 : COLRGB(RNG::Ref().between(0x00, 0x7F), RNG::Ref().between(0x00, 0x7F), RNG::Ref().between(0x00, 0x7F));
 
-	golLabel = new Label(Point(5, 3), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Edit custom GOL type");
+	golLabel = new Label(Point(5, 3), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Editar tipo de Vida personalizado");
 	golLabel->SetColor(COLRGB(140, 140, 255));
 	this->AddComponent(golLabel);
 
@@ -55,7 +56,7 @@ GolWindow::GolWindow(std::string ruleStr, int color1, int color2, bool leftTool)
 	});
 	this->AddComponent(lowColorButton);
 
-	okButton = new Button(Point(0, this->size.Y-15), Point(this->size.X+1, 15), "OK");
+	okButton = new Button(Point(0, this->size.Y-15), Point(this->size.X+1, 15), "Aceptar");
 	okButton->SetCallback([&](int mb) { this->AddGol(); });
 	okButton->SetCloseButton(true);
 	this->AddComponent(okButton);
@@ -83,20 +84,20 @@ bool GolWindow::AddGol()
 	auto ruleString = ruleTextbox->GetText();
 	if (name.empty() || !ValidateGOLName(name))
 	{
-		ErrorPrompt *errorPrompt = new ErrorPrompt("Invalid name provided");
+		ErrorPrompt *errorPrompt = new ErrorPrompt(TPT_ES("El nombre no es válido"));
 		Engine::Ref().ShowWindow(errorPrompt);
 		return false;
 	}
 	int rule = ParseGOLString(ruleString);
 	if (rule == -1)
 	{
-		ErrorPrompt *errorPrompt = new ErrorPrompt("Invalid rule provided");
+		ErrorPrompt *errorPrompt = new ErrorPrompt(TPT_ES("La regla no es válida"));
 		Engine::Ref().ShowWindow(errorPrompt);
 		return false;
 	}
 	if (static_cast<LIFE_ElementDataContainer&>(*globalSim->elementData[PT_LIFE]).GetCustomGOLByRule(rule))
 	{
-		ErrorPrompt *errorPrompt = new ErrorPrompt("This Custom GoL rule already exists");
+		ErrorPrompt *errorPrompt = new ErrorPrompt("Ya existe una regla de Vida igual");
 		Engine::Ref().ShowWindow(errorPrompt);
 		return false;
 	}
@@ -110,7 +111,7 @@ bool GolWindow::AddGol()
 	cgol.nameString = name;
 	if (!static_cast<LIFE_ElementDataContainer&>(*globalSim->elementData[PT_LIFE]).AddCustomGOL(cgol))
 	{
-		ErrorPrompt *errorPrompt = new ErrorPrompt("Duplicate name, cannot add");
+		ErrorPrompt *errorPrompt = new ErrorPrompt(TPT_ES("No se pudo añadir. El nombre está duplicado."));
 		Engine::Ref().ShowWindow(errorPrompt);
 		return false;
 	}

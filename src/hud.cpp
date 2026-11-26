@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 #include <ctime>
 #include <cstring>
 #include <sstream>
@@ -105,15 +106,15 @@ void SetRightHudText(Simulation * sim, int x, int y)
 				}
 				else if (currentHud[13] && underType == PT_LAVA && sim->IsElement(parts[underID].ctype))
 				{
-					nametext << "Molten " << ElementResolve(sim, parts[underID].ctype, 0);
+					nametext << "Fundido: " << ElementResolve(sim, parts[underID].ctype, 0);
 				}
 				else if (currentHud[50] && currentHud[11] && underType == PT_FILT)
 				{
-					const char* filtModes[] = { "set color", "AND", "OR", "AND-NOT", "red shift", "blue shift", "no effect", "XOR", "NOT", "PHOT scatter", "variable red shift", "variable blue shift" };
+					const char* filtModes[] = { "fijar color", "AND", "OR", "AND-NOT", "corrimiento al rojo", "corrimiento al azul", "sin efecto", "XOR", "NOT", TPT_ES("dispersión de PHOT"), "corrimiento variable al rojo", "corrimiento variable al azul" };
 					if (parts[underID].tmp >= 0 && parts[underID].tmp <= 11)
 						nametext << "FILT (" << filtModes[parts[underID].tmp] << ")";
 					else
-						nametext << "FILT (unknown mode)";
+						nametext << "FILT (modo desconocido)";
 				}
 				else if (currentHud[54] && currentHud[11] && (underType == PT_SEED || (underType == PT_PLNT && parts[underID].ctype)))
 				{
@@ -200,7 +201,7 @@ void SetRightHudText(Simulation * sim, int x, int y)
 			}
 			if (currentHud[19])
 			{
-				sprintf(tempstring,"Life: %d, ",parts[underID].life);
+				sprintf(tempstring,"Vida: %d, ",parts[underID].life);
 				strappend(heattext,tempstring);
 			}
 			if (currentHud[20])
@@ -257,11 +258,11 @@ void SetRightHudText(Simulation * sim, int x, int y)
 		else
 		{
 			if (currentHud[10])
-				sprintf(heattext,"Empty, ");
+				sprintf(heattext,TPT_ES("Vacío, "));
 		}
 		if (currentHud[26])
 		{
-			sprintf(tempstring,"Pressure: %0.*f, ",currentHud[27],sim->air->pv[y/CELL][x/CELL]);
+			sprintf(tempstring,TPT_ES("Presión: %0.*f, "),currentHud[27],sim->air->pv[y/CELL][x/CELL]);
 			strappend(heattext,tempstring);
 		}
 		if (strlen(heattext) > 1)
@@ -287,12 +288,12 @@ void SetRightHudText(Simulation * sim, int x, int y)
 		}
 		if (currentHud[34] && aheat_enable)
 		{
-			sprintf(tempstring,"A.Heat: %0.*f K ",currentHud[35],sim->air->hv[y/CELL][x/CELL]);
+			sprintf(tempstring,"Calor amb.: %0.*f K ",currentHud[35],sim->air->hv[y/CELL][x/CELL]);
 			strappend(coordtext,tempstring);
 		}
 		if (currentHud[32])
 		{
-			sprintf(tempstring,"Pressure: %0.*f ",currentHud[33],sim->air->pv[y/CELL][x/CELL]);
+			sprintf(tempstring,TPT_ES("Presión: %0.*f "),currentHud[33],sim->air->pv[y/CELL][x/CELL]);
 			strappend(coordtext,tempstring);
 		}
 		if (currentHud[43])
@@ -311,7 +312,7 @@ void SetRightHudText(Simulation * sim, int x, int y)
 	else
 	{
 		if (currentHud[10])
-			sprintf(heattext, "Empty");
+			sprintf(heattext, TPT_ES("Vacío"));
 		if (currentHud[29])
 			sprintf(coordtext, "X:%d Y:%d", x, y);
 	}
@@ -321,18 +322,18 @@ void SetLeftHudText(Simulation * sim, float FPSB2)
 {
 #ifdef BETA
 	if (currentHud[0] && currentHud[1])
-		sprintf(uitext, "Version %d Beta %d (%d) ", SAVE_VERSION, MINOR_VERSION, BUILD_NUM);
+		sprintf(uitext, TPT_ES("Versión %d beta %d (%d) "), SAVE_VERSION, MINOR_VERSION, BUILD_NUM);
 	else if (currentHud[0] && !currentHud[1])
-		sprintf(uitext, "Version %d Beta %d ", SAVE_VERSION, MINOR_VERSION);
+		sprintf(uitext, TPT_ES("Versión %d beta %d "), SAVE_VERSION, MINOR_VERSION);
 	else if (!currentHud[0] && currentHud[1])
-		sprintf(uitext, "Beta Build %d ", BUILD_NUM);
+		sprintf(uitext, TPT_ES("Compilación beta %d "), BUILD_NUM);
 #else
 	if (currentHud[0] && currentHud[1])
-		sprintf(uitext, "Version %d.%d (%d) ", SAVE_VERSION, MINOR_VERSION, BUILD_NUM);
+		sprintf(uitext, TPT_ES("Versión %d.%d (%d) "), SAVE_VERSION, MINOR_VERSION, BUILD_NUM);
 	else if (currentHud[0] && !currentHud[1])
-		sprintf(uitext, "Version %d.%d ", SAVE_VERSION, MINOR_VERSION);
+		sprintf(uitext, TPT_ES("Versión %d.%d "), SAVE_VERSION, MINOR_VERSION);
 	else if (!currentHud[0] && currentHud[1])
-		sprintf(uitext, "Build %d ", BUILD_NUM);
+		sprintf(uitext, TPT_ES("Compilación %d "), BUILD_NUM);
 #endif
 	else
 		uitext[0] = '\0';
@@ -359,24 +360,24 @@ void SetLeftHudText(Simulation * sim, float FPSB2)
 	if (currentHud[4])
 	{
 		if (finding & ~0x8)
-			sprintf(tempstring,"Parts: %d/%d ", foundParticles, NUM_PARTS);
+			sprintf(tempstring,TPT_ES("Partículas: %d/%d "), foundParticles, NUM_PARTS);
 		else
-			sprintf(tempstring,"Parts: %d ", NUM_PARTS);
+			sprintf(tempstring,TPT_ES("Partículas: %d "), NUM_PARTS);
 		strappend(uitext,tempstring);
 	}
 	if (currentHud[5])
 	{
-		sprintf(tempstring,"Generation:%d ", static_cast<LIFE_ElementDataContainer&>(*sim->elementData[PT_LIFE]).golGeneration);
+		sprintf(tempstring,TPT_ES("Generación:%d "), static_cast<LIFE_ElementDataContainer&>(*sim->elementData[PT_LIFE]).golGeneration);
 		strappend(uitext,tempstring);
 	}
 	if (currentHud[6])
 	{
-		sprintf(tempstring,"Gravity:%d ", sim->gravityMode);
+		sprintf(tempstring,"Gravedad:%d ", sim->gravityMode);
 		strappend(uitext,tempstring);
 	}
 	if (currentHud[7])
 	{
-		sprintf(tempstring,"Air:%d ", luaSim->air->airMode);
+		sprintf(tempstring,"Aire:%d ", luaSim->air->airMode);
 		strappend(uitext,tempstring);
 	}
 	if (currentHud[39])
@@ -397,14 +398,14 @@ void SetLeftHudText(Simulation * sim, float FPSB2)
 		strappend(uitext,tempstring);
 	}
 	if (REPLACE_MODE && currentHud[8])
-		strappend(uitext, "[REPLACE MODE] ");
+		strappend(uitext, " [REEMPLAZAR]");
 	if (SPECIFIC_DELETE && currentHud[8])
-		strappend(uitext, "[SPECIFIC DELETE] ");
+		strappend(uitext, " [BORRADO SELECTIVO]");
 	if ((finding & ~0x8) && currentHud[8])
-		strappend(uitext, "[FIND] ");
+		strappend(uitext, "[BUSCAR] ");
 	if (GRID_MODE && currentHud[9])
 	{
-		sprintf(tempstring, "[GRID: %d] ", GRID_MODE);
+		sprintf(tempstring, TPT_ES("[CUADRÍCULA: %d] "), GRID_MODE);
 		strappend(uitext, tempstring);
 	}
 #ifndef NOMOD

@@ -77,7 +77,7 @@ void WOOD_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 164;
 	elem->Latent = 0;
-	elem->Description = "Wood, flammable.";
+	elem->Description = "Madera. Inflamable.";
 
 	elem->Properties = TYPE_SOLID | PROP_NEUTPENETRATE;
 

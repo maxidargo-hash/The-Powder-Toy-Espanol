@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -75,7 +76,7 @@ void SWCH_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 251;
 	elem->Latent = 0;
-	elem->Description = "Switch. Only conducts when switched on. (PSCN switches on, NSCN switches off)";
+	elem->Description = TPT_ES("Interruptor. Solo conduce si está encendido. PSCN lo enciende y NSCN lo apaga.");
 
 	elem->Properties = TYPE_SOLID|PROP_POWERED;
 

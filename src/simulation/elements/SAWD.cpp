@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,7 +44,7 @@ void SAWD_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->Weight = 18;
 
 	elem->HeatConduct = 70;
-	elem->Description = "Sawdust. Floats on water.";
+	elem->Description = TPT_ES("Aserrín. Flota en el agua.");
 
 	elem->Properties = TYPE_PART | PROP_NEUTPASS;
 

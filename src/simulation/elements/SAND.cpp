@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,7 +44,7 @@ void SAND_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 150;
 	elem->Latent = 0;
-	elem->Description = "Sand, Heavy particles. Melts into glass.";
+	elem->Description = TPT_ES("Arena. Partículas pesadas que al fundirse forman vidrio.");
 
 	elem->Properties = TYPE_PART;
 

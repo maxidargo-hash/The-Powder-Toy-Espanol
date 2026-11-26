@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -116,7 +117,7 @@ void WIRE_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 250;
 	elem->Latent = 0;
-	elem->Description = "WireWorld wires, conducts based on a set of GOL-like rules.";
+	elem->Description = TPT_ES("Cables WireWorld. Conducen según reglas parecidas a las del Juego de la vida.");
 
 	elem->Properties = TYPE_SOLID;
 

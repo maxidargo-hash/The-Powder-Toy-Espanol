@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -61,7 +62,7 @@ void RFRG_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->Weight = 1;
 
 	elem->HeatConduct = 3;
-	elem->Description = "Refrigerant. Heats up and liquefies under pressure.";
+	elem->Description = TPT_ES("Refrigerante. Se calienta y se licúa bajo presión.");
 
 	elem->Properties = TYPE_GAS|PROP_DEADLY;
 

@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -76,7 +77,7 @@ void RIME_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = -30.0f + 273.15f;
 	elem->HeatConduct = 100;
 	elem->Latent = 0;
-	elem->Description = "Solid, created when steam cools rapidly and goes through deposition, skipping the liquid phase.";
+	elem->Description = TPT_ES("Escarcha. Se forma cuando el vapor se enfría rápidamente y pasa a sólido directamente.");
 
 	elem->Properties = TYPE_SOLID;
 	elem->CarriesTypeIn = 1U << FIELD_CTYPE;

@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -85,7 +86,7 @@ void BOYL_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = R_TEMP + 2.0f + 273.15f;
 	elem->HeatConduct = 42;
 	elem->Latent = 0;
-	elem->Description = "Boyle, variable pressure gas. Expands when heated.";
+	elem->Description = TPT_ES("Boyle. Gas de presión variable que se expande con el calor.");
 
 	elem->Properties = TYPE_GAS;
 

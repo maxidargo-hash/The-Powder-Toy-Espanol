@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,7 +45,7 @@ void LO2_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = 80.0f;
 	elem->HeatConduct = 70;
 	elem->Latent = 0;
-	elem->Description = "Liquid Oxygen. Very cold. Reacts with fire.";
+	elem->Description = TPT_ES("Oxígeno líquido. Muy frío. Reacciona con el fuego.");
 
 	elem->Properties = TYPE_LIQUID;
 

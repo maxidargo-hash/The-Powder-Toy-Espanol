@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -92,7 +93,7 @@ void THDR_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = 9000.0f + 273.15f;
 	elem->HeatConduct = 1;
 	elem->Latent = 0;
-	elem->Description = "Lightning! Very hot, inflicts damage upon most materials, and transfers current to metals.";
+	elem->Description = TPT_ES("¡Rayo! Muy caliente. Daña la mayoría de los materiales y transmite corriente a los metales.");
 
 	elem->Properties = TYPE_PART;
 

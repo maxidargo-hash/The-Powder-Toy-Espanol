@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -177,7 +178,7 @@ void FIGH_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = R_TEMP + 14.6f + 273.15f;
 	elem->HeatConduct = 0;
 	elem->Latent = 0;
-	elem->Description = "Fighter. Tries to kill stickmen. You must first give it an element to kill him with.";
+	elem->Description = TPT_ES("Luchador. Persigue a los muñecos. Dale un elemento para que pueda atacarlos.");
 
 	elem->Properties = PROP_NOCTYPEDRAW;
 	elem->CarriesTypeIn = 1U << FIELD_CTYPE;

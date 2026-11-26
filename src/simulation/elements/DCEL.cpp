@@ -76,7 +76,7 @@ void DCEL_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 251;
 	elem->Latent = 0;
-	elem->Description = "Decelerator, slows down nearby elements.";
+	elem->Description = "Desacelerador. Reduce la velocidad de los elementos cercanos.";
 
 	elem->Properties = TYPE_SOLID;
 

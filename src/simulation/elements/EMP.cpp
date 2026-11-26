@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -220,7 +221,7 @@ void EMP_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 121;
 	elem->Latent = 0;
-	elem->Description = "Electromagnetic pulse. Breaks activated electronics.";
+	elem->Description = TPT_ES("Pulso electromagnético. Daña la electrónica activada.");
 
 	elem->Properties = TYPE_SOLID|PROP_LIFE_DEC;
 

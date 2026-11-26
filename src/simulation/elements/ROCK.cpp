@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -66,7 +67,7 @@ void ROCK_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->Weight = 100;
 
 	elem->HeatConduct = 200;
-	elem->Description = "Solid, melts into various elements.";
+	elem->Description = TPT_ES("Roca sólida que se funde en distintos elementos.");
 
 	elem->Properties = TYPE_SOLID | PROP_HOT_GLOW;
 

@@ -1,47 +1,49 @@
+#include "SpanishText.h"
+
 #ifdef TOUCHUI
-const char *const introText =
-	"\bl\bUThe Powder Toy\bU - Version " MTOS(SAVE_VERSION) "." MTOS(MINOR_VERSION) " - https://powdertoy.co.uk, irc.libera.chat #powder, https://tpt.io/discord\n"
+static constexpr char introTextUtf8[] =
+	"\bl\bUThe Powder Toy Español\bU - Versión " MTOS(SAVE_VERSION) "." MTOS(MINOR_VERSION) " - https://powdertoy.co.uk, irc.libera.chat #powder, https://tpt.io/discord\n"
 	"\n"
-	"Android version " MTOS(MOBILE_MAJOR) "." MTOS(MOBILE_MINOR) " build " MTOS(MOBILE_BUILD) "\n"
+	"Versión Android " MTOS(MOBILE_MAJOR) "." MTOS(MOBILE_MINOR) " compilación " MTOS(MOBILE_BUILD) "\n"
 	"\n"
-	"\bgTouch and drag the menus on the right side to show each menusection.\n"
-	"For scrollable menusections, the menus can be dragged around.\n"
-	"Use the volume keys to change the tool size for particles.\n"
-	"To open online saves, tap the 'Find & open a simulation' button on the very bottom left.\n"
-	"To pause and unpause the game, use the pause button on the very bottom right.\n\n"
-	"\boThe buttons on the right do the following actions respectively:\n"
-	"\bo   Toggle erase tool (hold button down to clear screen)\n"
-	"\bo   Open the console (hold button to show the on screen keyboard)\n"
-	"\bo   Toggle Newtonian gravity, or decorations while in deco menu (hold to open simulation settings)\n"
-	"\bo   Place or remove a zoom window\n"
-	"\bo   Save a stamp (hold to load a stamp)\n\n"
-	"\boWhen placing a stamp, you may do the following:\n"
-	"\bo   Drag the stamp around wherever you want.\n"
-	"\bo   Tap the stamp without moving it to place.\n"
-	"\bo   Touch any location outside of the stamp to shift it by one pixel.\n"
-	"\bo   Rotate the stamp by first tapping around the edges and then dragging in a circle.\n"
+	"\bgToca y arrastra por los iconos de la derecha para cambiar de categoría.\n"
+	"Si la fila de elementos es larga, arrástrala para desplazarla.\n"
+	"Usa los botones de volumen para cambiar el tamaño del pincel.\n"
+	"Para abrir partidas en línea, toca el botón de la esquina inferior izquierda.\n"
+	"El botón inferior derecho pausa y reanuda la simulación.\n\n"
+	"\boBotones de la derecha, de arriba abajo:\n"
+	"\bo   Activa el borrador. Mantén pulsado para limpiar la pantalla.\n"
+	"\bo   Abre la consola. Mantén pulsado para mostrar el teclado.\n"
+	"\bo   Alterna la gravedad newtoniana o la decoración. Mantén pulsado para ver ajustes.\n"
+	"\bo   Coloca o quita la ventana de zoom.\n"
+	"\bo   Guarda un sello. Mantén pulsado para cargar uno.\n\n"
+	"\boPara colocar un sello:\n"
+	"\bo   Arrástralo hasta donde quieras.\n"
+	"\bo   Tócalo sin moverlo para colocarlo.\n"
+	"\bo   Toca fuera del sello para moverlo un píxel.\n"
+	"\bo   Toca el borde del sello y arrastra en círculo para girarlo.\n"
 	"\n"
-	"Contributors: \bgStanislaw K Skowronek (Designed the original Powder Toy),\n"
+	"Colaboradores: \bgStanislaw K Skowronek (diseñó el Powder Toy original),\n"
 	"\bgSimon Robertshaw, Skresanov Savely, Pilihp64, Catelite, Victoria Hoyle, Nathan Cousins, jacksonmj,\n"
 	"\bgFelix Wallin, Lieuwe Mosch, Anthony Boot, Me4502, MaksProg, jacob1, mniip, LBPHacker\n"
 	"\n"
 #ifndef BETA
-	"\bgTo use online features such as saving, you need to register at: \brhttps://powdertoy.co.uk/Register.html\n"
+	"\bgPara usar funciones en línea, como guardar partidas, regístrate en: \brhttps://powdertoy.co.uk/Register.html\n"
 #else
-	"\brThis is a BETA, you cannot save things publicly. If you are planning on publishing any saves, use the release version\n"
+	"\brEsta versión beta no permite publicar partidas. Usa la versión estable para publicarlas.\n"
 #endif
 	"\n"
 	"\bt" MTOS(SAVE_VERSION) "." MTOS(MINOR_VERSION) "." MTOS(BUILD_NUM) " "
 #else
-const char *const introText =
-	"\bl\bUThe Powder Toy\bU - Version " MTOS(SAVE_VERSION) "." MTOS(MINOR_VERSION) " - https://powdertoy.co.uk, irc.libera.chat #powder, https://tpt.io/discord\n"
+static constexpr char introTextUtf8[] =
+	"\bl\bUThe Powder Toy Español\bU - Versión " MTOS(SAVE_VERSION) "." MTOS(MINOR_VERSION) " - https://powdertoy.co.uk, irc.libera.chat #powder, https://tpt.io/discord\n"
 	"\n"
-	"\brJ\bla\boc\bgo\btb\bb1\bp'\bws \bbMod version " MTOS(MOD_VERSION) "." MTOS(MOD_MINOR_VERSION) " build " MTOS(MOD_BUILD_VERSION) "\bg   Codebase based on C version 83.0\n"
+	"\brJ\bla\boc\bgo\btb\bb1\bp'\bws \bbMod version " MTOS(MOD_VERSION) "." MTOS(MOD_MINOR_VERSION) " compilación " MTOS(MOD_BUILD_VERSION) "\bg   Codebase based on C version 83.0\n"
 	"\n"
 	"\bgControl+C/V/X are Copy, Paste and cut respectively.\n"
-	"\bgTo choose a material, hover over one of the icons on the right, it will show a selection of elements in that group.\n"
+	"\bgPasa el cursor por los iconos de la derecha para ver los elementos de cada categoría.\n"
 	"\bgPick your material from the menu using mouse left/right buttons.\n"
-	"Draw freeform lines by dragging your mouse left/right button across the drawing area.\n"
+	"Mantén pulsado un botón del ratón y arrastra para dibujar.\n"
 	"Shift+drag will create straight lines of particles.\n"
 	"Ctrl+drag will result in filled rectangles.\n"
 	"Ctrl+Shift+click will flood-fill a closed area.\n"
@@ -54,15 +56,15 @@ const char *const introText =
 	"'L' will load the most recent stamp, 'K' shows a library of stamps you saved.\n"
 	"The numbers on the keyboard will change the display mode\n"
 	"\n"
-	"Contributors: \bgStanislaw K Skowronek (Designed the original Powder Toy),\n"
+	"Colaboradores: \bgStanislaw K Skowronek (diseñó el Powder Toy original),\n"
 	"\bgSimon Robertshaw, Skresanov Savely, Pilihp64, Catelite, Victoria Hoyle, Nathan Cousins, jacksonmj,\n"
 	"\bgFelix Wallin, Lieuwe Mosch, Anthony Boot, Me4502, MaksProg, jacob1, mniip, LBPHacker\n"
 	"Thanks to Pilihp64 for the update server for my mod\n"
 	"\n"
 #ifndef BETA
-	"\bgTo use online features such as saving, you need to register at: \brhttps://powdertoy.co.uk/Register.html\n"
+	"\bgPara usar funciones en línea, como guardar partidas, regístrate en: \brhttps://powdertoy.co.uk/Register.html\n"
 #else
-	"\brThis is a BETA, you cannot save things publicly. If you are planning on publishing any saves, use the release version\n"
+	"\brEsta versión beta no permite publicar partidas. Usa la versión estable para publicarlas.\n"
 #endif
 	"\n"
 	"\bt" MTOS(SAVE_VERSION) "." MTOS(MINOR_VERSION) "." MTOS(BUILD_NUM)
@@ -110,3 +112,6 @@ const char *const introText =
 	" GRAVFFT"
 #endif
     ;
+
+static constexpr auto introTextEncoded = EncodeSpanishText(introTextUtf8);
+const char *const introText = introTextEncoded.data();

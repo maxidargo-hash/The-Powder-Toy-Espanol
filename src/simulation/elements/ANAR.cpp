@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -64,7 +65,7 @@ void ANAR_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 70;
 	elem->Latent = 0;
-	elem->Description = "Anti-air. Very light gravity-defying dust. Burns cold instead of hot.";
+	elem->Description = TPT_ES("Antiaire. Polvo muy liviano que desafía la gravedad. Al arder, enfría.");
 
 	elem->Properties = TYPE_PART;
 

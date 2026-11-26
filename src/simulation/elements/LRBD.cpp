@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,7 +45,7 @@ void LRBD_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = R_TEMP + 45.0f + 273.15f;
 	elem->HeatConduct = 170;
 	elem->Latent = 0;
-	elem->Description = "Liquid Rubidium.";
+	elem->Description = TPT_ES("Rubidio líquido.");
 
 	elem->Properties = TYPE_LIQUID|PROP_CONDUCTS|PROP_LIFE_DEC;
 

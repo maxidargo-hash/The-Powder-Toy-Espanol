@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,7 +53,7 @@ void VRSS_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = R_TEMP + 273.15f;
 	elem->HeatConduct = 251;
 	elem->Latent = 0;
-	elem->Description = "Solid Virus. Turns everything it touches into virus.";
+	elem->Description = TPT_ES("Virus sólido. Convierte en virus todo lo que toca.");
 
 	elem->Properties = TYPE_SOLID;
 	elem->CarriesTypeIn = 1U << FIELD_TMP2;

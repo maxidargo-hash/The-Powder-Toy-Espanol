@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -425,12 +426,12 @@ void Save::ParseSave()
 	else if (saveData[0] == 'O' && saveData[1] == 'P' && saveData[2] == 'S')
 	{
 		if (saveData[3] != '1')
-			throw ParseException("Save format from newer version");
+			throw ParseException(TPT_ES("Formato de partida de una versión más reciente"));
 		ParseSaveOPS();
 	}
 	else
 	{
-		throw ParseException("Invalid save format");
+		throw ParseException(TPT_ES("Formato de partida no válido"));
 	}
 	expanded = true;
 }
@@ -537,7 +538,7 @@ void Save::ParseSaveOPS()
 	// Incompatible cell size
 	if (saveData[5] != CELL)
 	{
-		throw ParseException("Incorrect CELL size");
+		throw ParseException(TPT_ES("Tamaño de CELL incorrecto"));
 	}
 
 	if (blockW <= 0 || blockH <= 0)
@@ -560,7 +561,7 @@ void Save::ParseSaveOPS()
 	unsigned int toAlloc = bsonDataLen + 1;
 	if (toAlloc > 209715200 || !toAlloc)
 	{
-		throw ParseException("Save data too large");
+		throw ParseException("Datos de partida demasiado grandes");
 	}
 
 	bsonData = (unsigned char*)malloc(bsonDataLen+1);
@@ -578,7 +579,7 @@ void Save::ParseSaveOPS()
 		throw ParseException("Unable to decompress (ret " + Format::NumberToString<int>(bz2ret) + ")");
 	}
 
-	set_bson_err_handler([](const char* err) { throw ParseException("BSON error when parsing save: " + std::string(err)); });
+	set_bson_err_handler([](const char* err) { throw ParseException("Error de BSON al leer la partida: " + std::string(err)); });
 	bson_init_data_size(&b, (char*)bsonData, bsonDataLen);
 	bson_iterator_init(&iter, &b);
 	while (bson_iterator_next(&iter))
@@ -772,7 +773,7 @@ void Save::ParseSaveOPS()
 				if (major > FAKE_SAVE_VERSION || (major == FAKE_SAVE_VERSION && minor > FAKE_MINOR_VER))
 				{
 					std::stringstream errorMessage;
-					errorMessage << "Save from a newer version: Requires version " << major << "." << minor;
+					errorMessage << TPT_ES("Partida de una versión más reciente. Requiere la versión ") << major << "." << minor;
 					if (loadIncompatibleSaves)
 						logMessages.push_back(errorMessage.str());
 					else
@@ -928,7 +929,7 @@ void Save::ParseSaveOPS()
 	{
 		unsigned int j = 0;
 		if (blockW * blockH > wallDataLen)
-			throw ParseException("Not enough wall data");
+			throw ParseException("Faltan datos de muros");
 		for (unsigned int x = 0; x < blockW; x++)
 		{
 			for (unsigned int y = 0; y < blockH; y++)
@@ -944,7 +945,7 @@ void Save::ParseSaveOPS()
 				{
 					if (j+1 >= fanDataLen)
 					{
-						throw ParseException("Not enough fan data");
+						throw ParseException("Faltan datos de ventiladores");
 					}
 					fanVelX[blockY+y][blockX+x] = (fanData[j++]-127.0f)/64.0f;
 					fanVelY[blockY+y][blockX+x] = (fanData[j++]-127.0f)/64.0f;
@@ -959,7 +960,7 @@ void Save::ParseSaveOPS()
 		unsigned int j = 0;
 		unsigned int i, i2;
 		if (blockW * blockH * 2 > pressDataLen)
-			throw ParseException("Not enough pressure data");
+			throw ParseException(TPT_ES("Faltan datos de presión"));
 		hasPressure = true;
 		for (unsigned int x = 0; x < blockW; x++)
 		{
@@ -978,7 +979,7 @@ void Save::ParseSaveOPS()
 		unsigned int j = 0;
 		unsigned int i, i2;
 		if (blockW * blockH * 2 > vxDataLen)
-			throw ParseException("Not enough vx data");
+			throw ParseException("Faltan datos de vx");
 		for (unsigned int x = 0; x < blockW; x++)
 		{
 			for (unsigned int y = 0; y < blockH; y++)
@@ -996,7 +997,7 @@ void Save::ParseSaveOPS()
 		unsigned int j = 0;
 		unsigned int i, i2;
 		if (blockW * blockH * 2 > vyDataLen)
-			throw ParseException("Not enough vy data");
+			throw ParseException("Faltan datos de vy");
 		for (unsigned int x = 0; x < blockW; x++)
 		{
 			for (unsigned int y = 0; y < blockH; y++)
@@ -1013,7 +1014,7 @@ void Save::ParseSaveOPS()
 	{
 		unsigned int tempTemp, j = 0;
 		if (blockW * blockH * 2 > ambientDataLen)
-			throw ParseException("Not enough ambient heat data");
+			throw ParseException("Faltan datos de calor ambiental");
 		hasAmbientHeat = true;
 		for (unsigned int x = 0; x < blockW; x++)
 		{
@@ -1032,7 +1033,7 @@ void Save::ParseSaveOPS()
 		int newIndex = 0, tempTemp;
 		int posCount, posTotal, partsPosDataIndex = 0;
 		if (fullW * fullH * 3 > partsPosDataLen)
-			throw ParseException("Not enough particle position data");
+			throw ParseException(TPT_ES("Faltan datos de posición de partículas"));
 		unsigned int i = 0, x, y;
 		for (unsigned int saved_y = 0; saved_y < fullH; saved_y++)
 		{
@@ -1048,7 +1049,7 @@ void Save::ParseSaveOPS()
 				{
 					// i+3 because we have 4 bytes of required fields (type (1), descriptor (2), temp (1))
 					if (i+3 >= partsDataLen)
-						throw ParseException("Ran past particle data buffer");
+						throw ParseException(TPT_ES("Se excedió el búfer de datos de partículas"));
 					x = saved_x + fullX;
 					y = saved_y + fullY;
 					unsigned int fieldDescriptor = (unsigned int)(partsData[i+1]);
@@ -1057,7 +1058,7 @@ void Save::ParseSaveOPS()
 						throw ParseException("Particle out of range");
 
 					if (newIndex < 0 || newIndex >= NPART)
-						throw ParseException("Too many particles");
+						throw ParseException(TPT_ES("Hay demasiadas partículas"));
 
 					// Clear the particle, ready for our new properties
 					memset(&(particles[newIndex]), 0, sizeof(particle));
@@ -1093,7 +1094,7 @@ void Save::ParseSaveOPS()
 					if (fieldDescriptor & 0x8000)
 					{
 						if (i >= partsDataLen)
-							throw ParseException("Ran past particle data buffer while loading third byte of field descriptor");
+							throw ParseException(TPT_ES("Se excedió el búfer de partículas al leer el tercer byte del descriptor de campo"));
 						fieldDescriptor |= (unsigned int)(partsData[i++]) << 16;
 					}
 
@@ -1101,13 +1102,13 @@ void Save::ParseSaveOPS()
 					if (fieldDescriptor & 0x02)
 					{
 						if (i >= partsDataLen)
-							throw ParseException("Ran past particle data buffer while loading life");
+							throw ParseException(TPT_ES("Se excedió el búfer de partículas al leer life"));
 						particles[newIndex].life = partsData[i++];
 						// Read 2nd byte
 						if (fieldDescriptor & 0x04)
 						{
 							if (i >= partsDataLen)
-								throw ParseException("Ran past particle data buffer while loading life");
+								throw ParseException(TPT_ES("Se excedió el búfer de partículas al leer life"));
 							particles[newIndex].life |= (((unsigned)partsData[i++]) << 8);
 						}
 					}
@@ -1116,19 +1117,19 @@ void Save::ParseSaveOPS()
 					if (fieldDescriptor & 0x08)
 					{
 						if (i >= partsDataLen)
-							throw ParseException("Ran past particle data buffer while loading tmp");
+							throw ParseException(TPT_ES("Se excedió el búfer de partículas al leer tmp"));
 						particles[newIndex].tmp = partsData[i++];
 						// Read 2nd byte
 						if (fieldDescriptor & 0x10)
 						{
 							if (i >= partsDataLen)
-								throw ParseException("Ran past particle data buffer while loading tmp");
+								throw ParseException(TPT_ES("Se excedió el búfer de partículas al leer tmp"));
 							particles[newIndex].tmp |= (((unsigned)partsData[i++]) << 8);
 							// Read 3rd and 4th bytes
 							if (fieldDescriptor & 0x1000)
 							{
 								if (i+1 >= partsDataLen)
-									throw ParseException("Ran past particle data buffer while loading tmp");
+									throw ParseException(TPT_ES("Se excedió el búfer de partículas al leer tmp"));
 								particles[newIndex].tmp |= (((unsigned)partsData[i++]) << 24);
 								particles[newIndex].tmp |= (((unsigned)partsData[i++]) << 16);
 							}
@@ -1139,13 +1140,13 @@ void Save::ParseSaveOPS()
 					if (fieldDescriptor & 0x20)
 					{
 						if (i >= partsDataLen)
-							throw ParseException("Ran past particle data buffer while loading ctype");
+							throw ParseException(TPT_ES("Se excedió el búfer de partículas al leer ctype"));
 						particles[newIndex].ctype = partsData[i++];
 						// Read additional bytes
 						if (fieldDescriptor & 0x200)
 						{
 							if (i+2 >= partsDataLen)
-								throw ParseException("Ran past particle data buffer while loading ctype");
+								throw ParseException(TPT_ES("Se excedió el búfer de partículas al leer ctype"));
 							particles[newIndex].ctype |= (((unsigned)partsData[i++]) << 24);
 							particles[newIndex].ctype |= (((unsigned)partsData[i++]) << 16);
 							particles[newIndex].ctype |= (((unsigned)partsData[i++]) << 8);
@@ -1156,7 +1157,7 @@ void Save::ParseSaveOPS()
 					if (fieldDescriptor & 0x40)
 					{
 						if (i+3 >= partsDataLen)
-							throw ParseException("Ran past particle data buffer while loading deco");
+							throw ParseException(TPT_ES("Se excedió el búfer de partículas al leer la decoración"));
 						unsigned char alpha = partsData[i++];
 						unsigned char red = partsData[i++];
 						unsigned char green = partsData[i++];
@@ -1168,7 +1169,7 @@ void Save::ParseSaveOPS()
 					if (fieldDescriptor & 0x80)
 					{
 						if (i >= partsDataLen)
-							throw ParseException("Ran past particle data buffer while loading vx");
+							throw ParseException(TPT_ES("Se excedió el búfer de partículas al leer vx"));
 						particles[newIndex].vx = (partsData[i++]-127.0f)/16.0f;
 					}
 					
@@ -1176,7 +1177,7 @@ void Save::ParseSaveOPS()
 					if (fieldDescriptor & 0x100)
 					{
 						if (i >= partsDataLen)
-							throw ParseException("Ran past particle data buffer while loading vy");
+							throw ParseException(TPT_ES("Se excedió el búfer de partículas al leer vy"));
 						particles[newIndex].vy = (partsData[i++]-127.0f)/16.0f;
 					}
 
@@ -1184,13 +1185,13 @@ void Save::ParseSaveOPS()
 					if (fieldDescriptor & 0x400)
 					{
 						if (i >= partsDataLen)
-							throw ParseException("Ran past particle data buffer while loading tmp2");
+							throw ParseException(TPT_ES("Se excedió el búfer de partículas al leer tmp2"));
 						particles[newIndex].tmp2 = partsData[i++];
 						// Read 2nd byte
 						if (fieldDescriptor & 0x800)
 						{
 							if (i >= partsDataLen)
-								throw ParseException("Ran past particle data buffer while loading tmp2");
+								throw ParseException(TPT_ES("Se excedió el búfer de partículas al leer tmp2"));
 							particles[newIndex].tmp2 |= (((unsigned)partsData[i++]) << 8);
 						}
 					}
@@ -1363,7 +1364,7 @@ void Save::ParseSaveOPS()
 			}
 		}
 		if (i != partsDataLen)
-			throw ParseException("Didn't reach end of particle data buffer");
+			throw ParseException(TPT_ES("Quedaron datos sin leer en el búfer de partículas"));
 
 #ifndef NOMOD
 		if (movsData)
@@ -1495,12 +1496,12 @@ void Save::ParseSavePSv()
 	size |= ((unsigned)saveData[10])<<16;
 	size |= ((unsigned)saveData[11])<<24;
 	if (size > 209715200 || !size)
-		throw ParseException("Save data too large");
+		throw ParseException("Datos de partida demasiado grandes");
 
 	auto dataPtr = std::unique_ptr<unsigned char[]>(new unsigned char[size]);
 	unsigned char *data = dataPtr.get();
 	if (!data)
-		throw ParseException("Cannot allocate memory");
+		throw ParseException("No se pudo reservar memoria");
 
 	int bz2ret;
 	if ((bz2ret = BZ2_bzBuffToBuffDecompress((char *)data, (unsigned *)&size, (char *)(saveData+12), saveSize-12, 0, 0)) != BZ_OK)
@@ -1509,7 +1510,7 @@ void Save::ParseSavePSv()
 	}
 
 	if (size < bw*bh)
-		throw ParseException("Save data corrupt (missing data)");
+		throw ParseException(TPT_ES("Partida dañada (faltan datos)"));
 
 	// normalize coordinates
 	int w  = bw *CELL;
@@ -1519,7 +1520,7 @@ void Save::ParseSavePSv()
 	int *particleIDMap = particleIDMapPtr.get();
 	std::fill(&particleIDMap[0], &particleIDMap[XRES*YRES], 0);
 	if (!particleIDMap)
-		throw ParseException("Cannot allocate memory");
+		throw ParseException("No se pudo reservar memoria");
 
 	if (ver < 34)
 	{
@@ -1608,7 +1609,7 @@ void Save::ParseSavePSv()
 		for (int x = 0; x < w; x++)
 		{
 			if (pos >= size)
-				throw ParseException("Ran past particle data buffer");
+				throw ParseException(TPT_ES("Se excedió el búfer de datos de partículas"));
 			int type = data[pos++];
 			if (type >= PT_NUM)
 			{
@@ -1831,7 +1832,7 @@ void Save::ParseSavePSv()
 							int temp = (data[pos++])<<8;
 							if (pos >= size)
 							{
-								throw ParseException("Not enough data at line " MTOS(__LINE__) " in " MTOS(__FILE__));
+								throw ParseException(TPT_ES("Faltan datos en la línea " MTOS(__LINE__) " de " MTOS(__FILE__)));
 							}
 							temp |= (data[pos++]);
 							// Fix PUMP saved at 0, so that it loads at 0.
@@ -1857,7 +1858,7 @@ void Save::ParseSavePSv()
 					{
 						if (pos >= size)
 						{
-							throw ParseException("Not enough data at line " MTOS(__LINE__) " in " MTOS(__FILE__));
+							throw ParseException(TPT_ES("Faltan datos en la línea " MTOS(__LINE__) " de " MTOS(__FILE__)));
 						}
 						pos++;
 					}

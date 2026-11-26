@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 #ifndef TOOLNUMBERS_H
 #define TOOLNUMBERS_H
 #include <string>
@@ -35,20 +36,20 @@ typedef struct toolType toolType;
 
 static toolType toolTypes[] =
 {
-	{"HEAT", "DEFAULT_TOOL_HEAT",   COLPACK(0xFFBB00), "Heats the targeted element."},
-	{"COOL", "DEFAULT_TOOL_COOL",   COLPACK(0x00BBFF), "Cools the targeted element."},
-	{"AIR",  "DEFAULT_TOOL_AIR",    COLPACK(0xFFFFFF), "Air, creates airflow and pressure."},
-	{"VAC",  "DEFAULT_TOOL_VAC",    COLPACK(0x303030), "Vacuum, reduces air pressure."},
-	{"PGRV", "DEFAULT_TOOL_PGRV",   COLPACK(0xCCCCFF), "Creates a short-lasting gravity well."},
-	{"NGRV", "DEFAULT_TOOL_NGRV",   COLPACK(0xAACCFF), "Creates a short-lasting negative gravity well."},
-	{"MIX",  "DEFAULT_TOOL_MIX",    COLPACK(0xFFD090), "Mixes particles around randomly."},
-	{"CYCL", "DEFAULT_TOOL_CYCL",   COLPACK(0x132F5B), "Cyclone, produces swirling air currents."},
-	{"AMBM", "DEFAULT_TOOL_AMBM",   COLPACK(0x00DDFF), "Decreases ambient air temperature."},
-	{"AMBP", "DEFAULT_TOOL_AMBP",   COLPACK(0xFFDD00), "Increases ambient air temperature."},
-	{"WIND", "DEFAULT_TOOL_WIND",   COLPACK(0x404040), "Creates air movement."},
-	{"PROP", "DEFAULT_UI_PROPERTY", COLPACK(0xFFAA00), "Property drawing tool."},
-	{"SIGN", "DEFAULT_UI_SIGN",     COLPACK(0x808080), "Sign. Displays text. Click on a sign to edit it or anywhere else to place a new one."},
-	{"CUST", "DEFAULT_UI_ADDLIFE",  COLPACK(0xFEA900), "Add a new custom GOL type. (Use ctrl+shift+rightclick to remove them)"}
+	{"HEAT", "DEFAULT_TOOL_HEAT",   COLPACK(0xFFBB00), "Calienta el elemento seleccionado."},
+	{"COOL", "DEFAULT_TOOL_COOL",   COLPACK(0x00BBFF), TPT_ES("Enfría el elemento seleccionado.")},
+	{"AIR",  "DEFAULT_TOOL_AIR",    COLPACK(0xFFFFFF), TPT_ES("Aire. Crea corrientes de aire y aumenta la presión.")},
+	{"VAC",  "DEFAULT_TOOL_VAC",    COLPACK(0x303030), TPT_ES("Vacío. Reduce la presión del aire.")},
+	{"PGRV", "DEFAULT_TOOL_PGRV",   COLPACK(0xCCCCFF), TPT_ES("Crea un campo gravitatorio de corta duración.")},
+	{"NGRV", "DEFAULT_TOOL_NGRV",   COLPACK(0xAACCFF), TPT_ES("Crea un campo gravitatorio negativo de corta duración.")},
+	{"MIX",  "DEFAULT_TOOL_MIX",    COLPACK(0xFFD090), TPT_ES("Mezcla partículas al azar.")},
+	{"CYCL", "DEFAULT_TOOL_CYCL",   COLPACK(0x132F5B), TPT_ES("Ciclón. Genera corrientes de aire giratorias.")},
+	{"AMBM", "DEFAULT_TOOL_AMBM",   COLPACK(0x00DDFF), "Baja la temperatura del aire ambiente."},
+	{"AMBP", "DEFAULT_TOOL_AMBP",   COLPACK(0xFFDD00), "Sube la temperatura del aire ambiente."},
+	{"WIND", "DEFAULT_TOOL_WIND",   COLPACK(0x404040), "Mueve el aire."},
+	{"PROP", "DEFAULT_UI_PROPERTY", COLPACK(0xFFAA00), "Pincel de propiedades."},
+	{"SIGN", "DEFAULT_UI_SIGN",     COLPACK(0x808080), "Letrero. Haz clic en un letrero para editarlo o en otro lugar para crear uno."},
+	{"CUST", "DEFAULT_UI_ADDLIFE",  COLPACK(0xFEA900), TPT_ES("Añade un tipo de Vida personalizado. Para quitarlo, usa Ctrl+Mayús+clic derecho.")}
 };
 
 #define DECO_DRAW		0
@@ -73,15 +74,15 @@ typedef struct decoType decoType;
 
 static decoType decoTypes[] =
 {
-	{"SET", "DEFAULT_DECOR_SET",	COLPACK(0xFF0000), "Draw decoration."},
-	{"CLR", "DEFAULT_DECOR_CLR",	COLPACK(0x000000), "Erase decoration."},
-	{"ADD", "DEFAULT_DECOR_ADD",	COLPACK(0x323232), "Color blending: Add."},
-	{"SUB", "DEFAULT_DECOR_SUB",	COLPACK(0x323232), "Color blending: Subtract."},
-	{"MUL", "DEFAULT_DECOR_MUL",	COLPACK(0x323232), "Color blending: Multiply."},
-	{"DIV", "DEFAULT_DECOR_DIV",	COLPACK(0x323232), "Color blending: Divide."},
-	{"SMDG", "DEFAULT_DECOR_SMDG",	COLPACK(0x00FF00), "Smudge tool, blends surrounding deco together."},
-	{"LIGH", "DEFAULT_DECOR_LIGH",	COLPACK(0xDDDDDD), "Lighten deco color."},
-	{"DARK", "DEFAULT_DECOR_DARK",	COLPACK(0x111111), "Darken deco color."}
+	{"SET", "DEFAULT_DECOR_SET",	COLPACK(0xFF0000), TPT_ES("Dibuja decoración.")},
+	{"CLR", "DEFAULT_DECOR_CLR",	COLPACK(0x000000), TPT_ES("Borra decoración.")},
+	{"ADD", "DEFAULT_DECOR_ADD",	COLPACK(0x323232), TPT_ES("Fusión de color: suma.")},
+	{"SUB", "DEFAULT_DECOR_SUB",	COLPACK(0x323232), TPT_ES("Fusión de color: resta.")},
+	{"MUL", "DEFAULT_DECOR_MUL",	COLPACK(0x323232), TPT_ES("Fusión de color: multiplicación.")},
+	{"DIV", "DEFAULT_DECOR_DIV",	COLPACK(0x323232), TPT_ES("Fusión de color: división.")},
+	{"SMDG", "DEFAULT_DECOR_SMDG",	COLPACK(0x00FF00), TPT_ES("Difumina y mezcla la decoración cercana.")},
+	{"LIGH", "DEFAULT_DECOR_LIGH",	COLPACK(0xDDDDDD), "Aclara el color decorativo."},
+	{"DARK", "DEFAULT_DECOR_DARK",	COLPACK(0x111111), "Oscurece el color decorativo."}
 };
 
 struct decoPreset
@@ -94,14 +95,14 @@ typedef struct decoPreset decoPreset;
 
 const decoPreset colorlist[] =
 {
-	{COLPACK(0xFF0000), "DEFAULT_DECOR_PRESET_RED", "Red"},
-	{COLPACK(0x00FF00), "DEFAULT_DECOR_PRESET_GREEN", "Green"},
-	{COLPACK(0x0000FF), "DEFAULT_DECOR_PRESET_BLUE", "Blue"},
-	{COLPACK(0xFFFF00), "DEFAULT_DECOR_PRESET_YELLOW", "Yellow"},
-	{COLPACK(0xFF00FF), "DEFAULT_DECOR_PRESET_PINK", "Pink"},
-	{COLPACK(0x00FFFF), "DEFAULT_DECOR_PRESET_CYAN", "Cyan"},
-	{COLPACK(0xFFFFFF), "DEFAULT_DECOR_PRESET_WHITE", "White"},
-	{COLPACK(0x000000), "DEFAULT_DECOR_PRESET_BLACK", "Black"},
+	{COLPACK(0xFF0000), "DEFAULT_DECOR_PRESET_RED", "Rojo"},
+	{COLPACK(0x00FF00), "DEFAULT_DECOR_PRESET_GREEN", "Verde"},
+	{COLPACK(0x0000FF), "DEFAULT_DECOR_PRESET_BLUE", "Azul"},
+	{COLPACK(0xFFFF00), "DEFAULT_DECOR_PRESET_YELLOW", "Amarillo"},
+	{COLPACK(0xFF00FF), "DEFAULT_DECOR_PRESET_PINK", "Rosa"},
+	{COLPACK(0x00FFFF), "DEFAULT_DECOR_PRESET_CYAN", "Cian"},
+	{COLPACK(0xFFFFFF), "DEFAULT_DECOR_PRESET_WHITE", "Blanco"},
+	{COLPACK(0x000000), "DEFAULT_DECOR_PRESET_BLACK", "Negro"},
 };
 #define NUM_COLOR_PRESETS 8
 

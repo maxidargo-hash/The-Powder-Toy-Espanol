@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -115,7 +116,7 @@ void BOMB_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = R_TEMP - 2.0f + 273.15f;
 	elem->HeatConduct = 29;
 	elem->Latent = 0;
-	elem->Description = "Bomb. Explodes and destroys all surrounding particles when it touches something.";
+	elem->Description = TPT_ES("Bomba. Explota al contacto y destruye las partículas cercanas.");
 
 	elem->Properties = TYPE_PART|PROP_SPARKSETTLE;
 

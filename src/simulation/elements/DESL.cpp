@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,7 +44,7 @@ void DESL_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 42;
 	elem->Latent = 0;
-	elem->Description = "Liquid diesel. Explodes under high pressure and temperatures.";
+	elem->Description = TPT_ES("Diésel líquido. Explota a gran presión y temperatura.");
 
 	elem->Properties = TYPE_LIQUID;
 

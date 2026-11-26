@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 #ifndef WALLNUMBERS_H
 #define WALLNUMBERS_H
 #include <string>
@@ -60,27 +61,27 @@ typedef struct wallType wallType;
 const wallType wallTypes[] =
 {
 	{"ERASE",           "DEFAULT_WL_ERASE", COLPACK(0x808080), COLPACK(0x000000), -1, "Erases walls."},
-	{"CONDUCTIVE WALL", "DEFAULT_WL_CNDTW", COLPACK(0xC0C0C0), COLPACK(0x101010), 0,  "Blocks everything. Conductive."},
-	{"EWALL",           "DEFAULT_WL_EWALL", COLPACK(0x808080), COLPACK(0x808080), 0,  "E-Wall. Becomes transparent when electricity is connected."},
-	{"DETECTOR",        "DEFAULT_WL_DTECT", COLPACK(0xFF8080), COLPACK(0xFF2008), 1,  "Detector. Generates electricity when a particle is inside."},
-	{"STREAMLINE",      "DEFAULT_WL_STRM",  COLPACK(0x808080), COLPACK(0x000000), 0,  "Streamline. Creates a line that follows air movement."},
+	{"MURO CONDUCTOR", "DEFAULT_WL_CNDTW", COLPACK(0xC0C0C0), COLPACK(0x101010), 0,  "Bloquea todo y conduce electricidad."},
+	{"EWALL",           "DEFAULT_WL_EWALL", COLPACK(0x808080), COLPACK(0x808080), 0,  TPT_ES("Muro eléctrico. Deja pasar partículas cuando recibe corriente.")},
+	{"DETECTOR",        "DEFAULT_WL_DTECT", COLPACK(0xFF8080), COLPACK(0xFF2008), 1,  TPT_ES("Detector. Genera electricidad cuando hay una partícula dentro.")},
+	{"STREAMLINE",      "DEFAULT_WL_STRM",  COLPACK(0x808080), COLPACK(0x000000), 0,  TPT_ES("Dibuja una línea que sigue la corriente del aire.")},
 #ifndef TOUCHUI
-	{"FAN",             "DEFAULT_WL_FAN",   COLPACK(0x8080FF), COLPACK(0x000000), 1,  "Fan. Accelerates air. Use the line tool to set direction and strength."},
+	{"FAN",             "DEFAULT_WL_FAN",   COLPACK(0x8080FF), COLPACK(0x000000), 1,  TPT_ES("Acelera el aire. Usa la herramienta de línea para ajustar la dirección y la fuerza.")},
 #else
 	{"FAN",             "DEFAULT_WL_FAN",   COLPACK(0x8080FF), COLPACK(0x000000), 1,  "Fan. Accelerates air. Fan acceleration cannot be set on Android."},
 #endif
-	{"LIQUID WALL",     "DEFAULT_WL_LIQD",  COLPACK(0xC0C0C0), COLPACK(0x101010), 2,  "Allows liquids, blocks all other particles. Conductive."},
-	{"ABSORB WALL",     "DEFAULT_WL_ABSRB", COLPACK(0x808080), COLPACK(0x000000), 1,  "Absorbs particles but lets air currents through."},
-	{"WALL",            "DEFAULT_WL_WALL",  COLPACK(0x808080), COLPACK(0x000000), 3,  "Basic wall, blocks everything."},
-	{"AIRONLY WALL",    "DEFAULT_WL_AIR",   COLPACK(0x3C3C3C), COLPACK(0x000000), 1,  "Allows air, but blocks all particles."},
-	{"POWDER WALL",     "DEFAULT_WL_POWDR", COLPACK(0x575757), COLPACK(0x000000), 1,  "Allows powders, blocks all other particles."},
-	{"CONDUCTOR",       "DEFAULT_WL_CNDTR", COLPACK(0xFFFF22), COLPACK(0x101010), 2,  "Conductor. Allows all particles to pass through and conducts electricity."},
-	{"EHOLE",           "DEFAULT_WL_EHOLE", COLPACK(0x242424), COLPACK(0x101010), 0,  "E-Hole. absorbs particles, releases them when powered."},
-	{"GAS WALL",        "DEFAULT_WL_GAS",   COLPACK(0x579777), COLPACK(0x000000), 1,  "Allows gases, blocks all other particles."},
-	{"GRAVITY WALL",    "DEFAULT_WL_GRVTY", COLPACK(0xFFEE00), COLPACK(0xAA9900), 4,  "Gravity wall. Newtonian Gravity has no effect inside a box drawn with this."},
-	{"ENERGY WALL",     "DEFAULT_WL_ENRGY", COLPACK(0xFFAA00), COLPACK(0xAA5500), 4,  "Allows energy particles, blocks all other particles."},
-	{"AIRBLOCK WALL",   "DEFAULT_WL_NOAIR", COLPACK(0xDCDCDC), COLPACK(0x000000), 1,  "Allows all particles, but blocks air."},
-	{"ERASEALL",        "DEFAULT_WL_ERASEA",COLPACK(0x808080), COLPACK(0x000000), -1, "Erases walls, particles, and signs."},
+	{"LIQUID WALL",     "DEFAULT_WL_LIQD",  COLPACK(0xC0C0C0), COLPACK(0x101010), 2,  TPT_ES("Deja pasar líquidos y bloquea las demás partículas. Conduce electricidad.")},
+	{"ABSORB WALL",     "DEFAULT_WL_ABSRB", COLPACK(0x808080), COLPACK(0x000000), 1,  TPT_ES("Absorbe partículas y deja pasar el aire.")},
+	{"WALL",            "DEFAULT_WL_WALL",  COLPACK(0x808080), COLPACK(0x000000), 3,  TPT_ES("Muro básico. Bloquea todo.")},
+	{"AIRONLY WALL",    "DEFAULT_WL_AIR",   COLPACK(0x3C3C3C), COLPACK(0x000000), 1,  TPT_ES("Deja pasar el aire y bloquea todas las partículas.")},
+	{"POWDER WALL",     "DEFAULT_WL_POWDR", COLPACK(0x575757), COLPACK(0x000000), 1,  TPT_ES("Deja pasar polvos y bloquea las demás partículas.")},
+	{"CONDUCTOR",       "DEFAULT_WL_CNDTR", COLPACK(0xFFFF22), COLPACK(0x101010), 2,  TPT_ES("Deja pasar todas las partículas y conduce electricidad.")},
+	{"EHOLE",           "DEFAULT_WL_EHOLE", COLPACK(0x242424), COLPACK(0x101010), 0,  TPT_ES("Absorbe partículas y las libera al recibir corriente.")},
+	{"GAS WALL",        "DEFAULT_WL_GAS",   COLPACK(0x579777), COLPACK(0x000000), 1,  TPT_ES("Deja pasar gases y bloquea las demás partículas.")},
+	{"GRAVITY WALL",    "DEFAULT_WL_GRVTY", COLPACK(0xFFEE00), COLPACK(0xAA9900), 4,  TPT_ES("Muro gravitatorio. Anula la gravedad newtoniana dentro de un recinto hecho con él.")},
+	{"ENERGY WALL",     "DEFAULT_WL_ENRGY", COLPACK(0xFFAA00), COLPACK(0xAA5500), 4,  TPT_ES("Deja pasar partículas de energía y bloquea las demás.")},
+	{"AIRBLOCK WALL",   "DEFAULT_WL_NOAIR", COLPACK(0xDCDCDC), COLPACK(0x000000), 1,  TPT_ES("Deja pasar todas las partículas y bloquea el aire.")},
+	{"ERASEALL",        "DEFAULT_WL_ERASEA",COLPACK(0x808080), COLPACK(0x000000), -1, TPT_ES("Borra muros, partículas y letreros.")},
 	{"STASIS WALL",     "DEFAULT_WL_STASIS",COLPACK(0x800080), COLPACK(0x000000), 0,  "Freezes particles inside the wall in place until powered"},
 };
 

@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -173,7 +174,7 @@ void CRAY_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 0;
 	elem->Latent = 0;
-	elem->Description = "Particle Ray Emitter. Creates a beam of particles set by its ctype, with a range set by tmp.";
+	elem->Description = TPT_ES("Emisor de partículas. Genera un haz del tipo ctype y del alcance tmp.");
 
 	elem->Properties = TYPE_SOLID;
 	elem->CarriesTypeIn = 1U << FIELD_CTYPE;

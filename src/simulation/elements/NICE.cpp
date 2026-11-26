@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,7 +45,7 @@ void NICE_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = 35.0f;
 	elem->HeatConduct = 46;
 	elem->Latent = 0;
-	elem->Description = "Nitrogen Ice. Very cold, will melt into LN2 when heated only slightly.";
+	elem->Description = TPT_ES("Nitrógeno sólido. Muy frío. Se funde y pasa a LN2 con muy poco calor.");
 
 	elem->Properties = TYPE_SOLID;
 

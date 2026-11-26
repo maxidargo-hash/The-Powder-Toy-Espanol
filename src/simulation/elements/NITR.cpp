@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,7 +45,7 @@ void NITR_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 50;
 	elem->Latent = 0;
-	elem->Description = "Nitroglycerin. Pressure sensitive explosive. Mix with CLST to make TNT.";
+	elem->Description = TPT_ES("Nitroglicerina. Explosivo sensible a la presión. En la simulación, se mezcla con CLST para formar TNT.");
 
 	elem->Properties = TYPE_LIQUID;
 

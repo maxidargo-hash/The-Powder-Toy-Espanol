@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -87,7 +88,7 @@ void AMTR_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 70;
 	elem->Latent = 0;
-	elem->Description = "Anti-Matter, destroys a majority of particles.";
+	elem->Description = TPT_ES("Antimateria. Destruye la mayoría de las partículas.");
 
 	elem->Properties = TYPE_GAS;
 

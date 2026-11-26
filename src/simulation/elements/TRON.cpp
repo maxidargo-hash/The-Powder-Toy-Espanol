@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -266,7 +267,7 @@ void TRON_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = 0.0f;
 	elem->HeatConduct = 40;
 	elem->Latent = 0;
-	elem->Description = "Smart particles, Travels in straight lines and avoids obstacles. Grows with time.";
+	elem->Description = TPT_ES("Partículas inteligentes. Se mueven en línea recta, evitan obstáculos y crecen con el tiempo.");
 
 	elem->Properties = TYPE_SOLID|PROP_LIFE_DEC|PROP_LIFE_KILL;
 

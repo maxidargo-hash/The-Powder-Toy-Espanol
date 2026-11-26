@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -73,7 +74,7 @@ void BRMT_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 211;
 	elem->Latent = 0;
-	elem->Description = "Broken metal. Created when iron rusts or when metals break from pressure.";
+	elem->Description = TPT_ES("Metal fragmentado. Se forma al oxidarse el hierro o al romperse un metal por presión.");
 
 	elem->Properties = TYPE_PART|PROP_CONDUCTS|PROP_LIFE_DEC|PROP_HOT_GLOW;
 	elem->CarriesTypeIn = 1U << FIELD_CTYPE;

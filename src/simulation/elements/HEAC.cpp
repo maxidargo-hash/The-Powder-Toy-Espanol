@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -177,7 +178,7 @@ void HEAC_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->Weight = 100;
 
 	elem->HeatConduct = 251;
-	elem->Description = "Rapid heat conductor.";
+	elem->Description = TPT_ES("Conduce el calor rápidamente.");
 
 	elem->Properties = TYPE_SOLID;
 

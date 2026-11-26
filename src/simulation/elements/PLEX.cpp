@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,7 +45,7 @@ void PLEX_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 88;
 	elem->Latent = 0;
-	elem->Description = "Solid pressure sensitive explosive.";
+	elem->Description = TPT_ES("Explosivo sólido sensible a la presión.");
 
 	elem->Properties = TYPE_SOLID | PROP_NEUTPENETRATE;
 

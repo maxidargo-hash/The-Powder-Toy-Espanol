@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -108,7 +109,7 @@ void GOLD_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 251;
 	elem->Latent = 0;
-	elem->Description = "Corrosion resistant metal, will reverse corrosion of iron. Excellent conductor.";
+	elem->Description = TPT_ES("Metal resistente a la corrosión. Elimina el óxido del hierro y es un excelente conductor.");
 
 	elem->Properties = TYPE_SOLID|PROP_CONDUCTS|PROP_HOT_GLOW|PROP_LIFE_DEC|PROP_NEUTPASS;
 

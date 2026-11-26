@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -74,7 +75,7 @@ void RSSS_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 130;
 	elem->Latent = 0;
-	elem->Description = "Solidified resist. Blocks pressure and insulates electricity. Liquefies on contact with neutrons.";
+	elem->Description = TPT_ES("Fotorresina solidificada. Bloquea la presión y aísla la electricidad. Se licúa al tocar neutrones.");
 
 	elem->Properties = TYPE_SOLID | PROP_NEUTPASS;
 	elem->CarriesTypeIn = (1U << FIELD_CTYPE) | (1U << FIELD_TMP);

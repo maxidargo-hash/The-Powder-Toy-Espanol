@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,7 +45,7 @@ void MWAX_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = R_TEMP + 28.0f + 273.15f;
 	elem->HeatConduct = 44;
 	elem->Latent = 0;
-	elem->Description = "Liquid Wax. Hardens into WAX at 45 degrees.";
+	elem->Description = TPT_ES("Cera líquida. Se solidifica en WAX a 45 grados.");
 
 	elem->Properties = TYPE_LIQUID;
 

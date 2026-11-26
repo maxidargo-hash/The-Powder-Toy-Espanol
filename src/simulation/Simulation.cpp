@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -1649,9 +1650,9 @@ std::string Simulation::ParticleDebug(int mode, int x, int y)
 		while (i < NPART - 1 && !globalSim->parts[i].type)
 			i++;
 		if (i == NPART - 1)
-			logmessage << "End of particles reached, updated sim";
+			logmessage << TPT_ES("Fin de las partículas. Simulación actualizada.");
 		else
-			logmessage << "Updated particle #" << i;
+			logmessage << TPT_ES("Partícula actualizada: n.o ") << i;
 	}
 	// update all particles up to particle under mouse (or to end of sim)
 	else if (mode == 1)
@@ -1659,7 +1660,7 @@ std::string Simulation::ParticleDebug(int mode, int x, int y)
 		if (x < 0 || x >= XRES || y < 0 || y >= YRES || !pmap[y][x] || (i = ID(pmap[y][x])) < debug_currentParticle)
 		{
 			i = NPART - 1;
-			logmessage << "Updated particles from #" << debug_currentParticle << " to end, updated sim";
+			logmessage << TPT_ES("Partículas actualizadas desde la n.o ") << debug_currentParticle << " to end, updated sim";
 		}
 		else
 			logmessage << "Updated particles #" << debug_currentParticle << " through #" << i;

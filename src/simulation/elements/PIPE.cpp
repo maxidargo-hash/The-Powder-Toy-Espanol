@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -688,7 +689,7 @@ void PIPE_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = 295.15f;
 	elem->HeatConduct = 251;
 	elem->Latent = 0;
-	elem->Description = "PIPE, moves particles around. Once the BRCK generates, erase some for the exit. Then the PIPE generates and is usable.";
+	elem->Description = TPT_ES("Tubería. Transporta partículas. Cuando se forme BRCK, borra una parte para abrir una salida y la tubería quedará lista.");
 
 	elem->Properties = TYPE_SOLID | PROP_LIFE_DEC;
 	elem->CarriesTypeIn = 1U << FIELD_CTYPE;

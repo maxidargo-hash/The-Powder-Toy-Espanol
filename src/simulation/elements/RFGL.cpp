@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,7 +45,7 @@ void RFGL_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->Weight = 10;
 
 	elem->HeatConduct = 3;
-	elem->Description = "Liquid refrigerant.";
+	elem->Description = TPT_ES("Refrigerante líquido.");
 
 	elem->Properties = TYPE_LIQUID|PROP_DEADLY;
 

@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -132,7 +133,7 @@ void PWHT_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 0;
 	elem->Latent = 0;
-	elem->Description = "Powered Heater. Flood fill heats particles to its temp. Use only one.";
+	elem->Description = TPT_ES("Calentador eléctrico. Rellena un área con calor según su temperatura. Coloca uno solo.");
 
 	elem->Properties = TYPE_SOLID|PROP_POWERED;
 

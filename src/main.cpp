@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /**
  * Powder Toy - Main source
  *
@@ -286,7 +287,7 @@ void tab_save(int num)
 	else if (strlen(svf_filename))
 		sprintf(tabNames[num-1], "%s", svf_filename);
 	else
-		sprintf(tabNames[num-1], "Untitled Simulation %i", num);
+		sprintf(tabNames[num-1], TPT_ES("Simulación sin título %i"), num);
 	
 	//set the tab's thumbnail
 	if (tabThumbnails[num-1])
@@ -323,7 +324,7 @@ int tab_load(int tabNum, bool del, bool showException)
 		catch (ParseException & e)
 		{
 			if (showException)
-				Engine::Ref().ShowWindow(new InfoPrompt("Error loading save", e.what()));
+				Engine::Ref().ShowWindow(new InfoPrompt("Error al cargar la partida", e.what()));
 			else
 				std::cout << "Error loading tab: " << e.what() << std::endl;
 		}
@@ -523,16 +524,16 @@ void SigHandler(int sig)
 	switch (sig)
 	{
 	case SIGSEGV:
-		BlueScreen("Memory read/write error");
+		BlueScreen("Error de lectura o escritura en memoria");
 		break;
 	case SIGFPE:
-		BlueScreen("Floating point exception");
+		BlueScreen(TPT_ES("Excepción de coma flotante"));
 		break;
 	case SIGILL:
-		BlueScreen("Program execution exception");
+		BlueScreen(TPT_ES("Excepción al ejecutar el programa"));
 		break;
 	case SIGABRT:
-		BlueScreen("Unexpected program abort");
+		BlueScreen(TPT_ES("Interrupción inesperada del programa"));
 		break;
 	}
 }
@@ -852,7 +853,7 @@ int main(int argc, char *argv[])
 	luacon_openstickmancontrol();
 	for (int i = 0; i < 10; i++)
 	{
-		sprintf(tabNames[i], "Untitled Simulation %i", i+1);
+		sprintf(tabNames[i], TPT_ES("Simulación sin título %i"), i+1);
 		tabThumbnails[i] = NULL;
 	}
 	if (tab_load(1, true, false))
@@ -1181,7 +1182,7 @@ int main_loop_temp(int b, int bq, int sdl_key, int scan, int x, int y, bool shif
 		{
 			info_box(vid_buf, "Finalizing update...");
 			if (update_finish())
-				Engine::Ref().ShowWindow(new ErrorPrompt("Update failed - try downloading a new version."));
+				Engine::Ref().ShowWindow(new ErrorPrompt(TPT_ES("No se pudo actualizar. Descarga una versión nueva.")));
 			else
 				Engine::Ref().ShowWindow(new InfoPrompt("Update success", "You have successfully updated Jacob1's Mod!"));
 			update_flag = 0;
@@ -1196,13 +1197,13 @@ int main_loop_temp(int b, int bq, int sdl_key, int scan, int x, int y, bool shif
 				switch (signs[signID].GetType())
 				{
 				case Sign::SaveLink:
-					tooltip << "Go to save ID:" << signs[signID].GetLinkText();
+					tooltip << "Abrir partida por ID:" << signs[signID].GetLinkText();
 					break;
 				case Sign::ThreadLink:
-					tooltip << "Open forum thread " << signs[signID].GetLinkText() << " in browser";
+					tooltip << "Abrir el hilo del foro " << signs[signID].GetLinkText() << " en el navegador";
 					break;
 				case Sign::SearchLink:
-					tooltip << "Search for " << signs[signID].GetLinkText();
+					tooltip << "Buscar " << signs[signID].GetLinkText();
 					break;
 				default:
 					break;

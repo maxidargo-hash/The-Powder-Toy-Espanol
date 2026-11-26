@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,7 +44,7 @@ void BGLA_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 150;
 	elem->Latent = 0;
-	elem->Description = "Broken Glass, heavy particles formed when glass breaks under pressure. Meltable. Bagels.";
+	elem->Description = TPT_ES("Vidrio roto. Partículas pesadas que se forman al romperse el vidrio por presión. Puede fundirse. Bagels.");
 
 	elem->Properties = TYPE_PART | PROP_PHOTPASS | PROP_NEUTPASS | PROP_HOT_GLOW;
 

@@ -43,7 +43,7 @@ void RBDM_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 240;
 	elem->Latent = 0;
-	elem->Description = "Rubidium. Explosive, especially on contact with water. Low melting point.";
+	elem->Description = "Rubidio. Explosivo, especialmente al tocar agua. Se funde a poca temperatura.";
 
 	elem->Properties = TYPE_SOLID|PROP_CONDUCTS|PROP_LIFE_DEC;
 

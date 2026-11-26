@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -119,7 +120,7 @@ void DTEC_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 0;
 	elem->Latent = 0;
-	elem->Description = "Detector, creates a spark when something with its ctype is nearby.";
+	elem->Description = TPT_ES("Detector. Genera una chispa al detectar una partícula del tipo indicado en ctype.");
 
 	elem->Properties = TYPE_SOLID;
 	elem->CarriesTypeIn = 1U << FIELD_CTYPE;

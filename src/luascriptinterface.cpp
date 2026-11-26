@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 
 #ifdef LUACONSOLE
 
@@ -85,7 +86,7 @@ int simulation_signIndex(lua_State *l)
 
 	if (id < 0 || id >= MAXSIGNS)
 	{
-		luaL_error(l, "Invalid sign ID (stop messing with things): %i", id);
+		luaL_error(l, TPT_ES("ID de letrero no válido: %i"), id);
 		return 0;
 	}
 	if (id >= (int)signs.size())
@@ -148,7 +149,7 @@ int simulation_signNewIndex(lua_State *l)
 
 	if (id < 0 || id >= MAXSIGNS)
 	{
-		luaL_error(l, "Invalid sign ID (stop messing with things)");
+		luaL_error(l, TPT_ES("ID de letrero no válido"));
 		return 0;
 	}
 
@@ -168,7 +169,7 @@ int simulation_signNewIndex(lua_State *l)
 		if (ju >= 0 && ju <= 3)
 			return signs[id].SetJustification((Sign::Justification)ju), 1;
 		else
-			luaL_error(l, "Invalid justification");
+			luaL_error(l, TPT_ES("Justificación no válida"));
 		return 0;
 	}
 	else if (!key.compare("x"))
@@ -177,7 +178,7 @@ int simulation_signNewIndex(lua_State *l)
 		if (x >= 0 && x < XRES)
 			return signs[id].SetPos(Point(x, signs[id].GetRealPos().Y)), 1;
 		else
-			luaL_error(l, "Invalid X coordinate");
+			luaL_error(l, TPT_ES("Coordenada X no válida"));
 		return 0;
 	}
 	else if (!key.compare("y"))
@@ -186,12 +187,12 @@ int simulation_signNewIndex(lua_State *l)
 		if (y >= 0 && y < YRES)
 			return signs[id].SetPos(Point(signs[id].GetRealPos().X, y)), 1;
 		else
-			luaL_error(l, "Invalid Y coordinate");
+			luaL_error(l, TPT_ES("Coordenada Y no válida"));
 		return 0;
 	}
 	else if (!key.compare("displayText") || !key.compare("linkText")  || !key.compare("screenX") || !key.compare("screenY") || !key.compare("width") || !key.compare("height"))
 	{
-		luaL_error(l, "That property can't be directly set");
+		luaL_error(l, "Esa propiedad no se puede modificar directamente");
 	}
 	return 0;
 }
@@ -209,11 +210,11 @@ int simulation_newsign(lua_State *l)
 	int y = luaL_checkinteger(l, 3);
 	int ju = luaL_optinteger(l, 4, 1);
 	if (ju < 0 || ju > 3)
-		return luaL_error(l, "Invalid justification");
+		return luaL_error(l, TPT_ES("Justificación no válida"));
 	if (x < 0 || x >= XRES)
-		return luaL_error(l, "Invalid X coordinate");
+		return luaL_error(l, TPT_ES("Coordenada X no válida"));
 	if (y < 0 || y >= YRES)
-		return luaL_error(l, "Invalid Y coordinate");
+		return luaL_error(l, TPT_ES("Coordenada Y no válida"));
 
 	std::string cleaned = Format::CleanString(temp, false, true, true).substr(0, 45);
 	signs.push_back(Sign(cleaned, x, y, (Sign::Justification)ju));
@@ -226,7 +227,7 @@ int simulation_deletesign(lua_State *l)
 {
 	int signID = luaL_checkinteger(l, 1);
 	if (signID <= 0 || signID > (int)signs.size())
-		return luaL_error(l, "Sign doesn't exist");
+		return luaL_error(l, "El letrero no existe");
 
 	signs.erase(signs.begin()+signID-1);
 	return 1;
@@ -663,7 +664,7 @@ int simulation_partProperty(lua_State * l)
 	{
 		int fieldID = lua_tointeger(l, 2);
 		if (fieldID < 0 || fieldID >= (int)properties.size())
-			return luaL_error(l, "Invalid field ID (%d)", fieldID);
+			return luaL_error(l, TPT_ES("ID de campo no válido (%d)"), fieldID);
 		prop = properties.begin() + fieldID;
 	}
 	else if (lua_type(l, 2) == LUA_TSTRING)
@@ -680,11 +681,11 @@ int simulation_partProperty(lua_State * l)
 			return p.Name == fieldName;
 		});
 		if (prop == properties.end())
-			return luaL_error(l, "Unknown field (%s)", fieldName.c_str());
+			return luaL_error(l, "Campo desconocido (%s)", fieldName.c_str());
 	}
 	else
 	{
-		return luaL_error(l, "Field ID must be an name (string) or identifier (integer)");
+		return luaL_error(l, "Indica un nombre de campo (cadena) o un identificador (entero)");
 	}
 
 	//Calculate memory address of property
@@ -734,7 +735,7 @@ static int LuaBlockMapImpl(lua_State *L, ItemType minValue, ItemType maxValue, A
 	auto pos = Point{ luaL_checkint(L, 1), luaL_checkint(L, 2) };
 	if (!luaSim->InBounds(pos.X * CELL, pos.Y * CELL))
 	{
-		return luaL_error(L, "Coordinates (%i, %i) out of range", pos.X, pos.Y);
+		return luaL_error(L, "Coordenadas (%i, %i) fuera de rango", pos.X, pos.Y);
 	}
 	auto argc = lua_gettop(L);
 	if (argc == 2)
@@ -909,7 +910,7 @@ int simulation_createParts(lua_State * l)
 	int brush = luaL_optint(l,6,CIRCLE_BRUSH);
 	int flags = luaL_optint(l,7,get_brush_flags());
 	if (brush < 0 || brush >= NUM_DEFAULTBRUSHES)
-		return luaL_error(l, "Invalid brush id '%d'", brush);
+		return luaL_error(l, TPT_ES("ID de pincel no válido: '%d'"), brush);
 
 	Brush* tempBrush = new Brush(Point(rx, ry), brush);
 	int ret = luaSim->CreateParts(x, y, c, flags, true, tempBrush);
@@ -930,7 +931,7 @@ int simulation_createLine(lua_State * l)
 	int brush = luaL_optint(l,8,CIRCLE_BRUSH);
 	int flags = luaL_optint(l,9,get_brush_flags());
 	if (brush < 0 || brush >= NUM_DEFAULTBRUSHES)
-		return luaL_error(l, "Invalid brush id '%d'", brush);
+		return luaL_error(l, TPT_ES("ID de pincel no válido: '%d'"), brush);
 
 	Brush* tempBrush = new Brush(Point(rx, ry), brush);
 	luaSim->CreateLine(x1, y1, x2, y2, c, flags, tempBrush);
@@ -960,7 +961,7 @@ int simulation_floodParts(lua_State * l)
 	int flags = luaL_optint(l,5,get_brush_flags());
 
 	if (x < 0 || x >= XRES || y < 0 || y >= YRES)
-		return luaL_error(l, "coordinates out of range (%d,%d)", x, y);
+		return luaL_error(l, "Coordenadas fuera de rango (%d,%d)", x, y);
 
 	int ret = luaSim->FloodParts(x, y, c, cm, flags);
 	lua_pushinteger(l, ret);
@@ -976,9 +977,9 @@ int simulation_createWalls(lua_State * l)
 	int c = luaL_optint(l,5,WL_WALL);
 
 	if (x < 0 || x >= XRES || y < 0 || y >= YRES)
-		return luaL_error(l, "coordinates out of range (%d,%d)", x, y);
+		return luaL_error(l, "Coordenadas fuera de rango (%d,%d)", x, y);
 	if (c < 0 || c >= WALLCOUNT)
-		return luaL_error(l, "Unrecognised wall id '%d'", c);
+		return luaL_error(l, "ID de muro desconocido: '%d'", c);
 
 	luaSim->CreateWallBox(x-rx, y-ry, x+rx, y+ry, c);
 	lua_pushinteger(l, 1);
@@ -996,9 +997,9 @@ int simulation_createWallLine(lua_State * l)
 	int c = luaL_optint(l,7,WL_WALL);
 
 	if (x1 < 0 || x2 < 0 || x1 >= XRES || x2 >= XRES || y1 < 0 || y2 < 0 || y1 >= YRES || y2 >= YRES)
-		return luaL_error(l, "coordinates out of range (%d,%d),(%d,%d)", x1, y1, x2, y2);
+		return luaL_error(l, "Coordenadas fuera de rango (%d,%d),(%d,%d)", x1, y1, x2, y2);
 	if (c < 0 || c >= WALLCOUNT)
-		return luaL_error(l, "Unrecognised wall id '%d'", c);
+		return luaL_error(l, "ID de muro desconocido: '%d'", c);
 
 	luaSim->CreateWallLine(x1, y1, x2, y2, rx, ry, c);
 	return 0;
@@ -1013,9 +1014,9 @@ int simulation_createWallBox(lua_State * l)
 	int c = luaL_optint(l,5,WL_WALL);
 
 	if (x1 < 0 || x2 < 0 || x1 >= XRES || x2 >= XRES || y1 < 0 || y2 < 0 || y1 >= YRES || y2 >= YRES)
-		return luaL_error(l, "coordinates out of range (%d,%d),(%d,%d)", x1, y1, x2, y2);
+		return luaL_error(l, "Coordenadas fuera de rango (%d,%d),(%d,%d)", x1, y1, x2, y2);
 	if (c < 0 || c >= WALLCOUNT)
-		return luaL_error(l, "Unrecognised wall id '%d'", c);
+		return luaL_error(l, "ID de muro desconocido: '%d'", c);
 
 	luaSim->CreateWallBox(x1, y1, x2, y2, c);
 	return 0;
@@ -1029,9 +1030,9 @@ int simulation_floodWalls(lua_State * l)
 	int bm = luaL_optint(l,4,-1);
 
 	if (x < 0 || x >= XRES || y < 0 || y >= YRES)
-		return luaL_error(l, "coordinates out of range (%d,%d)", x, y);
+		return luaL_error(l, "Coordenadas fuera de rango (%d,%d)", x, y);
 	if (c < 0 || c >= WALLCOUNT)
-		return luaL_error(l, "Unrecognised wall id '%d'", c);
+		return luaL_error(l, "ID de muro desconocido: '%d'", c);
 	if (c == WL_STREAM)
 	{
 		lua_pushinteger(l, 0);
@@ -1053,11 +1054,11 @@ int simulation_toolBrush(lua_State * l)
 	int brush = luaL_optint(l,6,CIRCLE_BRUSH);
 	float strength = (float)luaL_optnumber(l, 7, 1.0f);
 	if (brush < 0 || brush >= NUM_DEFAULTBRUSHES)
-		return luaL_error(l, "Invalid brush id '%d'", brush);
+		return luaL_error(l, TPT_ES("ID de pincel no válido: '%d'"), brush);
 
 	Tool *tool = GetToolByIndex(toolIndex);
 	if (!tool)
-		return luaL_error(l, "Invalid tool id '%d'", toolIndex);
+		return luaL_error(l, TPT_ES("ID de herramienta no válido: '%d'"), toolIndex);
 
 	Brush* tempBrush = new Brush(Point(rx, ry), brush);
 	tool->DrawPoint(luaSim, tempBrush, { x, y }, strength);
@@ -1080,13 +1081,13 @@ int simulation_toolLine(lua_State * l)
 	float strength = (float)luaL_optnumber(l, 9, 1.0f);
 
 	if (x1 < 0 || x2 < 0 || x1 >= XRES || x2 >= XRES || y1 < 0 || y2 < 0 || y1 >= YRES || y2 >= YRES)
-		return luaL_error(l, "coordinates out of range (%d,%d),(%d,%d)", x1, y1, x2, y2);
+		return luaL_error(l, "Coordenadas fuera de rango (%d,%d),(%d,%d)", x1, y1, x2, y2);
 	if (brush < 0 || brush >= NUM_DEFAULTBRUSHES)
-		return luaL_error(l, "Invalid brush id '%d'", brush);
+		return luaL_error(l, TPT_ES("ID de pincel no válido: '%d'"), brush);
 
 	Tool *tool = GetToolByIndex(toolIndex);
 	if (!tool)
-		return luaL_error(l, "Invalid tool id '%d'", toolIndex);
+		return luaL_error(l, TPT_ES("ID de herramienta no válido: '%d'"), toolIndex);
 
 	Brush* tempBrush = new Brush(Point(rx, ry), brush);
 	tool->DrawLine(luaSim, tempBrush, { x1, y1 }, { x2, y2 }, true, strength);
@@ -1109,11 +1110,11 @@ int simulation_toolBox(lua_State * l)
 	int ry = luaL_optint(l,9,0);
 
 	if (x1 < 0 || x2 < 0 || x1 >= XRES || x2 >= XRES || y1 < 0 || y2 < 0 || y1 >= YRES || y2 >= YRES)
-		return luaL_error(l, "coordinates out of range (%d,%d),(%d,%d)", x1, y1, x2, y2);
+		return luaL_error(l, "Coordenadas fuera de rango (%d,%d),(%d,%d)", x1, y1, x2, y2);
 
 	Tool *tool = GetToolByIndex(toolIndex);
 	if (!tool)
-		return luaL_error(l, "Invalid tool id '%d'", toolIndex);
+		return luaL_error(l, TPT_ES("ID de herramienta no válido: '%d'"), toolIndex);
 
 	Brush* tempBrush = new Brush(Point(rx, ry), brush);
 	tool->DrawRect(luaSim, tempBrush, { x1, y1 }, { x2, y2}, strength);
@@ -1136,9 +1137,9 @@ int simulation_decoBrush(lua_State * l)
 	int brush = luaL_optint(l,10,CIRCLE_BRUSH);
 
 	if (tool < 0 || tool >= DECOCOUNT)
-			return luaL_error(l, "Invalid tool id '%d'", tool);
+			return luaL_error(l, TPT_ES("ID de herramienta no válido: '%d'"), tool);
 	if (brush < 0 || brush >= NUM_DEFAULTBRUSHES)
-		return luaL_error(l, "Invalid brush id '%d'", brush);
+		return luaL_error(l, TPT_ES("ID de pincel no válido: '%d'"), brush);
 
 	unsigned int color = COLARGB(a, r, g, b);
 	Brush* tempBrush = new Brush(Point(rx, ry), brush);
@@ -1163,11 +1164,11 @@ int simulation_decoLine(lua_State * l)
 	int brush = luaL_optint(l,12,CIRCLE_BRUSH);
 
 	if (x1 < 0 || x2 < 0 || x1 >= XRES || x2 >= XRES || y1 < 0 || y2 < 0 || y1 >= YRES || y2 >= YRES)
-		return luaL_error(l, "coordinates out of range (%d,%d),(%d,%d)", x1, y1, x2, y2);
+		return luaL_error(l, "Coordenadas fuera de rango (%d,%d),(%d,%d)", x1, y1, x2, y2);
 	if (tool < 0 || tool >= DECOCOUNT)
-			return luaL_error(l, "Invalid tool id '%d'", tool);
+			return luaL_error(l, TPT_ES("ID de herramienta no válido: '%d'"), tool);
 	if (brush < 0 || brush >= NUM_DEFAULTBRUSHES)
-		return luaL_error(l, "Invalid brush id '%d'", brush);
+		return luaL_error(l, TPT_ES("ID de pincel no válido: '%d'"), brush);
 
 	unsigned int color = COLARGB(a, r, g, b);
 	Brush* tempBrush = new Brush(Point(rx, ry), brush);
@@ -1189,9 +1190,9 @@ int simulation_decoBox(lua_State * l)
 	int tool = luaL_optint(l,9,DECO_DRAW);
 
 	if (x1 < 0 || x2 < 0 || x1 >= XRES || x2 >= XRES || y1 < 0 || y2 < 0 || y1 >= YRES || y2 >= YRES)
-		return luaL_error(l, "coordinates out of range (%d,%d),(%d,%d)", x1, y1, x2, y2);
+		return luaL_error(l, "Coordenadas fuera de rango (%d,%d),(%d,%d)", x1, y1, x2, y2);
 	if (tool < 0 || tool >= DECOCOUNT)
-		return luaL_error(l, "Invalid tool id '%d'", tool);
+		return luaL_error(l, TPT_ES("ID de herramienta no válido: '%d'"), tool);
 
 	unsigned int color = COLARGB(a, r, g, b);
 	luaSim->CreateDecoBox(x1, y1, x2, y2, tool, color);
@@ -1208,7 +1209,7 @@ int simulation_floodDeco(lua_State * l)
 	int a = luaL_checkinteger(l, 6);
 
 	if (x < 0 || x >= XRES || y < 0 || y >= YRES)
-		return luaL_error(l, "coordinates out of range (%d,%d)", x, y);
+		return luaL_error(l, "Coordenadas fuera de rango (%d,%d)", x, y);
 
 	// hilariously broken, intersects with console and all Lua graphics
 	pixel rep = vid_buf[x + y * VIDXRES];
@@ -1345,7 +1346,7 @@ int simulation_loadStamp(lua_State* l)
 	{
 		int i = luaL_optint(l, 1, 0);
 		if (i < 0 || i >= (int)Stamps::Ref().GetNumStamps())
-			return luaL_error(l, "Invalid stamp ID: %d", i);
+			return luaL_error(l, TPT_ES("ID de sello no válido: %d"), i);
 		save = Stamps::Ref().Load(i, 0);
 	}
 	if (!save)
@@ -1413,7 +1414,7 @@ int simulation_deleteStamp(lua_State* l)
 	{
 		stampNum = luaL_optint(l, 1, -1);
 		if (stampNum < 0 || stampNum >= (int)Stamps::Ref().GetNumStamps())
-			return luaL_error(l, "Invalid stamp ID: %d", stampNum);
+			return luaL_error(l, TPT_ES("ID de sello no válido: %d"), stampNum);
 	}
 
 	if (stampNum < 0)
@@ -1447,7 +1448,7 @@ int simulation_loadSave(lua_State * l)
 	int history = luaL_optint(l,3,0); //Exact second a previous save was saved
 	char save_id[24], save_date[24];
 	if (saveID < 0)
-		return luaL_error(l, "Invalid save ID");
+		return luaL_error(l, TPT_ES("ID de partida no válido"));
 	sprintf(save_id, "%i", saveID);
 	sprintf(save_date, "%i", history);
 	
@@ -1660,7 +1661,7 @@ int simulation_convectionMode(lua_State* l)
 	int convMode = luaL_checkint(l, 1);
 	if (convMode < 0 || convMode >= NUM_CONVMODES)
 	{
-		return luaL_error(l, "invalid convection mode");
+		return luaL_error(l, TPT_ES("Modo de convección no válido"));
 	}
 	luaSim->air->SetConvectionMode(convMode);
 	return 0;
@@ -1670,7 +1671,7 @@ int simulation_elementCount(lua_State* l)
 {
 	int element = luaL_checkint(l, 1);
 	if (element < 0 || element >= PT_NUM)
-		return luaL_error(l, "Invalid element ID (%d)", element);
+		return luaL_error(l, TPT_ES("ID de elemento no válido (%d)"), element);
 
 	lua_pushnumber(l, luaSim->elementCount[element]);
 	return 1;
@@ -1681,9 +1682,9 @@ int simulation_canMove(lua_State * l)
 	int movingElement = luaL_checkint(l, 1);
 	int destinationElement = luaL_checkint(l, 2);
 	if (movingElement < 0 || movingElement >= PT_NUM)
-		return luaL_error(l, "Invalid element ID (%d)", movingElement);
+		return luaL_error(l, TPT_ES("ID de elemento no válido (%d)"), movingElement);
 	if (destinationElement < 0 || destinationElement >= PT_NUM)
-		return luaL_error(l, "Invalid element ID (%d)", destinationElement);
+		return luaL_error(l, TPT_ES("ID de elemento no válido (%d)"), destinationElement);
 	
 	if (lua_gettop(l) < 3)
 	{
@@ -1788,7 +1789,7 @@ int simulation_brush(lua_State * l)
 	int brushID = luaL_optint(l, 5, currentBrush->GetShape());
 
 	if (brushID < 0 || brushID >= NUM_DEFAULTBRUSHES)
-		return luaL_error(l, "Invalid brush id '%d'", brushID);
+		return luaL_error(l, TPT_ES("ID de pincel no válido: '%d'"), brushID);
 	Point tempRadius = currentBrush->GetRadius();
 	int tempID = currentBrush->GetShape();
 	currentBrush->SetRadius(Point(brushradiusX, brushradiusY));
@@ -1816,7 +1817,7 @@ int simulation_pmap(lua_State * l)
 	int x = luaL_checkint(l, 1);
 	int y = luaL_checkint(l, 2);
 	if (x < 0 || x >= XRES || y < 0 || y >= YRES)
-		return luaL_error(l, "coordinates out of range (%d,%d)", x, y);
+		return luaL_error(l, "Coordenadas fuera de rango (%d,%d)", x, y);
 	int r = pmap[y][x];
 	if (!r)
 		return 0;
@@ -1829,7 +1830,7 @@ int simulation_photons(lua_State * l)
 	int x = luaL_checkint(l, 1);
 	int y = luaL_checkint(l, 2);
 	if (x < 0 || x >= XRES || y < 0 || y >= YRES)
-		return luaL_error(l, "coordinates out of range (%d,%d)", x, y);
+		return luaL_error(l, "Coordenadas fuera de rango (%d,%d)", x, y);
 	int r = photons[y][x];
 	if (!r)
 		return 0;
@@ -1897,7 +1898,7 @@ int simulation_neighbours(lua_State * l)
 	int t = luaL_optint(l, 5, PT_NONE);
 	if (cx < 0 || cy < 0 || cx >= XRES || cy >= YRES)
 	{
-		return luaL_error(l, "Invalid position");
+		return luaL_error(l, TPT_ES("Posición no válida"));
 	}
 	if (rx < 0 || ry < 0 || rx >= XRES || ry >= YRES)
 	{
@@ -1923,7 +1924,7 @@ int simulation_framerender(lua_State * l)
 	}
 	int frames = luaL_checkinteger(l, 1);
 	if (frames < 0)
-		return luaL_error(l, "Can't simulate a negative number of frames");
+		return luaL_error(l, "Cantidad de fotogramas negativa");
 	framerender = frames;
 	return 0;
 }
@@ -1937,7 +1938,7 @@ int simulation_gspeed(lua_State * l)
 	}
 	int gspeed = luaL_checkinteger(l, 1);
 	if (gspeed < 1)
-		return luaL_error(l, "GSPEED must be at least 1");
+		return luaL_error(l, "GSPEED debe ser al menos 1");
 	static_cast<LIFE_ElementDataContainer&>(*luaSim->elementData[PT_LIFE]).golSpeed = gspeed;
 	return 0;
 }
@@ -1973,7 +1974,7 @@ int simulation_replaceModeFlags(lua_State *l)
 	if (flags & ~0x3)
 		return luaL_error(l, "Invalid flags");
 	if ((flags & 0x1) && (flags & 0x2))
-		return luaL_error(l, "Cannot set replace mode and specific delete at the same time");
+		return luaL_error(l, "No se pueden activar a la vez el reemplazo y el borrado selectivo");
 	REPLACE_MODE = flags & 0x1 ? true : false;
 	SPECIFIC_DELETE = flags & 0x2 ? true : false;
 	return 0;
@@ -2042,14 +2043,14 @@ int simulation_addCustomGol(lua_State *l)
 	cgol.color2 = COLMODALPHA(luaL_checkinteger(l, 4), 0);
 
 	if (cgol.nameString.empty() || !ValidateGOLName(cgol.nameString))
-		return luaL_error(l, "Invalid name provided");
+		return luaL_error(l, TPT_ES("El nombre no es válido"));
 	if (cgol.rule == -1)
-		return luaL_error(l, "Invalid rule provided");
+		return luaL_error(l, TPT_ES("La regla no es válida"));
 	if (static_cast<LIFE_ElementDataContainer&>(*globalSim->elementData[PT_LIFE]).GetCustomGOLByRule(cgol.rule))
-		return luaL_error(l, "This Custom GoL rule already exists");
+		return luaL_error(l, "Ya existe una regla de Vida igual");
 
 	if (!static_cast<LIFE_ElementDataContainer&>(*globalSim->elementData[PT_LIFE]).AddCustomGOL(cgol))
-		return luaL_error(l, "Duplicate name, cannot add");
+		return luaL_error(l, TPT_ES("No se pudo añadir. El nombre está duplicado."));
 	FillMenus();
 	return 0;
 }
@@ -2091,7 +2092,7 @@ int simulation_updateUpTo(lua_State *l)
 	}
 	if (upTo < 0 || upTo >= NPART)
 	{
-		return luaL_error(l, "ID not in valid range");
+		return luaL_error(l, "ID fuera de rango");
 	}
 	if (upTo < luaSim->debug_currentParticle)
 	{
@@ -2127,7 +2128,7 @@ int simulation_temperatureScale(lua_State *l)
 	}
 	int temperatureScale = luaL_checkinteger(l, 1);
 	if (temperatureScale < 0 || temperatureScale > 2)
-		return luaL_error(l, "Invalid temperature scale");
+		return luaL_error(l, TPT_ES("Escala de temperatura no válida"));
 	luaSim->temperatureScale = temperatureScale;
 	return 0;
 }
@@ -2195,7 +2196,7 @@ int simulation_decoSpace(lua_State *L)
 	auto index = luaL_checkint(L, 1);
 	if (index < 0 || index >= NUM_DECOSPACES)
 	{
-		return luaL_error(L, "Invalid deco space index %i", index);
+		return luaL_error(L, TPT_ES("Índice de espacio de color no válido: %i"), index);
 	}
 	luaSim->decoSpace = index;
 	return 0;
@@ -2206,7 +2207,7 @@ int simulation_gravityField(lua_State *L)
 	auto pos = Point{ luaL_checkint(L, 1), luaL_checkint(L, 2) };
 	if (!luaSim->InBounds(pos.X, pos.Y))
 	{
-		return luaL_error(L, "Coordinates (%i, %i) out of range", pos.X, pos.Y);
+		return luaL_error(L, "Coordenadas (%i, %i) fuera de rango", pos.X, pos.Y);
 	}
 	lua_pushnumber(L, luaSim->grav->gravx[pos.Y * XCELLS + pos.X]);
 	lua_pushnumber(L, luaSim->grav->gravy[pos.Y * XCELLS + pos.X]);
@@ -2587,7 +2588,7 @@ int renderer_showBrush(lua_State * l)
 
 int renderer_depth3d(lua_State * l)
 {
-	return luaL_error(l, "This feature is no longer supported");
+	return luaL_error(l, TPT_ES("Esta función ya no es compatible"));
 }
 
 int renderer_zoomEnabled(lua_State * l)
@@ -2621,11 +2622,11 @@ int renderer_zoomWindowInfo(lua_State * l)
 	int y = luaL_optint(l, 2, 0);
 	int f = luaL_optint(l, 3, 0);
 	if (f <= 0)
-		return luaL_error(l, "Zoom factor must be greater than 0");
+		return luaL_error(l, "El factor de zoom debe ser mayor que 0");
 
 	// To prevent crash when zoom window is outside screen
 	if (x < 0 || y < 0 || zoomScopeSize * f + x > XRES || zoomScopeSize * f + y > YRES)
-		return luaL_error(l, "Zoom window outside of bounds");
+		return luaL_error(l, TPT_ES("La ventana de zoom está fuera de los límites"));
 
 	the_game->SetZoomWindowPosition(Point(x, y));
 	the_game->SetZoomWindowFactor(f);
@@ -2645,15 +2646,15 @@ int renderer_zoomScopeInfo(lua_State * l)
 	int y = luaL_optint(l, 2, 0);
 	int s = luaL_optint(l, 3, 0);
 	if (s <= 0)
-		return luaL_error(l, "Zoom scope size must be greater than 0");
+		return luaL_error(l, TPT_ES("El área de zoom debe ser mayor que 0"));
 
 	// To prevent crash when zoom or scope window is outside screen
 	int windowEdgeRight = the_game->GetZoomWindowFactor() * s + the_game->GetZoomWindowPosition().X;
 	int windowEdgeBottom = the_game->GetZoomWindowFactor() * s + the_game->GetZoomWindowPosition().Y;
 	if (x < 0 || y < 0 || x + s > XRES || y + s > YRES)
-		return luaL_error(l, "Zoom scope outside of bounds");
+		return luaL_error(l, TPT_ES("El área de zoom está fuera de los límites"));
 	if (windowEdgeRight > XRES || windowEdgeBottom > YRES)
-		return luaL_error(l, "Zoom window outside of bounds");
+		return luaL_error(l, TPT_ES("La ventana de zoom está fuera de los límites"));
 
 	the_game->SetZoomScopePosition(Point(x, y));
 	the_game->SetZoomScopeSize(s);
@@ -3069,7 +3070,7 @@ int interface_beginThrowError(lua_State * l)
 int interface_beginInput(lua_State * l)
 {
 	auto title = PickIfType(l, 1, std::string("Title"));
-	auto prompt = PickIfType(l, 2, std::string("Enter some text:"));
+	auto prompt = PickIfType(l, 2, std::string("Escribe algo:"));
 	auto text = PickIfType(l, 3, std::string(""));
 	auto shadow = PickIfType(l, 4, std::string(""));
 	auto cb = std::make_shared<LuaSmartRef>();
@@ -3262,7 +3263,7 @@ int interface_brushID(lua_State * l)
 	auto index = luaL_checkint(l, 1);
 	if (index < 0 || index >= NUM_DEFAULTBRUSHES)
 	{
-		return luaL_error(l, "Invalid brush index %i", index);
+		return luaL_error(l, TPT_ES("Índice de pincel no válido: %i"), index);
 	}
 	currentBrush->SetShape(index);
 	return 0;
@@ -3294,7 +3295,7 @@ int interface_activeTool(lua_State * l)
 	auto index = luaL_checkint(l, 1);
 	if (index < 0 || index >= 4)
 	{
-		return luaL_error(l, "Invalid tool index %i", index);
+		return luaL_error(l, TPT_ES("Índice de herramienta no válido: %i"), index);
 	}
 	// Mod doesn't support separate middle click element, so both are index 3
 	if (index == 3)
@@ -3308,7 +3309,7 @@ int interface_activeTool(lua_State * l)
 	auto *tool = GetToolFromIdentifier(identifier);
 	if (!tool || tool->GetType() == INVALID_TOOL)
 	{
-		return luaL_error(l, "Invalid tool identifier %s", identifier.c_str());
+		return luaL_error(l, TPT_ES("Identificador de herramienta no válido: %s"), identifier.c_str());
 	}
 	activeTools[index] = tool;
 	tool->Select(index);
@@ -3869,7 +3870,7 @@ int elements_loadDefault(lua_State * l)
 		luaL_checktype(l, 1, LUA_TNUMBER);
 		int id = lua_tointeger(l, 1);
 		if (id < 0 || id >= PT_NUM)
-			return luaL_error(l, "Invalid element");
+			return luaL_error(l, TPT_ES("Elemento no válido"));
 		loadDefaultOne(id);
 	}
 	else
@@ -3902,11 +3903,11 @@ int elements_allocate(lua_State * l)
 	std::transform(id.begin(), id.end(), id.begin(), ::toupper);
 
 	if (id.find('_') != id.npos)
-		return luaL_error(l, "The element name may not contain '_'.");
+		return luaL_error(l, "El nombre del elemento no puede contener '_'.");
 	if (group.find('_') != id.npos)
-		return luaL_error(l, "The group name may not contain '_'.");
+		return luaL_error(l, "El nombre del grupo no puede contener '_'.");
 	if (group == "DEFAULT")
-		return luaL_error(l, "You cannot create elements in the 'DEFAULT' group.");
+		return luaL_error(l, "No se pueden crear elementos en el grupo DEFAULT.");
 
 	std::stringstream identifierStream;
 	identifierStream << group << "_PT_" << id;
@@ -3915,7 +3916,7 @@ int elements_allocate(lua_State * l)
 	for (int i = 0; i < PT_NUM; i++)
 	{
 		if (luaSim->elements[i].Enabled &&luaSim->elements[i].Identifier == identifier)
-			return luaL_error(l, "Element identifier already in use");
+			return luaL_error(l, TPT_ES("El identificador de elemento ya está en uso"));
 	}
 
 	int newID = -1;
@@ -3971,7 +3972,7 @@ int elements_element(lua_State * l)
 {
 	int id = luaL_checkinteger(l, 1);
 	if (!luaSim->IsElementOrNone(id))
-		return luaL_error(l, "Invalid element");
+		return luaL_error(l, TPT_ES("Elemento no válido"));
 
 	if (lua_gettop(l) > 1)
 	{
@@ -4103,7 +4104,7 @@ int elements_property(lua_State * l)
 {
 	int id = luaL_checkinteger(l, 1);
 	if (!luaSim->IsElementOrNone(id))
-		return luaL_error(l, "Invalid element");
+		return luaL_error(l, TPT_ES("Elemento no válido"));
 
 	std::string propertyName = tpt_lua_checkString(l, 2);
 
@@ -4123,7 +4124,7 @@ int elements_property(lua_State * l)
 					int type = luaL_checkinteger(l, 3);
 					if (!luaSim->IsElementOrNone(type) && type != NT && type != ST)
 					{
-						return luaL_error(l, "Invalid element");
+						return luaL_error(l, TPT_ES("Elemento no válido"));
 					}
 				}
 
@@ -4241,7 +4242,7 @@ int elements_property(lua_State * l)
 		}
 		else
 		{
-			return luaL_error(l, "Invalid element property");
+			return luaL_error(l, TPT_ES("Propiedad de elemento no válida"));
 		}
 	}
 	else
@@ -4263,7 +4264,7 @@ int elements_property(lua_State * l)
 			return 1;
 		}
 		else
-			return luaL_error(l, "Invalid element property");
+			return luaL_error(l, TPT_ES("Propiedad de elemento no válida"));
 	}
 	return 0;
 }
@@ -4272,10 +4273,10 @@ int elements_free(lua_State * l)
 {
 	int id = luaL_checkinteger(l, 1);
 	if (!luaSim->IsElementOrNone(id))
-		return luaL_error(l, "Invalid element");
+		return luaL_error(l, TPT_ES("Elemento no válido"));
 
 	if (luaSim->elements[id].Identifier.find("DEFAULT_PT_") != luaSim->elements[id].Identifier.npos)
-		return luaL_error(l, "Cannot free default elements");
+		return luaL_error(l, "No se pueden liberar elementos predeterminados");
 
 	luaSim->elements[id].Enabled = 0;
 	FillMenus();
@@ -4411,20 +4412,20 @@ int tools_allocate(lua_State * l)
 	auto name = Format::ToUpper(tpt_lua_toString(l, 2));
 	if (name.find("_") != name.npos)
 	{
-		return luaL_error(l, "The tool name may not contain '_'.");
+		return luaL_error(l, "El nombre de la herramienta no puede contener '_'.");
 	}
 	if (group.find("_") != name.npos)
 	{
-		return luaL_error(l, "The group name may not contain '_'.");
+		return luaL_error(l, "El nombre del grupo no puede contener '_'.");
 	}
 	if (group == "DEFAULT")
 	{
-		return luaL_error(l, "You cannot create tools in the 'DEFAULT' group.");
+		return luaL_error(l, "No se pueden crear herramientas en el grupo DEFAULT.");
 	}
 	std::string identifier = group + "_TOOL_" + name;
 	if (knownToolIndexes.find(identifier) != knownToolIndexes.end())
 	{
-		return luaL_error(l, "Tool identifier already in use.");
+		return luaL_error(l, TPT_ES("El identificador de herramienta ya está en uso."));
 	}
 	int index = lastToolIndex++;
 	{
@@ -4482,7 +4483,7 @@ int tools_property(lua_State * l)
 				}
 				return true;
 			}
-			luaL_error(l, "Invalid tool property");
+			luaL_error(l, TPT_ES("Propiedad de herramienta no válida"));
 		}
 		return false;
 	};
@@ -4557,7 +4558,7 @@ int tools_property(lua_State * l)
 	{
 		if (lua_gettop(l) > 2)
 		{
-			return luaL_error(l, "Can only change properties of custom tools");
+			return luaL_error(l, "Solo se pueden cambiar las propiedades de herramientas personalizadas");
 		}
 		auto handleProperty = [l, &tool, &propertyName](auto toolGetter, const char *luaPropertyName, bool buildMenusIfChanged) {
 			if (propertyName == luaPropertyName)
@@ -4585,7 +4586,7 @@ int tools_property(lua_State * l)
 		}
 	}
 
-	return luaL_error(l, "Invalid tool property");
+	return luaL_error(l, TPT_ES("Propiedad de herramienta no válida"));
 }
 
 int tools_free(lua_State * l)
@@ -4598,7 +4599,7 @@ int tools_free(lua_State * l)
 	}
 	if (!IsCustom(index))
 	{
-		return luaL_error(l, "Can only free custom tools");
+		return luaL_error(l, "Solo se pueden liberar herramientas personalizadas");
 	}
 	luaTools.erase(index);
 	luaToolRefs.erase(index);
@@ -4700,7 +4701,7 @@ int platform_exeName(lua_State * l)
 	if (name)
 		tpt_lua_pushString(l, name);
 	else
-		luaL_error(l, "Error, could not get executable name");
+		luaL_error(l, "No se pudo obtener el nombre del ejecutable");
 	free(name);
 	return 1;
 }
@@ -4858,7 +4859,7 @@ private:
 		}
 		catch (std::exception &e)
 		{
-			std::cerr << "bad auth response: " << e.what() << std::endl;
+			std::cerr << TPT_ES("Respuesta de autenticación no válida: ") << e.what() << std::endl;
 			status_out = 600;
 			data.clear();
 		}
@@ -4870,7 +4871,7 @@ public:
 		if (type == getAuthToken && !svf_login)
 		{
 			lua_pushnil(l);
-			lua_pushliteral(l, "not authenticated");
+			lua_pushliteral(l, "Debes iniciar sesión");
 			return 2;
 		}
 		auto *rh = (RequestHandle *)lua_newuserdata(l, sizeof(RequestHandle));
@@ -5072,19 +5073,19 @@ int http_request(lua_State *l, bool isPost)
 					lua_rawgeti(l, 2, i + 1);
 					if (!lua_istable(l, -1))
 					{
-						luaL_error(l, "form item %i is not a table", i + 1);
+						luaL_error(l, "El elemento %i del formulario debe ser una tabla", i + 1);
 					}
 					lua_rawgeti(l, -1, 1);
 					if (!lua_isstring(l, -1))
 					{
-						luaL_error(l, "name of form item %i is not a string", i + 1);
+						luaL_error(l, "El nombre del elemento %i del formulario debe ser una cadena", i + 1);
 					}
 					auto name = tpt_lua_toString(l, -1);
 					lua_pop(l, 1);
 					lua_rawgeti(l, -1, 2);
 					if (!lua_isstring(l, -1))
 					{
-						luaL_error(l, "value of form item %i is not a string", i + 1);
+						luaL_error(l, "El valor del elemento %i del formulario debe ser una cadena", i + 1);
 					}
 					auto value = tpt_lua_toString(l, -1);
 					lua_pop(l, 1);
@@ -5094,7 +5095,7 @@ int http_request(lua_State *l, bool isPost)
 					{
 						if (!lua_isstring(l, -1))
 						{
-							luaL_error(l, "filename of form item %i is not a string", i + 1);
+							luaL_error(l, "El nombre de archivo del elemento %i del formulario debe ser una cadena", i + 1);
 						}
 						filename = tpt_lua_toString(l, -1);
 					}
@@ -5127,19 +5128,19 @@ int http_request(lua_State *l, bool isPost)
 				lua_rawgeti(l, headersIndex, i + 1);
 				if (!lua_istable(l, -1))
 				{
-					luaL_error(l, "header %i is not a table", i + 1);
+					luaL_error(l, "La cabecera %i debe ser una tabla", i + 1);
 				}
 				lua_rawgeti(l, -1, 1);
 				if (!lua_isstring(l, -1))
 				{
-					luaL_error(l, "name of header %i is not a string", i + 1);
+					luaL_error(l, "El nombre de la cabecera %i debe ser una cadena", i + 1);
 				}
 				auto name = tpt_lua_toString(l, -1);
 				lua_pop(l, 1);
 				lua_rawgeti(l, -1, 2);
 				if (!lua_isstring(l, -1))
 				{
-					luaL_error(l, "value of header %i is not a string", i + 1);
+					luaL_error(l, "El valor de la cabecera %i debe ser una cadena", i + 1);
 				}
 				auto value = tpt_lua_toString(l, -1);
 				lua_pop(l, 1);
@@ -5242,7 +5243,7 @@ int bz2_compress_wrapper(lua_State *l)
 	{
 	case BZ2WCompressOk: break;
 	case BZ2WCompressNomem: RETURN_ERR("out of memory");
-	case BZ2WCompressLimit: RETURN_ERR("size limit exceeded");
+	case BZ2WCompressLimit: RETURN_ERR("Se superó el límite de tamaño");
 	}
 #undef RETURN_ERR
 	tpt_lua_pushString(l, std::string(dest.begin(), dest.end()));
@@ -5260,10 +5261,10 @@ int bz2_decompress_wrapper(lua_State *l)
 	{
 	case BZ2WDecompressOk: break;
 	case BZ2WDecompressNomem: RETURN_ERR("out of memory");
-	case BZ2WDecompressLimit: RETURN_ERR("size limit exceeded");
+	case BZ2WDecompressLimit: RETURN_ERR("Se superó el límite de tamaño");
 	case BZ2WDecompressType:
 	case BZ2WDecompressBad:
-	case BZ2WDecompressEof: RETURN_ERR("corrupted stream");
+	case BZ2WDecompressEof: RETURN_ERR("Flujo dañado");
 	}
 #undef RETURN_ERR
 	tpt_lua_pushString(l, std::string(dest.begin(), dest.end()));

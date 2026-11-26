@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -135,7 +136,7 @@ void LCRY_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 251;
 	elem->Latent = 0;
-	elem->Description = "Liquid Crystal. Changes colour when charged. (PSCN Charges, NSCN Discharges)";
+	elem->Description = TPT_ES("Cristal líquido. Cambia de color con la carga. PSCN lo carga y NSCN lo descarga.");
 
 	elem->Properties = TYPE_SOLID;
 

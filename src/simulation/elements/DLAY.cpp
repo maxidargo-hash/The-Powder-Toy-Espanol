@@ -102,7 +102,7 @@ void DLAY_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = 4.0f + 273.15f;
 	elem->HeatConduct = 0;
 	elem->Latent = 0;
-	elem->Description = "Conducts with temperature-dependent delay. (use HEAT/COOL).";
+	elem->Description = "Conduce con un retraso que depende de la temperatura. Usa HEAT o COOL.";
 
 	elem->Properties = TYPE_SOLID;
 

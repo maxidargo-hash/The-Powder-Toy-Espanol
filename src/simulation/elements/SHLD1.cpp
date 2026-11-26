@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -78,7 +79,7 @@ void SHLD1_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 0;
 	elem->Latent = 0;
-	elem->Description = "Shield. Grows around spark, broken by pressure.";
+	elem->Description = TPT_ES("Escudo. Crece alrededor de una chispa y se rompe bajo presión.");
 
 	elem->Properties = TYPE_SOLID|PROP_LIFE_DEC;
 

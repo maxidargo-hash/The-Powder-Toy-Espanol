@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,7 +55,7 @@ void PLUT_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = R_TEMP + 4.0f + 273.15f;
 	elem->HeatConduct = 251;
 	elem->Latent = 0;
-	elem->Description = "Plutonium. Heavy, fissile particles. Generates neutrons under pressure.";
+	elem->Description = TPT_ES("Plutonio. Partículas pesadas y fisibles. Genera neutrones bajo presión.");
 
 	elem->Properties = TYPE_PART|PROP_NEUTPASS|PROP_RADIOACTIVE;
 

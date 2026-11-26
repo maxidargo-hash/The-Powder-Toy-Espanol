@@ -97,7 +97,7 @@ void ACEL_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 251;
 	elem->Latent = 0;
-	elem->Description = "Accelerator, speeds up nearby elements.";
+	elem->Description = "Acelerador. Aumenta la velocidad de los elementos cercanos.";
 
 	elem->Properties = TYPE_SOLID;
 

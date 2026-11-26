@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -242,7 +243,7 @@ void VIBR_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = 273.15f;
 	elem->HeatConduct = 251;
 	elem->Latent = 0;
-	elem->Description = "Vibranium. Stores energy and releases it in violent explosions.";
+	elem->Description = TPT_ES("Vibranio. Almacena energía y la libera en explosiones violentas.");
 
 	elem->Properties = TYPE_SOLID|PROP_LIFE_DEC;
 

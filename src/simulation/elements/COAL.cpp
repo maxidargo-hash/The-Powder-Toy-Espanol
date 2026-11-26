@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -124,7 +125,7 @@ void COAL_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 200;
 	elem->Latent = 0;
-	elem->Description = "Coal, Burns very slowly. Gets red when hot.";
+	elem->Description = TPT_ES("Carbón. Arde muy lentamente. Se pone rojo al calentarse.");
 
 	elem->Properties = TYPE_SOLID;
 

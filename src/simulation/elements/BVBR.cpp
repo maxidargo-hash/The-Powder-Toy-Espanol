@@ -47,7 +47,7 @@ void BVBR_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = 273.15f;
 	elem->HeatConduct = 164;
 	elem->Latent = 0;
-	elem->Description = "Broken vibranium.";
+	elem->Description = "Vibranio fragmentado.";
 
 	elem->Properties = TYPE_PART|PROP_LIFE_DEC;
 

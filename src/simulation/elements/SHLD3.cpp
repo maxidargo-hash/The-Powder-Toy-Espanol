@@ -88,7 +88,7 @@ void SHLD3_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 0;
 	elem->Latent = 0;
-	elem->Description = "Shield lvl 3.";
+	elem->Description = "Escudo de nivel 3.";
 
 	elem->Properties = TYPE_SOLID|PROP_LIFE_DEC;
 

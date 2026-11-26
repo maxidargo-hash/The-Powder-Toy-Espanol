@@ -89,7 +89,7 @@ void SLTW_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 75;
 	elem->Latent = 7500;
-	elem->Description = "Saltwater, conducts electricity, difficult to freeze.";
+	elem->Description = "Agua salada. Conduce electricidad y cuesta congelarla.";
 
 	elem->Properties = TYPE_LIQUID | PROP_PHOTPASS | PROP_CONDUCTS | PROP_LIFE_DEC | PROP_NEUTPENETRATE;
 

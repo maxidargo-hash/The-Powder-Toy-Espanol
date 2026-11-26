@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -297,7 +298,7 @@ void SEED_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 32;
 	elem->Latent = 0;
-	elem->Description = "Seeds. Put on sand and add water to grow a tree.";
+	elem->Description = TPT_ES("Semillas. Ponlas sobre arena y añade agua para que crezca un árbol.");
 
 	elem->Properties = TYPE_PART | PROP_NEUTPASS;
 

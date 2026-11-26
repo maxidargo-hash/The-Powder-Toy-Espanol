@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /**
  * Powder Toy - Lua console
  *
@@ -88,7 +89,7 @@ static int mathRandom(lua_State *l)
 	}
 	if (upper < lower)
 	{
-		luaL_error(l, "interval is empty");
+		luaL_error(l, TPT_ES("El intervalo está vacío"));
 	}
 	if (lower >= INT32_MIN && upper <= INT32_MAX)
 	{
@@ -538,7 +539,7 @@ void luaCreateWrapper(ELEMENT_CREATE_FUNC_ARGS)
 		lua_pushinteger(l, v);
 		if (tpt_lua_pcall(l, 5, 0, 0))
 		{
-			luacon_log("In create func: " + luacon_geterror());
+			luacon_log(TPT_ES("En la función create: ") + luacon_geterror());
 			lua_pop(l, 1);
 		}
 	}
@@ -556,7 +557,7 @@ bool luaCreateAllowedWrapper(ELEMENT_CREATE_ALLOWED_FUNC_ARGS)
 		lua_pushinteger(l, t);
 		if (tpt_lua_pcall(l, 4, 1, 0))
 		{
-			luacon_log("In create allowed: " + luacon_geterror());
+			luacon_log(TPT_ES("En la función CreateAllowed: ") + luacon_geterror());
 			lua_pop(l, 1);
 		}
 		else
@@ -581,7 +582,7 @@ void luaChangeTypeWrapper(ELEMENT_CHANGETYPE_FUNC_ARGS)
 		lua_pushinteger(l, to);
 		if (tpt_lua_pcall(l, 5, 0, 0))
 		{
-			luacon_log("In change type: " + luacon_geterror());
+			luacon_log(TPT_ES("En la función ChangeType: ") + luacon_geterror());
 			lua_pop(l, 1);
 		}
 	}
@@ -590,7 +591,7 @@ void luaChangeTypeWrapper(ELEMENT_CHANGETYPE_FUNC_ARGS)
 std::string luacon_geterror()
 {
 	luaL_tostring(l, -1);
-	std::string err = tpt_lua_optString(l, -1, "failed to execute");
+	std::string err = tpt_lua_optString(l, -1, "no se pudo ejecutar");
 	lua_pop(l, 1);
 	return err;
 }
@@ -727,7 +728,7 @@ int getScriptInner(lua_State *l, int scriptID, std::string filename, int runScri
 	std::string scriptData = Request::Simple(url.str(), &ret);
 	if (scriptData.empty())
 	{
-		return luaL_error(l, "Server did not return data");
+		return luaL_error(l, TPT_ES("El servidor no devolvió datos"));
 	}
 	if (ret != 200)
 	{
@@ -826,7 +827,7 @@ int tpt_fpsCap(lua_State* l)
 	}
 	float fpscap = luaL_checknumber(l, 1);
 	if (fpscap < 2.0f)
-		return luaL_error(l, "fps cap too small");
+		return luaL_error(l, TPT_ES("El límite de FPS es demasiado bajo"));
 	Engine::Ref().SetFpsLimit(fpscap);
 	return 0;
 }
@@ -841,7 +842,7 @@ int tpt_drawCap(lua_State* l)
 	}
 	int drawcap = luaL_checkint(l, 1);
 	if (drawcap < 0)
-		return luaL_error(l, "draw cap too small");
+		return luaL_error(l, TPT_ES("El límite de dibujo es demasiado bajo"));
 	Engine::Ref().SetDrawingFrequency(drawcap);
 	return 0;
 }

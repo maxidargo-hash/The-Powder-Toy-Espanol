@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -112,7 +113,7 @@ void DMG_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = R_TEMP - 2.0f + 273.15f;
 	elem->HeatConduct = 29;
 	elem->Latent = 0;
-	elem->Description = "Generates damaging pressure and breaks any elements it hits.";
+	elem->Description = TPT_ES("Genera presión y rompe los elementos que golpea.");
 
 	elem->Properties = TYPE_PART|PROP_SPARKSETTLE;
 

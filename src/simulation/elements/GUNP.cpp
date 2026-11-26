@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,7 +44,7 @@ void GUNP_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 97;
 	elem->Latent = 0;
-	elem->Description = "Gunpowder. Light dust, explodes on contact with fire or spark.";
+	elem->Description = TPT_ES("Pólvora. Polvo liviano que explota con fuego o chispas.");
 
 	elem->Properties = TYPE_PART;
 

@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -122,7 +123,7 @@ void FIRW_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 70;
 	elem->Latent = 0;
-	elem->Description = "Fireworks! Colorful, set off by fire.";
+	elem->Description = TPT_ES("¡Fuegos artificiales! Son de colores y prenden con el fuego.");
 
 	elem->Properties = TYPE_PART|PROP_LIFE_DEC;
 

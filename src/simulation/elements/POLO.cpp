@@ -114,7 +114,7 @@ void POLO_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->DefaultProperties.temp = 388.15f; 
 	elem->HeatConduct = 251;
-	elem->Description = "Polonium, highly radioactive. Decays into NEUT and heats up.";
+	elem->Description = "Polonio. Muy radiactivo. Se desintegra en NEUT y se calienta.";
 
 	elem->Properties = TYPE_PART|PROP_NEUTPASS|PROP_RADIOACTIVE|PROP_LIFE_DEC|PROP_DEADLY;
 

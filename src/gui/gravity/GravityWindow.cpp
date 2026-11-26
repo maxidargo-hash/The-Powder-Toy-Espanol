@@ -45,7 +45,7 @@ GravityWindow::GravityWindow(float scale, int radius, float x, float y, std::str
 	directionSelector->SetSnapPoints(5, 5, 2);
 	AddComponent(directionSelector);
 
-	Button *okButton = new Button(Point(0, size.Y - buttonHeight), Point(size.X, buttonHeight), "OK");
+	Button *okButton = new Button(Point(0, size.Y - buttonHeight), Point(size.X, buttonHeight), "Aceptar");
 	okButton->SetCallback([this](int mb) {
 		this->callback(directionSelector->GetXValue(), directionSelector->GetYValue());
 	});

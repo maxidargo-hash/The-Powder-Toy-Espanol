@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -162,7 +163,7 @@ void LDTC_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 0;
 	elem->Latent = 0;
-	elem->Description = "Linear detector. Scans in 8 directions for particles with its ctype and creates a spark on the opposite side.";
+	elem->Description = TPT_ES("Detector lineal. Busca partículas de su ctype en ocho direcciones y emite una chispa en la dirección opuesta.");
 
 	elem->Properties = TYPE_SOLID | PROP_NOCTYPEDRAW;
 	elem->CarriesTypeIn = 1U << FIELD_CTYPE;

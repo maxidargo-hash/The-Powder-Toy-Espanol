@@ -68,7 +68,7 @@ void HFLM_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = 0.0f;
 	elem->HeatConduct = 88;
 	elem->Latent = 0;
-	elem->Description = "Sub-zero flame.";
+	elem->Description = "Llama bajo cero.";
 
 	elem->Properties = TYPE_GAS|PROP_LIFE_DEC|PROP_LIFE_KILL;
 

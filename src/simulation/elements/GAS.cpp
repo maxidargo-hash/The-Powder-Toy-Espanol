@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,7 +45,7 @@ void GAS_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = R_TEMP + 2.0f + 273.15f;
 	elem->HeatConduct = 42;
 	elem->Latent = 0;
-	elem->Description = "Diffuses quickly and is flammable. Liquefies into OIL under pressure.";
+	elem->Description = TPT_ES("Se dispersa rápido y es inflamable. Se licúa en OIL bajo presión.");
 
 	elem->Properties = TYPE_GAS|PROP_NEUTPASS;
 

@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -80,7 +81,7 @@ void FRAY_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = 20.0f + 273.15f;
 	elem->HeatConduct = 0;
 	elem->Latent = 0;
-	elem->Description = "Force Emitter. Pushes or pulls objects based on it's temperature. Use like ARAY.";
+	elem->Description = TPT_ES("Emisor de fuerza. Empuja o atrae objetos según su temperatura. Se usa como ARAY.");
 
 	elem->Properties = TYPE_SOLID;
 

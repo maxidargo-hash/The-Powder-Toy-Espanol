@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -110,7 +111,7 @@ void FWRK_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 100;
 	elem->Latent = 0;
-	elem->Description = "Original version of fireworks, activated by heat/neutrons.";
+	elem->Description = TPT_ES("Versión original de los fuegos artificiales. Se activan con calor o neutrones.");
 
 	elem->Properties = TYPE_PART|PROP_LIFE_DEC;
 	elem->CarriesTypeIn = 1U << FIELD_CTYPE;

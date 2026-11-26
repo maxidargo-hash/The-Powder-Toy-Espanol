@@ -89,7 +89,7 @@ void FUSE_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 200;
 	elem->Latent = 0;
-	elem->Description = "Burns slowly. Ignites at very high temperatures or when sparked.";
+	elem->Description = "Arde lentamente. Se enciende con mucho calor o con una chispa.";
 
 	elem->Properties = TYPE_SOLID;
 

@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 #include <cassert>
 #include <cstdio>
 #include <cstdlib>
@@ -825,7 +826,7 @@ std::string DoMigration(std::string fromDir, std::string toDir)
 		toDir = toDir + '/';
 
 	std::ofstream logFile(fromDir + "/migrationlog.txt", std::ios::out);
-	logFile << "Running migration of data from " << fromDir + " to " << toDir << std::endl;
+	logFile << "Migrando los datos de " << fromDir + " to " << toDir << std::endl;
 
 	// Get lists of files to migrate
 	auto stamps = DirectorySearch(fromDir + "stamps", "", { ".stm" });
@@ -840,8 +841,8 @@ std::string DoMigration(std::string fromDir, std::string toDir)
 
 	if (stamps.empty() && saves.empty() && scripts.empty() && downloadedScripts.empty() && screenshots.empty() && !hasAutorun && !hasScriptManager && !hasPref)
 	{
-		logFile << "Nothing to migrate.";
-		return "Nothing to migrate. This button is used to migrate data from pre-96.0 TPT installations to the shared directory";
+		logFile << "No hay datos que migrar.";
+		return TPT_ES("No hay datos que migrar. Este botón mueve a la carpeta compartida los datos de instalaciones de TPT anteriores a la versión 96.0");
 	}
 
 	std::stringstream result;
@@ -862,7 +863,7 @@ std::string DoMigration(std::string fromDir, std::string toDir)
 				if (rename(from.c_str(), to.c_str()))
 				{
 					failedCount++;
-					logFile << "failed to move " << from << " to " << to << std::endl;
+					logFile << "no se pudo mover " << from << " to " << to << std::endl;
 				}
 				else
 				{
@@ -872,15 +873,15 @@ std::string DoMigration(std::string fromDir, std::string toDir)
 			}
 			else
 			{
-				logFile << "skipping " << from << "(already exists)" << std::endl;
+				logFile << "skipping " << from << "(ya existe)" << std::endl;
 			}
 		}
 
 		dirsToDelete.push(directory);
-		result << "\bt" << migratedCount << " migratated\x0E, \br" << failedCount << " failed\x0E";
+		result << "\bt" << migratedCount << " migrados\x0E, \br" << failedCount << " failed\x0E";
 		int duplicates = list.size() - migratedCount - failedCount;
 		if (duplicates)
-			result << ", " << list.size() - migratedCount - failedCount << " skipped (duplicate)";
+			result << ", " << list.size() - migratedCount - failedCount << " omitidos (duplicados)";
 	};
 
 	// Migrate a single file
@@ -891,8 +892,8 @@ std::string DoMigration(std::string fromDir, std::string toDir)
 		{
 			if (rename(from.c_str(), to.c_str()))
 			{
-				logFile << "failed to move " << from << " to " << to << std::endl;
-				result << std::endl << "\br" << filename << " migration failed\x0E";
+				logFile << "no se pudo mover " << from << " to " << to << std::endl;
+				result << std::endl << "\br" << filename << " no se pudo migrar\x0E";
 			}
 			else
 			{
@@ -902,12 +903,12 @@ std::string DoMigration(std::string fromDir, std::string toDir)
 		}
 		else
 		{
-			logFile << "skipping " << from << "(already exists)" << std::endl;
-			result << std::endl << filename << " skipped (already exists)";
+			logFile << "skipping " << from << "(ya existe)" << std::endl;
+			result << std::endl << filename << " omitidos (ya existen)";
 		}
 
 		if (!DeleteFile(fromDir + filename)) {
-			logFile << "failed to delete " << filename << std::endl;
+			logFile << "no se pudo eliminar " << filename << std::endl;
 		}
 	};
 
@@ -920,7 +921,7 @@ std::string DoMigration(std::string fromDir, std::string toDir)
 		migrateList(scripts, "scripts", "Scripts");
 	if (!hasScriptinfo && !downloadedScripts.empty())
 	{
-		migrateList(downloadedScripts, "scripts/downloaded", "Downloaded scripts");
+		migrateList(downloadedScripts, "scripts/downloaded", "Scripts descargados");
 		migrateFile("scripts/downloaded/scriptinfo");
 	}
 	if (!screenshots.empty())
@@ -937,7 +938,7 @@ std::string DoMigration(std::string fromDir, std::string toDir)
 	{
 		std::string toDelete = dirsToDelete.top();
 		if (!DeleteDirectory(fromDir + toDelete)) {
-			logFile << "failed to delete " << toDelete << std::endl;
+			logFile << "no se pudo eliminar " << toDelete << std::endl;
 		}
 		dirsToDelete.pop();
 	}
@@ -948,7 +949,7 @@ std::string DoMigration(std::string fromDir, std::string toDir)
 	if (stamps.size())
 		Stamps::Ref().Rescan();
 
-	logFile << std::endl << std::endl << "Migration complete. Results: " << result.str();
+	logFile << std::endl << std::endl << TPT_ES("Migración completada. Resultados: ") << result.str();
 	logFile.close();
 
 	return result.str();

@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -94,7 +95,7 @@ void BCOL_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 150;
 	elem->Latent = 0;
-	elem->Description = "Broken Coal. Heavy particles, burns slowly.";
+	elem->Description = TPT_ES("Carbón fragmentado. Partículas pesadas que arden lentamente.");
 
 	elem->Properties = TYPE_PART;
 

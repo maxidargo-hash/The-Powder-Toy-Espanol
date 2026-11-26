@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -113,7 +114,7 @@ void BIZR_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 29;
 	elem->Latent = 0;
-	elem->Description = "Bizarre... contradicts the normal state changes. Paints other elements with its deco color.";
+	elem->Description = TPT_ES("Extraño. Invierte los cambios de estado normales y pinta otros elementos con su color decorativo.");
 
 	elem->Properties = TYPE_LIQUID;
 

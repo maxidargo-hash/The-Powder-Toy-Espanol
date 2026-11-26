@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -129,7 +130,7 @@ void WIFI_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 0;
 	elem->Latent = 0;
-	elem->Description = "Wireless transmitter, transfers spark to any other wifi on the same temperature channel.";
+	elem->Description = TPT_ES("Transmisor inalámbrico. Envía chispas a otros WIFI con el mismo canal de temperatura.");
 
 	elem->Properties = TYPE_SOLID;
 

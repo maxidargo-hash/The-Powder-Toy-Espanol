@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -67,7 +68,7 @@ void FRZW_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = 120.0f;
 	elem->HeatConduct = 29;
 	elem->Latent = 0;
-	elem->Description = "Freeze water. Hybrid liquid formed when Freeze powder melts.";
+	elem->Description = TPT_ES("Agua congelante. Líquido híbrido que se forma al fundir el polvo congelante.");
 
 	elem->Properties = TYPE_LIQUID|PROP_LIFE_DEC;
 

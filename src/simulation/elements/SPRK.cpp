@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -422,7 +423,7 @@ void SPRK_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 251;
 	elem->Latent = 0;
-	elem->Description = "Electricity. The basis of all electronics in TPT, travels along conductive elements.";
+	elem->Description = TPT_ES("Electricidad. Base de la electrónica de TPT. Viaja por elementos conductores.");
 
 	elem->Properties = TYPE_SOLID|PROP_LIFE_DEC;
 	elem->CarriesTypeIn = 1U << FIELD_CTYPE;

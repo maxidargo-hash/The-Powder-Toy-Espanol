@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -287,7 +288,7 @@ void NEUT_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = R_TEMP + 4.0f + 273.15f;
 	elem->HeatConduct = 60;
 	elem->Latent = 0;
-	elem->Description = "Neutrons. Interact with matter in odd ways.";
+	elem->Description = TPT_ES("Neutrones. Interactúan con la materia de formas extrañas.");
 
 	elem->Properties = TYPE_ENERGY|PROP_LIFE_DEC|PROP_LIFE_KILL_DEC;
 

@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -83,7 +84,7 @@ void IGNT_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 88;
 	elem->Latent = 0;
-	elem->Description = "Ignition cord. Burns slowly with fire and sparks.";
+	elem->Description = TPT_ES("Cordón de ignición. Arde lentamente con fuego o chispas.");
 
 	elem->Properties = TYPE_SOLID | PROP_NEUTPENETRATE | PROP_SPARKSETTLE | PROP_LIFE_KILL;
 

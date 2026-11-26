@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -75,7 +76,7 @@ void ICEI_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = R_TEMP - 50.0f + 273.15f;
 	elem->HeatConduct = 46;
 	elem->Latent = 1095;
-	elem->Description = "Crushes under pressure. Cools down air.";
+	elem->Description = TPT_ES("Se rompe bajo presión. Enfría el aire.");
 
 	elem->Properties = TYPE_SOLID|PROP_LIFE_DEC|PROP_NEUTPASS;
 	elem->CarriesTypeIn = (1U << FIELD_CTYPE);

@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -157,7 +158,7 @@ void FILT_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 251;
 	elem->Latent = 0;
-	elem->Description = "Filter. Changes color of PHOT and BIZR. Color depends on temperature.";
+	elem->Description = TPT_ES("Filtro. Cambia el color de PHOT y BIZR según su temperatura.");
 
 	elem->Properties = TYPE_SOLID | PROP_PHOTPASS | PROP_NOAMBHEAT | PROP_LIFE_DEC;
 

@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -65,7 +66,7 @@ void GPMP_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 0;
 	elem->Latent = 0;
-	elem->Description = "Gravity pump. Changes gravity to its temp when activated. (use HEAT/COOL)";
+	elem->Description = TPT_ES("Bomba gravitatoria. Al activarse, fija la gravedad según su temperatura. Usa HEAT o COOL.");
 
 	elem->Properties = TYPE_SOLID|PROP_POWERED;
 

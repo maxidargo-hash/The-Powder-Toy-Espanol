@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -255,7 +256,7 @@ void BASE_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->HeatConduct = 31;
 	elem->HeatCapacity = 1.5f;
 	elem->Latent = 0;
-	elem->Description = "Corrosive liquid. Rusts conductive solids, neutralizes acid.";
+	elem->Description = TPT_ES("Líquido corrosivo. Oxida los sólidos conductores y neutraliza el ácido.");
 
 	elem->Properties = TYPE_LIQUID|PROP_DEADLY;
 

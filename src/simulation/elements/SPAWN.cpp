@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -65,7 +66,7 @@ void SPAWN_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 0;
 	elem->Latent = 0;
-	elem->Description = "STKM spawn point.";
+	elem->Description = TPT_ES("Punto de aparición de STKM.");
 
 	elem->Properties = TYPE_SOLID;
 

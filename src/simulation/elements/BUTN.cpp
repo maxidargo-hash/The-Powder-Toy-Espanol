@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -63,7 +64,7 @@ void BUTN_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 251;
 	elem->Latent = 0;
-	elem->Description = "Button. Can be sparked just by clicking on it, but only when turned on.";
+	elem->Description = TPT_ES("Botón. Se activa con una chispa al pulsarlo si está encendido.");
 
 	elem->Properties = TYPE_SOLID | PROP_POWERED;
 

@@ -43,7 +43,7 @@ void EQUALVEL_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 70;
 	elem->Latent = 0;
-	elem->Description = "A failed shared velocity test.";
+	elem->Description = "Prueba fallida de velocidad compartida.";
 
 	elem->Properties = TYPE_PART;
 

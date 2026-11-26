@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -151,7 +152,7 @@ void LSNS_init_element(ELEMENT_INIT_FUNC_ARGS)
 
  	elem->DefaultProperties.temp = 4.0f + 273.15f;
  	elem->HeatConduct = 0;
- 	elem->Description = "Life sensor, creates a spark when there's a nearby particle with a life higher than its temperature.";
+	elem->Description = TPT_ES("Sensor de vida. Genera una chispa si una partícula cercana tiene un valor de vida superior a la temperatura del sensor.");
 
  	elem->Properties = TYPE_SOLID;
 

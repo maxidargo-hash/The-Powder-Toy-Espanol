@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -117,7 +118,7 @@ void STOR_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 0;
 	elem->Latent = 0;
-	elem->Description = "Storage. Captures and stores a single particle. Releases when charged with PSCN, also passes to PIPE.";
+	elem->Description = TPT_ES("Depósito. Guarda una partícula y la libera con PSCN. También puede transferirla a PIPE.");
 
 	elem->Properties = TYPE_SOLID | PROP_NOCTYPEDRAW;
 	elem->CarriesTypeIn = (1U << FIELD_CTYPE) | (1U << FIELD_TMP);

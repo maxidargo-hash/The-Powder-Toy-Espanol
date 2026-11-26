@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -91,7 +92,7 @@ void CAUS_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 70;
 	elem->Latent = 0;
-	elem->Description = "Caustic Gas, acts like ACID.";
+	elem->Description = TPT_ES("Gas cáustico. Se comporta como ACID.");
 
 	elem->Properties = TYPE_GAS|PROP_DEADLY;
 

@@ -49,7 +49,7 @@ int SDLOpen()
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
-		fprintf(stderr, "Initializing SDL: %s\n", SDL_GetError());
+		fprintf(stderr, "Iniciando SDL: %s\n", SDL_GetError());
 		return 0;
 	}
 
@@ -137,11 +137,11 @@ int EventProcess(SDL_Event event, ui::Window * eventHandler)
 			// Two separate quit dialogs ... remove some day
 			if (inOldInterface)
 			{
-				wasConfirmed = confirm_ui(vid_buf, "You are about to quit", "Are you sure you want to quit?", "Quit");
+				wasConfirmed = confirm_ui(vid_buf, "Salir del juego", "Are you sure you want to quit?", "Quit");
 			}
 			else
 			{
-				auto prompt = new ConfirmPrompt("You are about to quit", "Are you sure you want to quit?", "Quit");
+				auto prompt = new ConfirmPrompt("Salir del juego", "Are you sure you want to quit?", "Quit");
 				prompt->SetCallback({ [&](bool confirmed) {
 					wasConfirmed = confirmed;
 				} });

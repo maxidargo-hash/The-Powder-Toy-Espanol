@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,7 +45,7 @@ void BHOL_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = R_TEMP + 70.0f + 273.15f;
 	elem->HeatConduct = 255;
 	elem->Latent = 0;
-	elem->Description = "Vacuum, sucks in other particles and heats up.";
+	elem->Description = TPT_ES("Vacío. Succiona otras partículas y se calienta.");
 
 	elem->Properties = TYPE_SOLID;
 

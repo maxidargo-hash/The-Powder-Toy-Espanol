@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,7 +44,7 @@ void CNCT_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 100;
 	elem->Latent = 0;
-	elem->Description = "Concrete. Can stack on itself or ROCK, collapses with pressure.";
+	elem->Description = TPT_ES("Hormigón. Se apila sobre sí mismo o sobre ROCK. Se derrumba por presión.");
 
 	elem->Properties = TYPE_PART|PROP_HOT_GLOW;
 

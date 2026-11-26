@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 #include "Login.h"
 #include "interface.h"
 #include "misc.h"
@@ -21,12 +22,12 @@ Login::Login(LoginCallback callback):
 #endif
 	std::string originalUsername = svf_login ? svf_user : "";
 
-	Label *titleLabel = new Label(Point(5, 3), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Server login");
+	Label *titleLabel = new Label(Point(5, 3), Point(Label::AUTOSIZE, Label::AUTOSIZE), TPT_ES("Inicio de sesión"));
 	titleLabel->SetColor(COLRGB(140, 140, 255));
 	this->AddComponent(titleLabel);
 
 	usernameTextbox = new Textbox(titleLabel->Below({ 3, 3 }), { size.X - 16, Textbox::AUTOSIZE }, originalUsername);
-	usernameTextbox->SetPlaceholder("[username]");
+	usernameTextbox->SetPlaceholder("[usuario]");
 	usernameTextbox->SetIcon(IconUsername);
 	usernameTextbox->SetCallback([originalUsername, this](){
 		UpdateSignInButton(originalUsername);
@@ -34,7 +35,7 @@ Login::Login(LoginCallback callback):
 	this->AddComponent(usernameTextbox);
 
 	passwordTextbox = new Textbox(usernameTextbox->Below({ 0, 4 }), { size.X - 16, Textbox::AUTOSIZE }, "");
-	passwordTextbox->SetPlaceholder("[password]");
+	passwordTextbox->SetPlaceholder(TPT_ES("[contraseña]"));
 	passwordTextbox->SetMasked(true);
 	passwordTextbox->SetIcon(IconPassword);
 	passwordTextbox->SetCallback([originalUsername, this](){
@@ -42,7 +43,7 @@ Login::Login(LoginCallback callback):
 	});
 	this->AddComponent(passwordTextbox);
 
-	signInButton = new Button(Point(0, this->size.Y - 15), Point(this->size.X / 2 + 1, buttonHeight), "Sign In");
+	signInButton = new Button(Point(0, this->size.Y - 15), Point(this->size.X / 2 + 1, buttonHeight), "Entrar");
 	UpdateSignInButton(originalUsername);
 	signInButton->SetCallback([&](int mb) {
 		isLogin ? DoLogin() : DoLogout();
@@ -51,13 +52,13 @@ Login::Login(LoginCallback callback):
 	});
 	this->AddComponent(signInButton);
 
-	closeButton = new Button(Point(this->size.X / 2, this->size.Y - 15), Point(this->size.X / 2 + 1, buttonHeight), "Close");
+	closeButton = new Button(Point(this->size.X / 2, this->size.Y - 15), Point(this->size.X / 2 + 1, buttonHeight), "Cerrar");
 	closeButton->SetCloseButton(true);
 	this->AddComponent(closeButton);
 
 	std::string defaultMessage = svf_login ?
-		"To manage your account (avatar, password, username, or delete it), \bt{a:https://powdertoy.co.uk/Profile.html|Use the website}" :
-		"If you don't have an account, \bt{a:https://powdertoy.co.uk/Register.html|Register Here}";
+		TPT_ES("\bt{a:https://powdertoy.co.uk/Profile.html|Abre el sitio web} para gestionar tu cuenta, avatar o contraseña") :
+		TPT_ES("¿Todavía no tienes cuenta? \bt{a:https://powdertoy.co.uk/Register.html|Regístrate aquí}");
 	messageLabel = new RichLabel(passwordTextbox->Below({ -3, 3 }), { size.X - 10, Label::AUTOSIZE }, "", true);
 	SetMessage(defaultMessage);
 	this->AddComponent(messageLabel);
@@ -69,7 +70,7 @@ void Login::UpdateSignInButton(std::string originalUsername)
 	if (closeTimer)
 		return;
 	isLogin = !svf_login || originalUsername != usernameTextbox->GetText();
-	signInButton->SetText(isLogin ? "Sign In" : "Sign Out");
+	signInButton->SetText(isLogin ? "Entrar" : "Salir");
 	signInButton->SetEnabled(!isLogin || (!usernameTextbox->GetText().empty() && !passwordTextbox->GetText().empty()));
 }
 
@@ -82,12 +83,12 @@ void Login::DoLogin()
 
 	if (user.empty() || pass.empty())
 	{
-		SetMessage("Please enter a username and password");
+		SetMessage(TPT_ES("Escribe tu nombre de usuario y contraseña"));
 		return;
 	}
 	if (user.find('@') != user.npos)
 	{
-		SetMessage("Use your Powder Toy account to login, not your email. If you don't have a Powder Toy account, you can create one on \bt{a:https://powdertoy.co.uk/Register.html|the website}");
+		SetMessage(TPT_ES("Usa tu nombre de usuario de The Powder Toy. Si aún no tienes cuenta, créala en \bt{a:https://powdertoy.co.uk/Register.html|el sitio web}"));
 		return;
 	}
 
@@ -140,12 +141,12 @@ void Login::DoLogin()
 		svf_login = 1;
 		save_presets();
 
-		SetMessage("Successfully logged in");
+		SetMessage(TPT_ES("Sesión iniciada"));
 		autoClose = true;
 	}
 	else
 	{
-		SetMessage("Couldn't read login response");
+		SetMessage(TPT_ES("No se pudo leer la respuesta de inicio de sesión"));
 	}
 }
 
@@ -162,7 +163,7 @@ void Login::DoLogout()
 	if (!error.empty())
 		SetMessage(error);
 	else
-		SetMessage("Successfully logged out");
+		SetMessage(TPT_ES("Sesión cerrada"));
 	autoClose = true;
 }
 

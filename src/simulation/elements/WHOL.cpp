@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,7 +45,7 @@ void WHOL_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = R_TEMP - 16.0f + 273.15f;
 	elem->HeatConduct = 255;
 	elem->Latent = 0;
-	elem->Description = "Air vent, creates pressure and pushes other particles away.";
+	elem->Description = TPT_ES("Rejilla de aire. Genera presión y empuja otras partículas.");
 
 	elem->Properties = TYPE_SOLID;
 

@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 #include <cmath>
 #include <cstring>
 #include <iomanip>
@@ -50,7 +51,7 @@ OptionsUI::OptionsUI(Simulation *sim):
 	int optionButtonHeight = 24;
 #endif
 
-	Label *headerLabel = new Label(Point(5, 3), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Options");
+	Label *headerLabel = new Label(Point(5, 3), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Opciones");
 	headerLabel->SetColor(COLRGB(140, 140, 255));
 	this->AddComponent(headerLabel);
 
@@ -61,59 +62,59 @@ OptionsUI::OptionsUI(Simulation *sim):
 
 	Component *prev;
 
-	prev = heatSimCheckbox = new Checkbox(Point(5, 4), Point(Checkbox::AUTOSIZE, checkboxHeight), "Heat simulation");
+	prev = heatSimCheckbox = new Checkbox(Point(5, 4), Point(Checkbox::AUTOSIZE, checkboxHeight), TPT_ES("Simulación térmica"));
 	heatSimCheckbox->UseCheckIcon(useCheckIcon);
 	heatSimCheckbox->SetCallback([&](bool checked) { this->HeatSimChecked(checked); });
 	scrollArea->AddComponent(heatSimCheckbox);
 
-	Label *descLabel = new Label(prev->Below(Point(15, 0)), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Causes unexpected behavior when disabled");
+	Label *descLabel = new Label(prev->Below(Point(15, 0)), Point(Label::AUTOSIZE, Label::AUTOSIZE), TPT_ES("Pueden aparecer comportamientos extraños al desactivarla"));
 	descLabel->SetColor(COLRGB(150, 150, 150));
 	scrollArea->AddComponent(descLabel);
 
-	prev = ambientCheckbox = new Checkbox(prev->Below(Point(0, 17)), Point(Checkbox::AUTOSIZE, checkboxHeight), "Ambient heat simulation");
+	prev = ambientCheckbox = new Checkbox(prev->Below(Point(0, 17)), Point(Checkbox::AUTOSIZE, checkboxHeight), "Calor ambiental");
 	ambientCheckbox->UseCheckIcon(useCheckIcon);
 	ambientCheckbox->SetCallback([&](bool checked) { this->AmbientChecked(checked); });
 	scrollArea->AddComponent(ambientCheckbox);
 
-	descLabel = new Label(prev->Below(Point(15, 0)), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Heat transfers through empty space");
+	descLabel = new Label(prev->Below(Point(15, 0)), Point(Label::AUTOSIZE, Label::AUTOSIZE), "El calor se propaga por el aire");
 	descLabel->SetColor(COLRGB(150, 150, 150));
 	scrollArea->AddComponent(descLabel);
 
-	prev = newtonianCheckbox = new Checkbox(prev->Below(Point(0, 17)), Point(Checkbox::AUTOSIZE, checkboxHeight), "Newtonian Gravity");
+	prev = newtonianCheckbox = new Checkbox(prev->Below(Point(0, 17)), Point(Checkbox::AUTOSIZE, checkboxHeight), "Gravedad newtoniana");
 	newtonianCheckbox->UseCheckIcon(useCheckIcon);
 	newtonianCheckbox->SetCallback([&](bool checked) { this->NewtonianChecked(checked); });
 	scrollArea->AddComponent(newtonianCheckbox);
 
-	descLabel = new Label(prev->Below(Point(15, 0)), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Simulate local gravity fields");
+	descLabel = new Label(prev->Below(Point(15, 0)), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Simula campos de gravedad locales");
 	descLabel->SetColor(COLRGB(150, 150, 150));
 	scrollArea->AddComponent(descLabel);
 
 #ifdef TOUCHUI
-	prev = decorationCheckbox = new Checkbox(prev->Below(Point(0, 17)), Point(Checkbox::AUTOSIZE, checkboxHeight), "Decorations");
+	prev = decorationCheckbox = new Checkbox(prev->Below(Point(0, 17)), Point(Checkbox::AUTOSIZE, checkboxHeight), TPT_ES("Decoración"));
 	decorationCheckbox->UseCheckIcon(useCheckIcon);
 	decorationCheckbox->SetCallback([&](bool checked) { this->DecorationsChecked(checked); });
 	scrollArea->AddComponent(decorationCheckbox);
 
-	descLabel = new Label(prev->Below(Point(15, 0)), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Show deco color on elements");
+	descLabel = new Label(prev->Below(Point(15, 0)), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Muestra el color decorativo de los elementos");
 	descLabel->SetColor(COLRGB(150, 150, 150));
 	scrollArea->AddComponent(descLabel);
 #endif
 
-	prev = waterEqalizationCheckbox = new Checkbox(prev->Below(Point(0, 17)), Point(Checkbox::AUTOSIZE, checkboxHeight), "Water Equalization");
+	prev = waterEqalizationCheckbox = new Checkbox(prev->Below(Point(0, 17)), Point(Checkbox::AUTOSIZE, checkboxHeight), TPT_ES("Nivelación del agua"));
 	waterEqalizationCheckbox->UseCheckIcon(useCheckIcon);
 	waterEqalizationCheckbox->SetCallback([&](bool checked) { this->WaterEqualizationChecked(checked); });
 	scrollArea->AddComponent(waterEqalizationCheckbox);
 
-	descLabel = new Label(prev->Below(Point(15, 0)), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Water equalizes in a U-shaped pipe (lags game)");
+	descLabel = new Label(prev->Below(Point(15, 0)), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Equilibra el agua en tubos en U (puede ralentizar el juego)");
 	descLabel->SetColor(COLRGB(150, 150, 150));
 	scrollArea->AddComponent(descLabel);
 
 
-	prev = airSimDropdown = new Dropdown(prev->Below(Point(0, 17)), Point(Dropdown::AUTOSIZE, Dropdown::AUTOSIZE), {"On", "Pressure Off", "Velocity Off", "Off", "No Update"});
+	prev = airSimDropdown = new Dropdown(prev->Below(Point(0, 17)), Point(Dropdown::AUTOSIZE, Dropdown::AUTOSIZE), {"Activado", TPT_ES("Sin presión"), "Sin velocidad", "Desactivado", "Sin actualizar"});
 	airSimDropdown->SetCallback([&](unsigned int option) { this->AirSimSelected(option); });
 	scrollArea->AddComponent(airSimDropdown);
 
-	descLabel = new Label(Point(17, prev->GetPosition().Y), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Air Simulation Mode:");
+	descLabel = new Label(Point(17, prev->GetPosition().Y), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Modo de aire:");
 	scrollArea->AddComponent(descLabel);
 
 	prev = airTempTextbox = new Textbox(prev->Below(Point(0, 4)), Point(0, optionTextboxHeight), "");
@@ -121,7 +122,7 @@ OptionsUI::OptionsUI(Simulation *sim):
 	airTempTextbox->SetDefocusCallback([&]() { this->UpdateAirTemp(airTempTextbox->GetText(), true); });
 	scrollArea->AddComponent(airTempTextbox);
 
-	descLabel = new Label(Point(17, prev->GetPosition().Y), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Ambient Air Temperature:");
+	descLabel = new Label(Point(17, prev->GetPosition().Y), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Temperatura ambiente:");
 	scrollArea->AddComponent(descLabel);
 
 	airTempDisplay = new Button(Point(0, airTempTextbox->GetPosition().Y), Point(airTempTextbox->GetSize().Y, airTempTextbox->GetSize().Y), "");
@@ -133,20 +134,20 @@ OptionsUI::OptionsUI(Simulation *sim):
 	edgePressureTextbox->SetDefocusCallback([&]() { this->UpdateEdgePressure(edgePressureTextbox->GetText(), true); });
 	scrollArea->AddComponent(edgePressureTextbox);
 
-	descLabel = new Label(Point(17, prev->GetPosition().Y), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Ambient Air Pressure:");
+	descLabel = new Label(Point(17, prev->GetPosition().Y), Point(Label::AUTOSIZE, Label::AUTOSIZE), TPT_ES("Presión ambiente:"));
 	scrollArea->AddComponent(descLabel);
 
 	edgePressureDisplay = new Button(Point(0, edgePressureTextbox->GetPosition().Y), Point(edgePressureTextbox->GetSize().Y, edgePressureTextbox->GetSize().Y), "");
 	edgePressureDisplay->SetEnabled(false);
 	scrollArea->AddComponent(edgePressureDisplay);
 
-	prev = edgeVelocityButton = new Button(prev->Below(Point(0, 4)), Point(Button::AUTOSIZE, optionButtonHeight), "Change");
+	prev = edgeVelocityButton = new Button(prev->Below(Point(0, 4)), Point(Button::AUTOSIZE, optionButtonHeight), "Cambiar");
 	edgeVelocityButton->SetCallback([&](int mb) { this->EdgeVelocityClicked(); });
 	edgeVelocityButton->SetColor(COLMULT(ui::Style::Border, ui::Style::DeselectedMultiplier));
 	edgeVelocityButton->SetTextColor(ui::Style::Border);
 	scrollArea->AddComponent(edgeVelocityButton);
 
-	descLabel = new Label(Point(17, prev->GetPosition().Y), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Ambient Air Velocity:");
+	descLabel = new Label(Point(17, prev->GetPosition().Y), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Velocidad del aire:");
 	scrollArea->AddComponent(descLabel);
 
 	edgeVelocityDisplay = new Button(Point(0, edgeVelocityButton->GetPosition().Y), Point(edgeVelocityButton->GetSize().Y, edgeVelocityButton->GetSize().Y), "");
@@ -158,42 +159,42 @@ OptionsUI::OptionsUI(Simulation *sim):
 	vorticityCoeffTextbox->SetDefocusCallback([&]() { this->UpdateVorticityCoeff(vorticityCoeffTextbox->GetText(), true); });
 	scrollArea->AddComponent(vorticityCoeffTextbox);
 
-	descLabel = new Label(Point(17, prev->GetPosition().Y), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Vorticity Confinement:");
+	descLabel = new Label(Point(17, prev->GetPosition().Y), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Confinamiento de vorticidad:");
 	scrollArea->AddComponent(descLabel);
 
-	prev = convectionModeDropdown = new Dropdown(prev->Below(Point(0, 4)), Point(Dropdown::AUTOSIZE, Dropdown::AUTOSIZE), {"None", "Legacy", "Boussinesq" });
+	prev = convectionModeDropdown = new Dropdown(prev->Below(Point(0, 4)), Point(Dropdown::AUTOSIZE, Dropdown::AUTOSIZE), {"Ninguno", TPT_ES("Clásico"), "Boussinesq" });
 	convectionModeDropdown->SetCallback([&](unsigned int option) { this->ConvectionModeSelected(option); });
 	scrollArea->AddComponent(convectionModeDropdown);
 
-	descLabel = new Label(Point(17, prev->GetPosition().Y), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Air heat convection mode:");
+	descLabel = new Label(Point(17, prev->GetPosition().Y), Point(Label::AUTOSIZE, Label::AUTOSIZE), TPT_ES("Convección térmica:"));
 	scrollArea->AddComponent(descLabel);
 
-	prev = gravityDropdown = new Dropdown(prev->Below(Point(0, 4)), Point(Dropdown::AUTOSIZE, Dropdown::AUTOSIZE), {"Vertical", "Off", "Radial", "Custom"});
+	prev = gravityDropdown = new Dropdown(prev->Below(Point(0, 4)), Point(Dropdown::AUTOSIZE, Dropdown::AUTOSIZE), {"Vertical", "Desactivada", "Radial", "Personalizada"});
 	gravityDropdown->SetCallback([&](unsigned int option) { this->GravitySelected(option); });
 	scrollArea->AddComponent(gravityDropdown);
 
-	descLabel = new Label(Point(17, prev->GetPosition().Y), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Gravity Simulation Mode:");
+	descLabel = new Label(Point(17, prev->GetPosition().Y), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Modo de gravedad:");
 	scrollArea->AddComponent(descLabel);
 
-	prev = edgeModeDropdown = new Dropdown(prev->Below(Point(0, 4)), Point(Dropdown::AUTOSIZE, Dropdown::AUTOSIZE), {"Void", "Solid", "Loop"});
+	prev = edgeModeDropdown = new Dropdown(prev->Below(Point(0, 4)), Point(Dropdown::AUTOSIZE, Dropdown::AUTOSIZE), {TPT_ES("Vacío"), TPT_ES("Sólido"), "Continuo"});
 	edgeModeDropdown->SetCallback([&](unsigned int option) { this->EdgeModeSelected(option); });
 	scrollArea->AddComponent(edgeModeDropdown);
 
-	descLabel = new Label(Point(17, prev->GetPosition().Y), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Edge Mode:");
+	descLabel = new Label(Point(17, prev->GetPosition().Y), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Modo de bordes:");
 	scrollArea->AddComponent(descLabel);
 
-	prev = decoSpaceDropdown = new Dropdown(prev->Below(Point(0, 4)), Point(Dropdown::AUTOSIZE, Dropdown::AUTOSIZE), {"sRGB", "Linear", "Gamma 2.2", "Gamma 1.8"});
+	prev = decoSpaceDropdown = new Dropdown(prev->Below(Point(0, 4)), Point(Dropdown::AUTOSIZE, Dropdown::AUTOSIZE), {"sRGB", "Lineal", "Gamma 2.2", "Gamma 1.8"});
 	decoSpaceDropdown->SetCallback([&](unsigned int option) { this->DecoSpaceSelected(option); });
 	scrollArea->AddComponent(decoSpaceDropdown);
 
-	descLabel = new Label(Point(17, prev->GetPosition().Y), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Smudge Tool Color Space:");
+	descLabel = new Label(Point(17, prev->GetPosition().Y), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Color del difuminado:");
 	scrollArea->AddComponent(descLabel);
 
 	prev = temperatureScaleDropdown = new Dropdown(prev->Below(Point(0, 4)), Point(Dropdown::AUTOSIZE, Dropdown::AUTOSIZE), {"Kelvin", "Celsius", "Fahrenheit"});
 	temperatureScaleDropdown->SetCallback([&](unsigned int option) { this->TemperatureScaleSelected(option); });
 	scrollArea->AddComponent(temperatureScaleDropdown);
 
-	descLabel = new Label(Point(17, prev->GetPosition().Y), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Temperature Scale:");
+	descLabel = new Label(Point(17, prev->GetPosition().Y), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Escala de temperatura:");
 	scrollArea->AddComponent(descLabel);
 
 	// set dropdown widths to width of largest one
@@ -260,13 +261,13 @@ OptionsUI::OptionsUI(Simulation *sim):
 	forceIntegerScalingLabel->SetColor(COLRGB(150, 150, 150));
 	scrollArea->AddComponent(forceIntegerScalingLabel);
 
-	filteringDropdown = new Dropdown(Point(0, 0), Point(Dropdown::AUTOSIZE, Dropdown::AUTOSIZE), {"Nearest", "Linear", "Best"});
+	filteringDropdown = new Dropdown(Point(0, 0), Point(Dropdown::AUTOSIZE, Dropdown::AUTOSIZE), {"Cercano", "Lineal", TPT_ES("Óptimo")});
 	filteringDropdown->SetPosition(Point(scrollArea->GetUsableWidth() - 5 - filteringDropdown->GetSize().X, resizableCheckbox->GetPosition().Y));
 	filteringDropdown->SetCallback([&](unsigned int option) { this->FilteringSelected(option); });
 	scrollArea->AddComponent(filteringDropdown);
 	filteringDropdown->SetVisible(false);
 
-	filteringLabel = new Label(Point(0, 0), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Pixel sampling mode:");
+	filteringLabel = new Label(Point(0, 0), Point(Label::AUTOSIZE, Label::AUTOSIZE), TPT_ES("Muestreo de píxeles:"));
 	filteringLabel->SetPosition(Point(filteringDropdown->Left(Point(filteringLabel->GetSize().X + 5, 0)).X, filteringDropdown->GetPosition().Y));
 	scrollArea->AddComponent(filteringLabel);
 	filteringLabel->SetVisible(false);
@@ -305,12 +306,12 @@ OptionsUI::OptionsUI(Simulation *sim):
 	globalQuitCheckbox->SetCallback([&](bool checked) { this->GlobalQuitChecked(checked); });
 	scrollArea->AddComponent(globalQuitCheckbox);
 
-	descLabel = new Label(globalQuitCheckbox->Below(Point(15, 0)), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Ctrl+q works everywhere");
+	descLabel = new Label(globalQuitCheckbox->Below(Point(15, 0)), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Ctrl+Q funciona en todas las pantallas");
 	descLabel->SetColor(COLRGB(150, 150, 150));
 	scrollArea->AddComponent(descLabel);
 #endif
 
-	prev = updatesCheckbox = new Checkbox(Point(heatSimCheckbox->GetPosition().X, prev->Below(Point(0, 15)).Y), Point(Checkbox::AUTOSIZE, checkboxHeight), "Update Check");
+	prev = updatesCheckbox = new Checkbox(Point(heatSimCheckbox->GetPosition().X, prev->Below(Point(0, 15)).Y), Point(Checkbox::AUTOSIZE, checkboxHeight), "Buscar actualizaciones");
 	updatesCheckbox->UseCheckIcon(useCheckIcon);
 	updatesCheckbox->SetCallback([&](bool checked) { this->UpdatesChecked(checked); });
 	scrollArea->AddComponent(updatesCheckbox);
@@ -320,84 +321,84 @@ OptionsUI::OptionsUI(Simulation *sim):
 	scrollArea->AddComponent(descLabel);
 
 #ifndef TOUCHUI
-	prev = momentumScrollingCheckbox = new Checkbox(prev->Below(Point(0, 15)), Point(Checkbox::AUTOSIZE, checkboxHeight), "Momentum Scrolling");
+	prev = momentumScrollingCheckbox = new Checkbox(prev->Below(Point(0, 15)), Point(Checkbox::AUTOSIZE, checkboxHeight), "Desplazamiento con inercia");
 	momentumScrollingCheckbox->UseCheckIcon(useCheckIcon);
 	momentumScrollingCheckbox->SetCallback([&](bool checked) { this->MomentumChecked(checked); });
 	scrollArea->AddComponent(momentumScrollingCheckbox);
 	
-	descLabel = new Label(prev->Below(Point(15, 0)), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Acceleration instead of step scroll");
+	descLabel = new Label(prev->Below(Point(15, 0)), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Acelera en vez de avanzar por pasos");
 	descLabel->SetColor(COLRGB(150, 150, 150));
 	scrollArea->AddComponent(descLabel);
 
-	prev = stickyCategoriesCheckbox = new Checkbox(prev->Below(Point(0, 15)), Point(Checkbox::AUTOSIZE, checkboxHeight), "Sticky categories");
+	prev = stickyCategoriesCheckbox = new Checkbox(prev->Below(Point(0, 15)), Point(Checkbox::AUTOSIZE, checkboxHeight), TPT_ES("Categorías fijas"));
 	stickyCategoriesCheckbox->UseCheckIcon(useCheckIcon);
 	stickyCategoriesCheckbox->SetCallback([&](bool checked) { this->StickyCatsChecked(checked); });
 	scrollArea->AddComponent(stickyCategoriesCheckbox);
 
-	descLabel = new Label(prev->Below(Point(15, 0)), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Switch between menusections by clicking");
+	descLabel = new Label(prev->Below(Point(15, 0)), Point(Label::AUTOSIZE, Label::AUTOSIZE), TPT_ES("Cambia de categoría al pulsar"));
 	descLabel->SetColor(COLRGB(150, 150, 150));
 	scrollArea->AddComponent(descLabel);
 #endif
 
-	prev = savePressureCheckbox = new Checkbox(prev->Below(Point(0, 15)), Point(Checkbox::AUTOSIZE, checkboxHeight), "Include Pressure");
+	prev = savePressureCheckbox = new Checkbox(prev->Below(Point(0, 15)), Point(Checkbox::AUTOSIZE, checkboxHeight), TPT_ES("Incluir presión"));
 	savePressureCheckbox->UseCheckIcon(useCheckIcon);
 	savePressureCheckbox->SetCallback([&](bool checked) { this->SavePressureChecked(checked); });
 	scrollArea->AddComponent(savePressureCheckbox);
 
-	descLabel = new Label(prev->Below(Point(15, 0)), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Include pressure in saves and stamps");
+	descLabel = new Label(prev->Below(Point(15, 0)), Point(Label::AUTOSIZE, Label::AUTOSIZE), TPT_ES("Guarda la presión en partidas y sellos"));
 	descLabel->SetColor(COLRGB(150, 150, 150));
 	scrollArea->AddComponent(descLabel);
 
-	prev = circleCheckbox = new Checkbox(prev->Below(Point(0, 15)), Point(Checkbox::AUTOSIZE, checkboxHeight), "Perfect Circle Brush");
+	prev = circleCheckbox = new Checkbox(prev->Below(Point(0, 15)), Point(Checkbox::AUTOSIZE, checkboxHeight), "Pincel circular perfecto");
 	circleCheckbox->UseCheckIcon(useCheckIcon);
 	circleCheckbox->SetCallback([&](bool checked) { this->CircleChecked(checked); });
 	scrollArea->AddComponent(circleCheckbox);
 
-	descLabel = new Label(prev->Below(Point(15, 0)), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Better circle brush, without incorrect points on edges");
+	descLabel = new Label(prev->Below(Point(15, 0)), Point(Label::AUTOSIZE, Label::AUTOSIZE), TPT_ES("Dibuja círculos con bordes regulares"));
 	descLabel->SetColor(COLRGB(150, 150, 150));
 	scrollArea->AddComponent(descLabel);
 
 #ifndef TOUCHUI
-	prev = graveExitsConsole = new Checkbox(prev->Below(Point(0, 15)), Point(Checkbox::AUTOSIZE, checkboxHeight), "Key Under Esc Exits Console");
+	prev = graveExitsConsole = new Checkbox(prev->Below(Point(0, 15)), Point(Checkbox::AUTOSIZE, checkboxHeight), "La tecla bajo Esc cierra la consola");
 	graveExitsConsole->UseCheckIcon(useCheckIcon);
 	graveExitsConsole->SetCallback([&](bool checked) { this->GraveChecked(checked); });
 	scrollArea->AddComponent(graveExitsConsole);
 
-	descLabel = new Label(prev->Below(Point(15, 0)), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Uncheck this if that key is 0 on your keyboard");
+	descLabel = new Label(prev->Below(Point(15, 0)), Point(Label::AUTOSIZE, Label::AUTOSIZE), TPT_ES("Desactiva esta opción si la tecla es el 0"));
 	descLabel->SetColor(COLRGB(150, 150, 150));
 	scrollArea->AddComponent(descLabel);
 #endif
 
 #ifndef ANDROID
-	prev = incompatibleCheckbox = new Checkbox(prev->Below(Point(0, 15)), Point(Checkbox::AUTOSIZE, checkboxHeight), "Load incompatible saves");
+	prev = incompatibleCheckbox = new Checkbox(prev->Below(Point(0, 15)), Point(Checkbox::AUTOSIZE, checkboxHeight), "Cargar partidas incompatibles");
 	incompatibleCheckbox->UseCheckIcon(useCheckIcon);
 	incompatibleCheckbox->SetCallback([&](bool checked) { this->IncompatibleChecked(checked); });
 	scrollArea->AddComponent(incompatibleCheckbox);
 
-	descLabel = new Label(prev->Below(Point(15, 0)), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Saves from the future may load completely garbled");
+	descLabel = new Label(prev->Below(Point(15, 0)), Point(Label::AUTOSIZE, Label::AUTOSIZE), TPT_ES("Las partidas más recientes pueden cargarse con errores"));
 	descLabel->SetColor(COLRGB(150, 150, 150));
 	scrollArea->AddComponent(descLabel);
 #endif
 
 #ifndef TOUCHUI
-	prev = dataFolderButton = new Button(prev->Below(Point(0, 19)), Point(Button::AUTOSIZE, Button::AUTOSIZE), "Open Data Folder");
+	prev = dataFolderButton = new Button(prev->Below(Point(0, 19)), Point(Button::AUTOSIZE, Button::AUTOSIZE), "Abrir carpeta de datos");
 	dataFolderButton->SetCallback([&](int mb) { this->DataFolderClicked(); });
 	scrollArea->AddComponent(dataFolderButton);
 
 	if (!Platform::sharedCwd.empty())
 	{
-		migrationButton = new Button(dataFolderButton->GetPosition(), Point(Button::AUTOSIZE, Button::AUTOSIZE), "Migrate to shared data directory");
+		migrationButton = new Button(dataFolderButton->GetPosition(), Point(Button::AUTOSIZE, Button::AUTOSIZE), "Migrar a carpeta compartida");
 		migrationButton->SetPosition(Point(size.X - migrationButton->GetSize().X - 17, migrationButton->GetPosition().Y));
 		migrationButton->SetCallback([&](int mb) { this->MigrationClicked(); });
 		scrollArea->AddComponent(migrationButton);
 	}
 
-	prev = redirectStdCheckbox = new Checkbox(prev->Below(Point(0, 10)), Point(Checkbox::AUTOSIZE, checkboxHeight), "Save errors and other messages to a file");
+	prev = redirectStdCheckbox = new Checkbox(prev->Below(Point(0, 10)), Point(Checkbox::AUTOSIZE, checkboxHeight), "Guardar errores y mensajes en un archivo");
 	redirectStdCheckbox->UseCheckIcon(useCheckIcon);
 	redirectStdCheckbox->SetCallback([&](bool checked) { this->RedirectChecked(checked); });
 	scrollArea->AddComponent(redirectStdCheckbox);
 
-	descLabel = new Label(prev->Below(Point(15, 0)), Point(Label::AUTOSIZE, Label::AUTOSIZE), "Developers may ask for this when trying to fix problems");
+	descLabel = new Label(prev->Below(Point(15, 0)), Point(Label::AUTOSIZE, Label::AUTOSIZE), "El equipo de desarrollo puede pedirte ese archivo para diagnosticar problemas");
 	descLabel->SetColor(COLRGB(150, 150, 150));
 	scrollArea->AddComponent(descLabel);
 #endif
@@ -405,9 +406,9 @@ OptionsUI::OptionsUI(Simulation *sim):
 	scrollArea->SetScrollSize(descLabel->Below(Point(0, 5)).Y);
 
 #ifndef TOUCHUI
-	Button *okButton = new Button(Point(0, this->size.Y - okButtonHeight), Point(this->size.X+1, okButtonHeight), "OK");
+	Button *okButton = new Button(Point(0, this->size.Y - okButtonHeight), Point(this->size.X+1, okButtonHeight), "Aceptar");
 #else
-	Button *okButton = new Button(Point(0, this->size.Y - okButtonHeight), Point(this->size.X+1, okButtonHeight), "OK");
+	Button *okButton = new Button(Point(0, this->size.Y - okButtonHeight), Point(this->size.X+1, okButtonHeight), "Aceptar");
 #endif
 	okButton->SetCloseButton(true);
 	this->AddComponent(okButton);
@@ -690,7 +691,7 @@ void OptionsUI::UpdateEdgePressurePreview(float edgePres, bool isValid)
 
 void OptionsUI::EdgeVelocityClicked()
 {
-	Engine::Ref().ShowWindow(new GravityWindow(0.05f, 40, sim->air->GetEdgeVelocityX(), sim->air->GetEdgeVelocityY(), "Ambient air velocity", [&](float x, float y) {
+	Engine::Ref().ShowWindow(new GravityWindow(0.05f, 40, sim->air->GetEdgeVelocityX(), sim->air->GetEdgeVelocityY(), "Velocidad del aire", [&](float x, float y) {
 		sim->air->SetEdgeVelocityPref(x, y);
 		UpdateEdgeVelocityPreview(x, y, true);
 	}));
@@ -721,7 +722,7 @@ void OptionsUI::GravitySelected(unsigned int option)
 	sim->gravityMode = option;
 	if (option == GRAV_CUSTOM)
 	{
-		Engine::Ref().ShowWindow(new GravityWindow(0.05f, 40, sim->customGravityX, sim->customGravityY, "Custom Gravity", [this](float x, float y) {
+		Engine::Ref().ShowWindow(new GravityWindow(0.05f, 40, sim->customGravityX, sim->customGravityY, "Gravedad personalizada", [this](float x, float y) {
 			sim->customGravityX = x;
 			sim->customGravityY = y;
 		}));
@@ -839,7 +840,7 @@ void OptionsUI::DataFolderClicked()
 	sprintf(workingDirectory, "%s\"%s\"", openCommand, getcwd(NULL, 0));
 	int ret = system(workingDirectory);
 	if (ret)
-		std::cout << "Error, could not open data directory" << std::endl;
+		std::cout << "No se pudo abrir la carpeta de datos" << std::endl;
 	delete[] workingDirectory;
 }
 
@@ -848,14 +849,14 @@ void OptionsUI::MigrationClicked()
 	std::string from = Platform::originalCwd;
 	std::string to = Platform::sharedCwd;
 
-	std::string message = "This will migrate all stamps, saves, and scripts from\n\bt" + from + "\bw\nto the shared data directory at\n\bt" + to + "\bw\n\n" +
-						  "Files that already exist will not be overwritten.";
-	auto prompt = new ConfirmPrompt("Do Migration?", message);
+	std::string message = TPT_ES("Se migrarán todos los sellos, partidas y scripts de\n\bt") + from + "\bw\na la carpeta de datos compartida en\n\bt" + to + "\bw\n\n" +
+						  TPT_ES("Se conservarán los archivos que ya existan en el destino.");
+	auto prompt = new ConfirmPrompt(TPT_ES("¿Migrar los datos?"), message);
 	prompt->SetCallback({ [from, to](bool confirmed) {
 		if (confirmed)
 		{
 			std::string ret = Platform::DoMigration(from, to);
-			Engine::Ref().ShowWindow(new InfoPrompt("Migration complete", ret));
+			Engine::Ref().ShowWindow(new InfoPrompt(TPT_ES("Migración completada"), ret));
 		}
 	} });
 	Engine::Ref().ShowWindow(prompt);

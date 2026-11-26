@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -404,7 +405,7 @@ void PSTN_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = 10.0f+ 273.15f;
 	elem->HeatConduct = 0;
 	elem->Latent = 0;
-	elem->Description = "Piston, pushes particles. PSCN extends, NSCN retracts.";
+	elem->Description = TPT_ES("Pistón. Empuja partículas. PSCN lo extiende y NSCN lo retrae.");
 
 	elem->Properties = TYPE_SOLID;
 	elem->CarriesTypeIn = 1U << FIELD_CTYPE;

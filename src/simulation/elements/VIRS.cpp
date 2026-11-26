@@ -146,7 +146,7 @@ void VIRS_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = 72.0f + 273.15f;
 	elem->HeatConduct = 251;
 	elem->Latent = 0;
-	elem->Description = "Virus. Turns everything it touches into virus.";
+	elem->Description = "Virus. Convierte en virus todo lo que toca.";
 
 	elem->Properties = TYPE_LIQUID;
 	elem->CarriesTypeIn = 1U << FIELD_TMP2;

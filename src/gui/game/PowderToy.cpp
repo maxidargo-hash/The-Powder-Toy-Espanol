@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 #include "common/tpt-minmax.h"
 #include <cmath>
 #include <cstring>
@@ -167,7 +168,7 @@ PowderToy::PowderToy():
 #ifdef TOUCHUI
 	openBrowserButton->SetState(Button::HOLD);
 #endif
-	openBrowserButton->SetTooltip(new ToolTip("Find & open a simulation", Point(16, YRES-24), TOOLTIP, tooltipAlpha));
+	openBrowserButton->SetTooltip(new ToolTip(TPT_ES("Buscar y abrir una simulación"), Point(16, YRES-24), TOOLTIP, tooltipAlpha));
 	AddComponent(openBrowserButton);
 
 	reloadButton = new Button(openBrowserButton->Right(Point(1, 0)), Point(minWidth > 17 ? minWidth : 17, ySize), "\x91");
@@ -176,32 +177,32 @@ PowderToy::PowderToy():
 #ifdef TOUCHUI
 	reloadButton->SetState(Button::HOLD);
 #endif
-	reloadButton->SetTooltip(new ToolTip("Reload the simulation \bg(ctrl+r)", Point(16, YRES-24), TOOLTIP, tooltipAlpha));
+	reloadButton->SetTooltip(new ToolTip(TPT_ES("Recargar simulación \bg(Ctrl+R)"), Point(16, YRES-24), TOOLTIP, tooltipAlpha));
 	AddComponent(reloadButton);
 
-	saveButton = new Button(reloadButton->Right(Point(1, 0)), Point(minWidth > 151 ? minWidth : 151, ySize), "\x82 [untitled simulation]");
+	saveButton = new Button(reloadButton->Right(Point(1, 0)), Point(minWidth > 151 ? minWidth : 151, ySize), TPT_ES("\x82 [simulación sin título]"));
 	saveButton->SetAlign(Button::LEFT);
 	saveButton->SetCallback([&](int mb) { this->DoSaveBtn(mb); });
 #ifdef TOUCHUI
 	saveButton->SetState(Button::HOLD);
 #endif
-	saveButton->SetTooltip(new ToolTip("Upload a new simulation", Point(minWidth > 16 ? minWidth : 16, YRES-24), TOOLTIP, tooltipAlpha));
+	saveButton->SetTooltip(new ToolTip(TPT_ES("Subir una simulación nueva"), Point(minWidth > 16 ? minWidth : 16, YRES-24), TOOLTIP, tooltipAlpha));
 	AddComponent(saveButton);
 
 #ifdef TOUCHUI
 	upvoteButton = new Button(saveButton->Right(Point(1, 0)), Point(minWidth > 40 ? minWidth: 40, ySize), "\xCB");
 #else
-	upvoteButton = new Button(saveButton->Right(Point(1, 0)), Point(minWidth > 40 ? minWidth: 40, ySize), "\xCB Vote");
+	upvoteButton = new Button(saveButton->Right(Point(1, 0)), Point(minWidth > 40 ? minWidth: 40, ySize), "\xCB Vota");
 #endif
 	upvoteButton->SetColor(COLRGB(0, 187, 18));
 	upvoteButton->SetCallback([&](int mb) { this->DoVoteBtn(true); });
-	upvoteButton->SetTooltip(new ToolTip("Like this save", Point(16, YRES-24), TOOLTIP, tooltipAlpha));
+	upvoteButton->SetTooltip(new ToolTip("Me gusta esta partida", Point(16, YRES-24), TOOLTIP, tooltipAlpha));
 	AddComponent(upvoteButton);
 
 	downvoteButton = new Button(upvoteButton->Right(Point(0, 0)), Point(minWidth > 16 ? minWidth : 16, ySize), "\xCA");
 	downvoteButton->SetColor(COLRGB(187, 40, 0));
 	downvoteButton->SetCallback([&](int mb) { this->DoVoteBtn(false); });
-	downvoteButton->SetTooltip(new ToolTip("Disike this save", Point(16, YRES-24), TOOLTIP, tooltipAlpha));
+	downvoteButton->SetTooltip(new ToolTip("No me gusta esta partida", Point(16, YRES-24), TOOLTIP, tooltipAlpha));
 	AddComponent(downvoteButton);
 
 
@@ -209,81 +210,81 @@ PowderToy::PowderToy():
 	Point size = Point(minWidth > 15 ? minWidth : 15, ySize);
 	pauseButton = new Button(Point(XRES+BARSIZE-size.X-xOffset, openBrowserButton->GetPosition().Y), size, "\x90");
 	pauseButton->SetCallback([&](int mb) { this->TogglePauseBtn(); });
-	pauseButton->SetTooltip(new ToolTip("Pause the simulation \bg(space)", Point(16, YRES-24), TOOLTIP, tooltipAlpha));
+	pauseButton->SetTooltip(new ToolTip(TPT_ES("Pausar simulación \bg(Espacio)"), Point(16, YRES-24), TOOLTIP, tooltipAlpha));
 	AddComponent(pauseButton);
 
 	size = Point(minWidth > 17 ? minWidth : 17, ySize);
 	renderOptionsButton = new Button(pauseButton->Left(Point(size.X+1, 0)), size, "\xD8");
 	renderOptionsButton->SetCallback([&](int mb) { this->RenderOptionsBtn(); });
-	renderOptionsButton->SetTooltip(new ToolTip("Renderer options", Point(16, YRES-24), TOOLTIP, tooltipAlpha));
+	renderOptionsButton->SetTooltip(new ToolTip(TPT_ES("Opciones gráficas"), Point(16, YRES-24), TOOLTIP, tooltipAlpha));
 	AddComponent(renderOptionsButton);
 
 	size = Point(minWidth > 95 ? minWidth : 95, ySize);
-	loginButton = new Button(renderOptionsButton->Left(Point(size.X+1, 0)), size, "\x84 [sign in]");
+	loginButton = new Button(renderOptionsButton->Left(Point(size.X+1, 0)), size, "\x84 [entrar]");
 	loginButton->SetAlign(Button::LEFT);
 	loginButton->SetCallback([&](int mb) { this->LoginBtn(); });
-	loginButton->SetTooltip(new ToolTip("Sign into the Simulation Server", Point(16, YRES-24), TOOLTIP, tooltipAlpha));
+	loginButton->SetTooltip(new ToolTip(TPT_ES("Iniciar sesión en el servidor"), Point(16, YRES-24), TOOLTIP, tooltipAlpha));
 	AddComponent(loginButton);
 
 	size = Point(minWidth > 17 ? minWidth : 17, ySize);
 	clearSimButton = new Button(loginButton->Left(Point(size.X+1, 0)), size, "\x92");
 	clearSimButton->SetCallback([](int mb) { NewSim(); });
-	clearSimButton->SetTooltip(new ToolTip("Erase all particles and walls", Point(16, YRES-24), TOOLTIP, tooltipAlpha));
+	clearSimButton->SetTooltip(new ToolTip(TPT_ES("Borrar todas las partículas y muros"), Point(16, YRES-24), TOOLTIP, tooltipAlpha));
 	AddComponent(clearSimButton);
 
 	size = Point(minWidth > 15 ? minWidth : 15, ySize);
 	optionsButton = new Button(clearSimButton->Left(Point(size.X+1, 0)), size, "\xCF");
 	optionsButton->SetCallback([&](int mb) { this->OpenOptionsBtn(); });
-	optionsButton->SetTooltip(new ToolTip("Simulation options", Point(16, YRES-24), TOOLTIP, tooltipAlpha));
+	optionsButton->SetTooltip(new ToolTip(TPT_ES("Opciones de simulación"), Point(16, YRES-24), TOOLTIP, tooltipAlpha));
 	AddComponent(optionsButton);
 
 	size = Point(minWidth > 15 ? minWidth : 15, ySize);
 	reportBugButton = new Button(optionsButton->Left(Point(size.X+1, 0)), size, "\xE7");
 	reportBugButton->SetCallback([&](int mb) { this->ReportBugBtn(); });
-	reportBugButton->SetTooltip(new ToolTip("Report bugs and feedback to jacob1", Point(16, YRES-24), TOOLTIP, tooltipAlpha));
+	reportBugButton->SetTooltip(new ToolTip("Enviar comentarios o informar de errores a jacob1", Point(16, YRES-24), TOOLTIP, tooltipAlpha));
 	AddComponent(reportBugButton);
 
 	Point tagsPos = downvoteButton->Right(Point(1, 0));
 #ifdef TOUCHUI
 	openTagsButton = new Button(tagsPos, Point((reportBugButton->Left(Point(1, 0))-tagsPos).X, ySize), "\x83");
 #else
-	openTagsButton = new Button(tagsPos, Point((reportBugButton->Left(Point(1, 0))-tagsPos).X, ySize), "\x83 [no tags set]");
+	openTagsButton = new Button(tagsPos, Point((reportBugButton->Left(Point(1, 0))-tagsPos).X, ySize), "\x83 [sin etiquetas]");
 	openTagsButton->SetAlign(Button::LEFT);
 #endif
 	openTagsButton->SetCallback([&](int mb) { this->OpenTagsBtn(); });
-	openTagsButton->SetTooltip(new ToolTip("Add simulation tags", Point(16, YRES-24), TOOLTIP, tooltipAlpha));
+	openTagsButton->SetTooltip(new ToolTip(TPT_ES("Añadir etiquetas a la simulación"), Point(16, YRES-24), TOOLTIP, tooltipAlpha));
 	AddComponent(openTagsButton);
 
 #ifdef TOUCHUI
 	eraseButton = new Button(Point(XRES+1, 0), Point(BARSIZE-1, 25), "\xE8");
 	eraseButton->SetState(Button::HOLD);
 	eraseButton->SetCallback([&](int mb) { this->ToggleEraseBtn(mb == 3); });
-	eraseButton->SetTooltip(GetQTip("Swap to erase tool (hold to clear the sim)", eraseButton->GetPosition().Y+10));
+	eraseButton->SetTooltip(GetQTip(TPT_ES("Activar el borrador (mantén pulsado para limpiar)"), eraseButton->GetPosition().Y+10));
 	AddComponent(eraseButton);
 
 	openConsoleButton = new Button(eraseButton->Below(Point(0, 1)), Point(BARSIZE-1, 25), "\xE9");
 	openConsoleButton->SetState(Button::HOLD);
 	openConsoleButton->SetCallback([&](int mb) { this->OpenConsoleBtn(mb == 3); });
 
-	openConsoleButton->SetTooltip(GetQTip("Open console (hold to show on screen keyboard)", openConsoleButton->GetPosition().Y+10));
+	openConsoleButton->SetTooltip(GetQTip(TPT_ES("Abrir la consola (mantén pulsado para mostrar el teclado)"), openConsoleButton->GetPosition().Y+10));
 	AddComponent(openConsoleButton);
 
 	settingsButton = new Button(openConsoleButton->Below(Point(0, 1)), Point(BARSIZE-1, 25), "\xEB");
 	settingsButton->SetState(Button::HOLD);
 	settingsButton->SetCallback([&](int mb) { this->ToggleSettingBtn(mb == 3); });
-	settingsButton->SetTooltip(GetQTip("Toggle Decorations (hold to open options)", settingsButton->GetPosition().Y+10));
+	settingsButton->SetTooltip(GetQTip(TPT_ES("Alternar decoración (mantén pulsado para abrir ajustes)"), settingsButton->GetPosition().Y+10));
 	AddComponent(settingsButton);
 
 	zoomButton = new Button(settingsButton->Below(Point(0, 1)), Point(BARSIZE-1, 25), "\xEC");
 	zoomButton->SetState(Button::HOLD);
 	zoomButton->SetCallback([&](int mb) { this->StartZoomBtn(mb == 3); });
-	zoomButton->SetTooltip(GetQTip("Start placing the zoom window", zoomButton->GetPosition().Y+10));
+	zoomButton->SetTooltip(GetQTip("Colocar la ventana de zoom", zoomButton->GetPosition().Y+10));
 	AddComponent(zoomButton);
 
 	stampButton = new Button(zoomButton->Below(Point(0, 1)), Point(BARSIZE-1, 25), "\xEA");
 	stampButton->SetState(Button::HOLD);
 	stampButton->SetCallback([&](int mb) { this->SaveStampBtn(mb == 3); });
-	stampButton->SetTooltip(GetQTip("Save a stamp (hold to load a stamp)", stampButton->GetPosition().Y+10));
+	stampButton->SetTooltip(GetQTip(TPT_ES("Guardar sello (mantén pulsado para cargar uno)"), stampButton->GetPosition().Y+10));
 	AddComponent(stampButton);
 #endif
 }
@@ -313,7 +314,7 @@ void PowderToy::OpenBrowserBtn(unsigned char b)
 		voteDownload->Cancel();
 		voteDownload = NULL;
 		svf_myvote = 0;
-		SetInfoTip("Error: a previous vote may not have gone through");
+		SetInfoTip("Es posible que el voto anterior no se haya registrado");
 	}
 #ifdef TOUCHUI
 	if (ctrlHeld || b != 1)
@@ -365,21 +366,21 @@ void PowderToy::DoSaveBtn(unsigned char b)
 				{
 					authors = save->authors;
 #ifndef TOUCHUI
-					SetInfoTip("Created local save. Hold ctrl and click open to access the local save browser");
+					SetInfoTip("Partida guardada. Usa Ctrl y pulsa Abrir para ver las partidas locales.");
 #else
-					SetInfoTip("Created local save. Hold down the open button to access the local save browser");
+					SetInfoTip(TPT_ES("Partida guardada. Mantén pulsado Abrir para ver las partidas locales."));
 #endif
 				}
 			}
 			else if (DoLocalSave(svf_filename, save, true))
-				SetInfoTip("Error writing local save");
+				SetInfoTip("Error al escribir la partida local");
 			else
-				SetInfoTip("Updated successfully");
+				SetInfoTip(TPT_ES("Actualización completada"));
 		}
 		catch (BuildException & e)
 		{
 			clear_save_info();
-			Engine::Ref().ShowWindow(new ErrorPrompt("Error creating save: " + std::string(e.what())));
+			Engine::Ref().ShowWindow(new ErrorPrompt("Error al crear la partida: " + std::string(e.what())));
 		}
 	}
 	// Online save
@@ -415,19 +416,19 @@ void PowderToy::DoSaveBtn(unsigned char b)
 			if (success)
 			{
 				if (isQuickSave)
-					SetInfoTip("Saved successfully");
+					SetInfoTip("Partida guardada");
 				else
-					copytext_ui(vid_buf, "Save ID", "Saved successfully!", svf_id);
+					copytext_ui(vid_buf, "ID de partida", "Partida guardada", svf_id);
 				save->authors["id"] = Format::StringToNumber<int>(svf_id);
 				authors = save->authors;
 			}
 			else
-				SetInfoTip("Error saving");
+				SetInfoTip("Error al guardar");
 		}
 		catch (BuildException & e)
 		{
 			clear_save_info();
-			Engine::Ref().ShowWindow(new ErrorPrompt("Error creating save: " + std::string(e.what())));
+			Engine::Ref().ShowWindow(new ErrorPrompt("Error al crear la partida: " + std::string(e.what())));
 		}
 	}
 	delete save;
@@ -437,7 +438,7 @@ void PowderToy::DoVoteBtn(bool up)
 {
 	if (voteDownload != NULL)
 	{
-		SetInfoTip("Error: could not vote");
+		SetInfoTip("No se pudo registrar el voto");
 		return;
 	}
 	bool isReset = (up && svf_myvote == 1) || (!up && svf_myvote == -1);
@@ -521,7 +522,7 @@ void PowderToy::TogglePause()
 	{
 #ifdef LUACONSOLE
 		std::stringstream logmessage;
-		logmessage << "Updated particles from #" << sim->debug_currentParticle << " to end due to unpause";
+		logmessage << TPT_ES("Partículas actualizadas desde la n.o ") << sim->debug_currentParticle << " hasta el final al reanudar";
 		luacon_log(logmessage.str());
 #endif
 		sim->UpdateParticles(sim->debug_currentParticle, NPART);
@@ -551,7 +552,7 @@ void PowderToy::ToggleEraseBtn(bool alt)
 	if (alt)
 	{
 		NewSim();
-		SetInfoTip("Cleared the simulation");
+		SetInfoTip(TPT_ES("Simulación borrada"));
 	}
 	else
 	{
@@ -560,13 +561,13 @@ void PowderToy::ToggleEraseBtn(bool alt)
 		{
 			activeTools[0] = activeTools[1];
 			activeTools[1] = erase;
-			SetInfoTip("Erase tool deselected");
+			SetInfoTip("Borrador desactivado");
 		}
 		else
 		{
 			activeTools[1] = activeTools[0];
 			activeTools[0] = erase;
-			SetInfoTip("Erase tool selected");
+			SetInfoTip("Borrador activado");
 		}
 	}
 }
@@ -590,9 +591,9 @@ void PowderToy::ToggleSettingBtn(bool alt)
 	{
 		decorations_enable = !decorations_enable;
 		if (decorations_enable)
-			SetInfoTip("Decorations enabled");
+			SetInfoTip(TPT_ES("Decoración activada"));
 		else
-			SetInfoTip("Decorations disabled");
+			SetInfoTip(TPT_ES("Decoración desactivada"));
 	}
 }
 
@@ -658,12 +659,12 @@ void PowderToy::SaveStampBtn(bool alt)
 void PowderToy::ConfirmUpdate(std::string changelog, std::string file)
 {
 #ifdef ANDROID
-	std::string title = "\bwDo you want to update TPT?";
+	std::string title = TPT_ES("\bw¿Quieres actualizar TPT?");
 #else
-	std::string title = "\bwDo you want to update Jacob1's Mod?";
+	std::string title = TPT_ES("\bw¿Quieres actualizar el mod de Jacob1?");
 #endif
 
-	auto prompt = new ConfirmPrompt(title, changelog, "\btUpdate");
+	auto prompt = new ConfirmPrompt(title, changelog, "\btActualizar");
 	prompt->SetCallback({ [file](bool confirmed) {
 		if (confirmed)
 		{
@@ -676,7 +677,7 @@ void PowderToy::ConfirmUpdate(std::string changelog, std::string file)
 					Engine::Ref().Shutdown();
 				else
 				{
-					ErrorPrompt *error = new ErrorPrompt("Update failed - try downloading a new version.");
+					ErrorPrompt *error = new ErrorPrompt(TPT_ES("No se pudo actualizar. Descarga una versión nueva."));
 					Engine::Ref().ShowWindow(error);
 				}
 			});
@@ -878,7 +879,7 @@ void PowderToy::ReloadSave()
 	}
 	catch (ParseException & e)
 	{
-		Engine::Ref().ShowWindow(new InfoPrompt("Error reloading save", e.what()));
+		Engine::Ref().ShowWindow(new InfoPrompt("Error al recargar la partida", e.what()));
 	}
 }
 
@@ -939,7 +940,7 @@ void PowderToy::TranslateSave(Point point)
 	catch (BuildException & e)
 	{
 		ResetStampState();
-		SetInfoTip("Exception while translating stamp: " + std::string(e.what()));
+		SetInfoTip("Error al desplazar el sello: " + std::string(e.what()));
 	}
 }
 
@@ -960,7 +961,7 @@ void PowderToy::TransformSave(int a, int b, int c, int d)
 	catch (BuildException & e)
 	{
 		ResetStampState();
-		SetInfoTip("Exception while transforming stamp: " + std::string(e.what()));
+		SetInfoTip("Error al transformar el sello: " + std::string(e.what()));
 	}
 }
 
@@ -1093,18 +1094,18 @@ void PowderToy::OnTick(uint32_t ticks)
 				if (buildnum > MOBILE_BUILD)
 				{
 					std::stringstream changelogStream;
-					changelogStream << "\bbYour version: " << MOBILE_MAJOR << "." << MOBILE_MINOR << " (" << MOBILE_BUILD << ")\nNew version: " << major << "." << minor << " (" << buildnum << ")\n\n\bwChangeLog:\n";
+					changelogStream << TPT_ES("\bbTu versión: ") << MOBILE_MAJOR << "." << MOBILE_MINOR << " (" << MOBILE_BUILD << TPT_ES(")\nVersión nueva: ") << major << "." << minor << " (" << buildnum << ")\n\n\bwCambios:\n";
 #else
 				std::string file = UPDATESCHEME UPDATESERVER + stable["File"].asString();
 				if (buildnum > MOD_BUILD_VERSION)
 				{
 					std::stringstream changelogStream;
-					changelogStream << "\bbYour version: " << MOD_VERSION << "." << MOD_MINOR_VERSION << " (" << MOD_BUILD_VERSION << ")\nNew version: " << major << "." << minor << " (" << buildnum << ")\n\n\bwChangeLog:\n";
+					changelogStream << TPT_ES("\bbTu versión: ") << MOD_VERSION << "." << MOD_MINOR_VERSION << " (" << MOD_BUILD_VERSION << TPT_ES(")\nVersión nueva: ") << major << "." << minor << " (" << buildnum << ")\n\n\bwCambios:\n";
 #endif
 					changelogStream << changelog;
 					std::string changelogText = changelogStream.str();
 
-					AddNotification("A new version is available - click here!", [this, changelogText, file](int mb) {
+					AddNotification(TPT_ES("Hay una versión nueva. Pulsa aquí."), [this, changelogText, file](int mb) {
 						if (mb == 1)
 							this->ConfirmUpdate(changelogText, file);
 					});
@@ -1125,7 +1126,7 @@ void PowderToy::OnTick(uint32_t ticks)
 			}
 			catch (std::exception &e)
 			{
-				SetInfoTip("Error, the update server returned invalid data");
+				SetInfoTip(TPT_ES("El servidor de actualizaciones devolvió datos no válidos"));
 				UpdateToolTip("", Point(16, 20), INTROTIP, 0);
 			}
 		}
@@ -1201,9 +1202,9 @@ void PowderToy::OnTick(uint32_t ticks)
 		if (ParseServerReturn(result, status, false))
 			svf_myvote = 0;
 		else if (svf_myvote == 0)
-			SetInfoTip("Cleared Vote");
+			SetInfoTip("Voto retirado");
 		else
-			SetInfoTip("Voted Successfully");
+			SetInfoTip("Voto registrado");
 		voteDownload = NULL;
 	}
 
@@ -1222,7 +1223,7 @@ void PowderToy::OnTick(uint32_t ticks)
 			Point cursor = AdjustCoordinates(Point(mouseX, mouseY));
 			int signID = InsideSign(sim, cursor.X, cursor.Y, true);
 			if (signID == -1 && signs.size() >= MAXSIGNS)
-				SetInfoTip("Sign limit reached");
+				SetInfoTip(TPT_ES("Se alcanzó el límite de letreros"));
 			else
 				Engine::Ref().ShowWindow(new CreateSign(signID, cursor));
 		}
@@ -1237,11 +1238,11 @@ void PowderToy::OnTick(uint32_t ticks)
 	{
 		int scale = Engine::Ref().GetScale();
 		std::stringstream message;
-		message << "Switching to " << scale << "x size mode since your screen was determined to be large enough: ";
-		message << screenWidth << "x" << screenHeight << " detected, " << VIDXRES * scale << "x" << VIDYRES * scale << " required";
-		message << "\nTo undo this, hit Cancel. You can change this in settings at any time.";
+		message << "Cambiando a escala " << scale << "x porque la pantalla es lo bastante grande: ";
+		message << screenWidth << "x" << screenHeight << " detectado, " << VIDXRES * scale << "x" << VIDYRES * scale << " required";
+		message << TPT_ES("\nPulsa 'Cancelar' para deshacer el cambio. Puedes cambiar la escala en Configuración.");
 
-		auto prompt = new ConfirmPrompt("Large screen detected", message.str());
+		auto prompt = new ConfirmPrompt("Pantalla grande detectada", message.str());
 		prompt->SetCallback({ [](bool confirmed) {
 			if (!confirmed)
 				Engine::Ref().SetScale(1);
@@ -1274,17 +1275,17 @@ void PowderToy::OnTick(uint32_t ticks)
 		else if (svf_open)
 			saveButtonText += svf_name;
 		else
-			saveButtonText += "[save to disk]";
+			saveButtonText += "[guardar localmente]";
 
 		// button tooltip
 		if (svf_fileopen && mouse.X <= saveButton->GetPosition().X+18)
-			saveButtonTip = "Overwrite the open simulation on your hard drive.";
+			saveButtonTip = "Sobrescribir la partida local.";
 		else
 		{
 			if (!svf_login)
-				saveButtonTip = "Save the simulation to your hard drive. Login to save online.";
+				saveButtonTip = TPT_ES("Guardar en el dispositivo. Inicia sesión para guardar en línea.");
 			else
-				saveButtonTip = "Save the simulation to your hard drive";
+				saveButtonTip = "Guardar en el dispositivo";
 		}
 	}
 	else
@@ -1293,18 +1294,18 @@ void PowderToy::OnTick(uint32_t ticks)
 		if (svf_open)
 			saveButtonText += svf_name;
 		else
-			saveButtonText += "[untitled simulation]";
+			saveButtonText += TPT_ES("[simulación sin título]");
 
 		// button tooltip
 		if (svf_open && svf_own)
 		{
 			if (mouse.X <= saveButton->GetPosition().X+18)
-				saveButtonTip = "Re-upload the current simulation";
+				saveButtonTip = TPT_ES("Volver a subir la simulación actual");
 			else
-				saveButtonTip = "Modify simulation properties";
+				saveButtonTip = "Modificar propiedades de la partida:";
 		}
 		else
-			saveButtonTip = "Upload a new simulation";
+			saveButtonTip = TPT_ES("Subir una simulación nueva");
 	}
 	saveButton->SetText(saveButtonText);
 	saveButton->SetTooltipText(saveButtonTip);
@@ -1316,19 +1317,19 @@ void PowderToy::OnTick(uint32_t ticks)
 	int alphaLevel = votesAllowed ? ui::Style::HighlightAlphaHover : ui::Style::HighlightAlpha;
 	upvoteButton->SetBackgroundColor(svf_myvote == 1 ? COLMODALPHA(upvoteButton->GetColor(), alphaLevel) : 0);
 	downvoteButton->SetBackgroundColor(svf_myvote == -1 ? COLMODALPHA(downvoteButton->GetColor(), alphaLevel) : 0);
-	upvoteButton->SetTooltipText("Like this save");
-	downvoteButton->SetTooltipText("Dislike this save");
+	upvoteButton->SetTooltipText("Me gusta esta partida");
+	downvoteButton->SetTooltipText("No me gusta esta partida");
 
 #ifndef TOUCHUI
 	if (svf_tags[0])
 		openTagsButton->SetText("\x83 " + std::string(svf_tags));
 	else
-		openTagsButton->SetText("\x83 [no tags set]");
+		openTagsButton->SetText("\x83 [sin etiquetas]");
 	openTagsButton->SetEnabled(svf_open);
 	if (svf_own)
-		openTagsButton->SetTooltipText("Add and remove simulation tags");
+		openTagsButton->SetTooltipText(TPT_ES("Añadir o quitar etiquetas"));
 	else
-		openTagsButton->SetTooltipText("Add simulation tags");
+		openTagsButton->SetTooltipText(TPT_ES("Añadir etiquetas a la simulación"));
 #endif
 
 	// set login button text, key turns green or red depending on whether session check succeeded
@@ -1340,56 +1341,56 @@ void PowderToy::OnTick(uint32_t ticks)
 		{
 			loginButtonText = "\x0F\x01\xFF\x01\x84\x0E " + std::string(svf_user);
 			if (mouse.X <= loginButton->GetPosition().X+18)
-				loginButtonTip = "View and edit your profile";
+				loginButtonTip = "Ver y editar tu perfil";
 			else if (svf_mod && mouse.X >= loginButton->Right(Point(-15, 0)).X)
-				loginButtonTip = "You're a moderator";
+				loginButtonTip = "Eres moderador";
 			else if (svf_admin && mouse.X >= loginButton->Right(Point(-15, 0)).X)
 				loginButtonTip = "Annuit C\245ptis";
 			else
-				loginButtonTip = "Sign into the simulation server under a new name";
+				loginButtonTip = TPT_ES("Iniciar sesión con otra cuenta");
 		}
 		else if (loginFinished == -1)
 		{
 			loginButtonText = "\x0F\xFF\x01\x01\x84\x0E " + std::string(svf_user);
-			loginButtonTip = "Could not validate login";
+			loginButtonTip = TPT_ES("No se pudo validar la sesión");
 		}
 		else
 		{
 			loginButtonText = "\x84 " + std::string(svf_user);
-			loginButtonTip = "Waiting for login server ...";
+			loginButtonTip = TPT_ES("Esperando al servidor de inicio de sesión...");
 		}
 	}
 	else
 	{
 		if (loginFinished == -1)
-			loginButtonText = "\x0F\xFF\x01\x01\x84\x0E [sign in]";
+			loginButtonText = "\x0F\xFF\x01\x01\x84\x0E [entrar]";
 		else
-			loginButtonText = "\x84 [sign in]";
-		loginButtonTip = "Sign into the Simulation Server";
+			loginButtonText = "\x84 [entrar]";
+		loginButtonTip = TPT_ES("Iniciar sesión en el servidor");
 	}
 	loginButton->SetText(loginButtonText);
 	loginButton->SetTooltipText(loginButtonTip);
 
 	pauseButton->SetState(sys_pause ? Button::INVERTED : Button::NORMAL);
 	if (sys_pause)
-		pauseButton->SetTooltipText("Resume the simulation \bg(space)");
+		pauseButton->SetTooltipText(TPT_ES("Reanudar simulación \bg(Espacio)"));
 	else
-		pauseButton->SetTooltipText("Pause the simulation \bg(space)");
+		pauseButton->SetTooltipText(TPT_ES("Pausar simulación \bg(Espacio)"));
 
 	if (placingZoomTouch)
-		UpdateToolTip("\x0F\xEF\xEF\020Tap any location to place a zoom window (volume keys to resize, click zoom button to cancel)", Point(16, YRES-24), TOOLTIP, 255);
+		UpdateToolTip(TPT_ES("\x0F\xEF\xEF\020Toca para colocar el zoom. Ajusta con el volumen y cancela con el botón de zoom."), Point(16, YRES-24), TOOLTIP, 255);
 #ifdef TOUCHUI
 	if (state == SAVE || state == COPY)
-		UpdateToolTip("\x0F\xEF\xEF\020Click-and-drag to specify a rectangle to copy (click save button to cancel)", Point(16, YRES-24), TOOLTIP, 255);
+		UpdateToolTip(TPT_ES("\x0F\xEF\xEF\020Arrastra para copiar un área. Pulsa Guardar para cancelar."), Point(16, YRES-24), TOOLTIP, 255);
 	else if (state == CUT)
-		UpdateToolTip("\x0F\xEF\xEF\020Click-and-drag to specify a rectangle to copy and then cut (click save button to cancel)", Point(16, YRES-24), TOOLTIP, 255);
+		UpdateToolTip(TPT_ES("\x0F\xEF\xEF\020Arrastra para cortar un área. Pulsa Guardar para cancelar."), Point(16, YRES-24), TOOLTIP, 255);
 	else if (state == LOAD)
-		UpdateToolTip("\x0F\xEF\xEF\020Drag the stamp around to move it, and tap it to place. Tap or drag outside the stamp to shift and rotate.", Point(16, YRES-24), TOOLTIP, 255);
+		UpdateToolTip(TPT_ES("\x0F\xEF\xEF\020Arrastra para mover el sello y tócalo para colocarlo. Toca o arrastra fuera para ajustar o girar."), Point(16, YRES-24), TOOLTIP, 255);
 #else
 	if (state == SAVE || state == COPY)
-		UpdateToolTip("\x0F\xEF\xEF\020Click-and-drag to specify a rectangle to copy (right click = cancel)", Point(16, YRES-24), TOOLTIP, 255);
+		UpdateToolTip(TPT_ES("\x0F\xEF\xEF\020Arrastra para copiar un área (clic derecho para cancelar)"), Point(16, YRES-24), TOOLTIP, 255);
 	else if (state == CUT)
-		UpdateToolTip("\x0F\xEF\xEF\020Click-and-drag to specify a rectangle to copy and then cut (right click = cancel)", Point(16, YRES-24), TOOLTIP, 255);
+		UpdateToolTip(TPT_ES("\x0F\xEF\xEF\020Arrastra para cortar un área (clic derecho para cancelar)"), Point(16, YRES-24), TOOLTIP, 255);
 #endif
 	if (insideRenderOptions && this->Subwindows.size() == 0)
 	{
@@ -1723,13 +1724,13 @@ void PowderToy::OnMouseUp(int x, int y, unsigned char button)
 			auto saveLoadData = sim->LoadSave(realLoadPos.X, realLoadPos.Y, stampData, 0, !shiftHeld);
 #ifdef LUACONSOLE
 			if (saveLoadData.isMissingElements())
-				luacon_log("Paste content has missing custom elements");
+				luacon_log("Faltan elementos personalizados en el contenido pegado");
 #endif
 			MergeStampAuthorInfo(saveLoadData.authors);
 		}
 		catch (ParseException & e)
 		{
-			Engine::Ref().ShowWindow(new InfoPrompt("Error loading save", e.what()));
+			Engine::Ref().ShowWindow(new InfoPrompt("Error al cargar la partida", e.what()));
 		}
 
 		ResetStampState();
@@ -1783,7 +1784,7 @@ void PowderToy::OnMouseUp(int x, int y, unsigned char button)
 				{
 					delete clipboardData;
 					clipboardData = NULL;
-					Engine::Ref().ShowWindow(new ErrorPrompt("Error building save: " + std::string(e.what())));
+					Engine::Ref().ShowWindow(new ErrorPrompt("Error al generar la partida: " + std::string(e.what())));
 				}
 				break;
 			}
@@ -1807,7 +1808,7 @@ void PowderToy::OnMouseUp(int x, int y, unsigned char button)
 				{
 					delete clipboardData;
 					clipboardData = NULL;
-					Engine::Ref().ShowWindow(new ErrorPrompt("Error building save: " + std::string(e.what())));
+					Engine::Ref().ShowWindow(new ErrorPrompt("Error al generar la partida: " + std::string(e.what())));
 					break;
 				}
 				SnapshotHistory::TakeSnapshot(sim);
@@ -1937,7 +1938,7 @@ bool PowderToy::BeforeKeyPress(int key, int scan, bool repeat, bool shift, bool 
 	if (ctrl && !ctrlHeld)
 	{
 		ctrlHeld = true;
-		openBrowserButton->SetTooltipText("Open a simulation from your hard drive \bg(ctrl+o)");
+		openBrowserButton->SetTooltipText("Abrir una partida local \bg(Ctrl+O)");
 		UpdateToolStrength();
 	}
 	if (shift && !shiftHeld)
@@ -2019,7 +2020,7 @@ void PowderToy::OnKeyPress(int key, int scan, bool repeat, bool shift, bool ctrl
 			break;
 		}
 
-		auto prompt = new ConfirmPrompt("You are about to quit", "Are you sure you want to exit the game?", "Quit");
+		auto prompt = new ConfirmPrompt("Salir del juego", TPT_ES("¿Quieres salir del juego?"), "Salir");
 		prompt->SetCallback({ [this](bool confirmed) {
 			if (confirmed)
 			{
@@ -2090,16 +2091,16 @@ void PowderToy::OnKeyPress(int key, int scan, bool repeat, bool shift, bool ctrl
 			default:
 				sim->gravityMode = GRAV_VERTICAL;
 			case GRAV_VERTICAL:
-				toolTip = "Gravity: Vertical";
+				toolTip = "Gravedad: vertical";
 				break;
 			case GRAV_OFF:
-				toolTip = "Gravity: Off";
+				toolTip = "Gravedad: desactivada";
 				break;
 			case GRAV_RADIAL:
-				toolTip = "Gravity: Radial";
+				toolTip = "Gravedad: radial";
 				break;
 			case GRAV_CUSTOM:
-				toolTip = "Gravity: Custom";
+				toolTip = "Gravedad: personalizada";
 				break;
 			}
 			UpdateToolTip(toolTip, Point(XCNTR - gfx::VideoBuffer::TextSize(toolTip.c_str()).X / 2, YCNTR - 10), INFOTIP, 255);
@@ -2116,13 +2117,13 @@ void PowderToy::OnKeyPress(int key, int scan, bool repeat, bool shift, bool ctrl
 			default:
 				sim->edgeMode = EDGE_VOID;
 			case EDGE_VOID:
-				toolTip = "Edge Mode: Void";
+				toolTip = TPT_ES("Bordes: vacío");
 				break;
 			case EDGE_SOLID:
-				toolTip = "Edge Mode: Solid";
+				toolTip = TPT_ES("Bordes: sólido");
 				break;
 			case EDGE_LOOP:
-				toolTip = "Edge Mode: Loop";
+				toolTip = "Bordes: continuo";
 				break;
 			}
 			UpdateToolTip(toolTip, Point(XCNTR - gfx::VideoBuffer::TextSize(toolTip.c_str()).X / 2, YCNTR - 10), INFOTIP, 255);
@@ -2159,19 +2160,19 @@ void PowderToy::OnKeyPress(int key, int scan, bool repeat, bool shift, bool ctrl
 			default:
 				sim->air->airMode = AIR_ON;
 			case AIR_ON:
-				toolTip = "Air: On";
+				toolTip = "Aire: activado";
 				break;
 			case AIR_PRESSUREOFF:
-				toolTip = "Air: Pressure Off";
+				toolTip = TPT_ES("Aire: sin presión");
 				break;
 			case AIR_VELOCITYOFF:
-				toolTip = "Air: Velocity Off";
+				toolTip = "Aire: sin velocidad";
 				break;
 			case AIR_OFF:
-				toolTip = "Air: Off";
+				toolTip = "Aire: desactivado";
 				break;
 			case AIR_NOUPDATE:
-				toolTip = "Air: No Update";
+				toolTip = "Aire: sin actualizar";
 				break;
 			}
 			UpdateToolTip(toolTip, Point(XCNTR - gfx::VideoBuffer::TextSize(toolTip.c_str()).X / 2, YCNTR - 10), INFOTIP, 255);
@@ -2186,9 +2187,9 @@ void PowderToy::OnKeyPress(int key, int scan, bool repeat, bool shift, bool ctrl
 		{
 			aheat_enable = !aheat_enable;
 			if (aheat_enable)
-				SetInfoTip("Ambient Heat: On");
+				SetInfoTip("Calor ambiental: activado");
 			else
-				SetInfoTip("Ambient Heat: Off");
+				SetInfoTip("Calor ambiental: desactivado");
 		}
 		break;
 	case SDL_SCANCODE_I:
@@ -2249,9 +2250,9 @@ void PowderToy::OnKeyPress(int key, int scan, bool repeat, bool shift, bool ctrl
 		}
 	case SDL_SCANCODE_F2:
 		if (Renderer::Ref().TakeScreenshot(ctrlHeld, 0).length())
-			SetInfoTip("Saved screenshot");
+			SetInfoTip("Captura guardada");
 		else
-			SetInfoTip("Error saving screenshot");
+			SetInfoTip("Error al guardar la captura");
 		break;
 	case SDL_SCANCODE_LEFTBRACKET:
 		AdjustCursorSize(-1, true);
@@ -2263,7 +2264,7 @@ void PowderToy::OnKeyPress(int key, int scan, bool repeat, bool shift, bool ctrl
 		if (ctrlHeld && (svf_mod || svf_admin))
 		{
 			std::string authorString = authors.toStyledString();
-			InfoPrompt *info = new InfoPrompt("Save authorship info", authorString);
+			InfoPrompt *info = new InfoPrompt(TPT_ES("Autoría de la partida"), authorString);
 			Engine::Ref().ShowWindow(info);
 		}
 		break;
@@ -2473,9 +2474,9 @@ void PowderToy::OnKeyPress(int key, int scan, bool repeat, bool shift, bool ctrl
 		{
 			decorations_enable = !decorations_enable;
 			if (decorations_enable)
-				SetInfoTip("Decorations layer: On");
+				SetInfoTip("Capa decorativa: activada");
 			else
-				SetInfoTip("Decorations layer: Off");
+				SetInfoTip("Capa decorativa: desactivada");
 		}
 		else if (active_menu == SC_DECO)
 		{
@@ -2509,12 +2510,12 @@ void PowderToy::OnKeyPress(int key, int scan, bool repeat, bool shift, bool ctrl
 			if (sim->grav->IsEnabled())
 			{
 				sim->grav->StopAsync();
-				SetInfoTip("Newtonian Gravity: Off");
+				SetInfoTip("Gravedad newtoniana: desactivada");
 			}
 			else
 			{
 				sim->grav->StartAsync();
-				SetInfoTip("Newtonian Gravity: On");
+				SetInfoTip("Gravedad newtoniana: activada");
 			}
 		}
 		break;
@@ -2568,9 +2569,9 @@ void PowderToy::OnKeyPress(int key, int scan, bool repeat, bool shift, bool ctrl
 			{
 				heatmode = (heatmode == 1) ? 0 : 1;
 				if (heatmode)
-					SetInfoTip("Dynamic heat mode: On");
+					SetInfoTip(TPT_ES("Calor dinámico: activado"));
 				else
-					SetInfoTip("Dynamic heat mode: Off");
+					SetInfoTip(TPT_ES("Calor dinámico: desactivado"));
 			}
 		}
 		break;
@@ -2657,7 +2658,7 @@ bool PowderToy::BeforeKeyRelease(int key, int scan, bool repeat, bool shift, boo
 	if (!ctrl && ctrlHeld)
 	{
 		ctrlHeld = false;
-		openBrowserButton->SetTooltipText("Find & open a simulation");
+		openBrowserButton->SetTooltipText(TPT_ES("Buscar y abrir una simulación"));
 		UpdateToolStrength();
 	}
 	if (!shift && shiftHeld)
@@ -2733,7 +2734,7 @@ bool PowderToy::BeforeTextInput(const char *text)
 void PowderToy::OnDefocus()
 {
 	ctrlHeld = shiftHeld = altHeld = false;
-	openBrowserButton->SetTooltipText("Find & open a simulation");
+	openBrowserButton->SetTooltipText(TPT_ES("Buscar y abrir una simulación"));
 	lastMouseDown = heldKey = heldScan = 0; // temporary
 	ResetStampState();
 	UpdateDrawMode();
@@ -2757,7 +2758,7 @@ void PowderToy::OnFileDrop(const char *filename)
 	int len = strlen(filename);
 	if (len < 4 || (strcmp(filename + (len - 4), ".cps") && strcmp(filename + (len - 4), ".stm")))
 	{
-		Engine::Ref().ShowWindow(new ErrorPrompt("Dropped file is not a TPT save file. Must have a .cps or .stm extension"));
+		Engine::Ref().ShowWindow(new ErrorPrompt("El archivo debe ser una partida TPT (.cps o .stm)"));
 		return;
 	}
 
@@ -2772,7 +2773,7 @@ void PowderToy::OnFileDrop(const char *filename)
 	}
 	catch (ParseException &e)
 	{
-		Engine::Ref().ShowWindow(new ErrorPrompt("Error loading save: " + std::string(e.what())));
+		Engine::Ref().ShowWindow(new ErrorPrompt("Error al cargar la partida" + std::string(e.what())));
 	}
 
 	delete save;

@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -60,7 +61,7 @@ void BREL_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 211;
 	elem->Latent = 0;
-	elem->Description = "Broken electronics. Formed from EMP blasts, and when constantly sparked while under pressure, turns to EXOT.";
+	elem->Description = TPT_ES("Electrónica dañada. Se forma por pulsos EMP. Se convierte en EXOT si recibe chispas continuamente bajo presión.");
 
 	elem->Properties = TYPE_PART|PROP_CONDUCTS|PROP_LIFE_DEC|PROP_HOT_GLOW;
 

@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -166,7 +167,7 @@ void VSNS_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->DefaultProperties.temp = 4.0f + 273.15f;
 	elem->HeatConduct = 0;
-	elem->Description = "Velocity sensor, creates a spark when there's a nearby particle with velocity higher than its temperature.";
+	elem->Description = TPT_ES("Sensor de velocidad. Genera una chispa si la velocidad de una partícula cercana supera la temperatura del sensor.");
 
 	elem->Properties = TYPE_SOLID;
 

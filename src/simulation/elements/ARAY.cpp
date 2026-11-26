@@ -207,7 +207,7 @@ void ARAY_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 0;
 	elem->Latent = 0;
-	elem->Description = "Ray Emitter. Rays create points when they collide.";
+	elem->Description = "Emisor de rayos. Los rayos crean puntos al chocar.";
 
 	elem->Properties = TYPE_SOLID;
 

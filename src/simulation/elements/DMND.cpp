@@ -43,7 +43,7 @@ void DMND_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 186;
 	elem->Latent = 0;
-	elem->Description = "Diamond. Indestructible.";
+	elem->Description = "Diamante. Indestructible.";
 
 	elem->Properties = TYPE_SOLID|PROP_INDESTRUCTIBLE;
 

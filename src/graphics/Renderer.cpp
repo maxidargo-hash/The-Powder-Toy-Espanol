@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 #include <cstring>
 #include <ctime>
 #include <fstream>
@@ -146,15 +147,15 @@ void Renderer::InitRenderPresets()
 
 	renderPresets[CM_VEL].renderMode |= RENDER_EFFE;
 	renderPresets[CM_VEL].displayMode = DISPLAY_AIRV;
-	renderPresets[CM_VEL].tooltip = "Velocity Display";
+	renderPresets[CM_VEL].tooltip = "Modo de velocidad";
 
 	renderPresets[CM_PRESS].renderMode |= RENDER_EFFE;
 	renderPresets[CM_PRESS].displayMode = DISPLAY_AIRP;
-	renderPresets[CM_PRESS].tooltip = "Pressure Display";
+	renderPresets[CM_PRESS].tooltip = TPT_ES("Modo de presión");
 
 	renderPresets[CM_PERS].renderMode |= RENDER_EFFE;
 	renderPresets[CM_PERS].displayMode = DISPLAY_PERS;
-	renderPresets[CM_PERS].tooltip = "Persistent Display";
+	renderPresets[CM_PERS].tooltip = "Modo de rastros persistentes";
 
 	renderPresets[CM_FIRE].renderMode |= RENDER_FIRE | RENDER_SPRK | RENDER_EFFE;
 	renderPresets[CM_FIRE].tooltip = "Fire Display";
@@ -170,13 +171,13 @@ void Renderer::InitRenderPresets()
 	renderPresets[CM_FANCY].displayMode = DISPLAY_WARP;
 	renderPresets[CM_FANCY].tooltip = "Fancy Display";
 
-	renderPresets[CM_NOTHING].tooltip = "Nothing Display";
+	renderPresets[CM_NOTHING].tooltip = "Modo simple";
 
 	renderPresets[CM_GRAD].colorMode = COLOR_GRAD;
-	renderPresets[CM_GRAD].tooltip = "Heat Gradient Display";
+	renderPresets[CM_GRAD].tooltip = TPT_ES("Modo de gradiente térmico");
 
 	renderPresets[CM_LIFE].colorMode = COLOR_LIFE;
-	renderPresets[CM_LIFE].tooltip = "Life Gradient Display";
+	renderPresets[CM_LIFE].tooltip = "Modo de gradiente de vida";
 
 	renderPresets[CM_CRACK].renderMode |= RENDER_EFFE;
 	renderPresets[CM_CRACK].displayMode = DISPLAY_AIRC;
@@ -184,7 +185,7 @@ void Renderer::InitRenderPresets()
 
 	renderPresets[CM_VORT].renderMode |= RENDER_EFFE;
 	renderPresets[CM_VORT].displayMode = DISPLAY_AIRW;
-	renderPresets[CM_VORT].tooltip = "Vorticity Display";
+	renderPresets[CM_VORT].tooltip = "Modo de vorticidad";
 }
 
 bool Renderer::LoadRenderPreset(int preset)

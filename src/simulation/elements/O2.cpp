@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -117,7 +118,7 @@ void O2_init_element(ELEMENT_INIT_FUNC_ARGS)
 
 	elem->HeatConduct = 70;
 	elem->Latent = 0;
-	elem->Description = "Oxygen gas. Ignites easily.";
+	elem->Description = TPT_ES("Oxígeno gaseoso. Se enciende con facilidad.");
 
 	elem->Properties = TYPE_GAS;
 

@@ -1,3 +1,4 @@
+#include "SpanishText.h"
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -47,7 +48,7 @@ void SNOW_init_element(ELEMENT_INIT_FUNC_ARGS)
 	elem->DefaultProperties.temp = R_TEMP - 30.0f + 273.15f;
 	elem->HeatConduct = 46;
 	elem->Latent = 1095;
-	elem->Description = "Light particles. Created when ICE breaks under pressure.";
+	elem->Description = TPT_ES("Partículas livianas que se forman cuando ICE se rompe bajo presión.");
 
 	elem->Properties = TYPE_PART|PROP_NEUTPASS;
 	elem->CarriesTypeIn = 1U << FIELD_CTYPE;
