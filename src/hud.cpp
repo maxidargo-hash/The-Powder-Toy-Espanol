@@ -258,7 +258,7 @@ void SetRightHudText(Simulation * sim, int x, int y)
 		else
 		{
 			if (currentHud[10])
-				sprintf(heattext,TPT_ES("Vacío, "));
+				sprintf(heattext, "%s", TPT_ES("Vacío, "));
 		}
 		if (currentHud[26])
 		{
@@ -312,7 +312,7 @@ void SetRightHudText(Simulation * sim, int x, int y)
 	else
 	{
 		if (currentHud[10])
-			sprintf(heattext, TPT_ES("Vacío"));
+			sprintf(heattext, "%s", TPT_ES("Vacío"));
 		if (currentHud[29])
 			sprintf(coordtext, "X:%d Y:%d", x, y);
 	}
